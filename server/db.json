@@ -75,10 +75,68 @@
             "category": "Pipes",
             "image": "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?auto=format&fit=crop&q=80&w=600",
             "description": "High-conductivity copper pipe.",
-            "name_vi": "Đoạn ống Đồng",
-            "description_vi": "Ống đồng dẫn điện/nhiệt cao.",
             "category_vi": "Ống nước",
             "stock": 30
+        },
+        {
+            "id": 7,
+            "name": "Power Drill 18V",
+            "price": 1250000,
+            "category": "Tools",
+            "image": "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&q=80&w=600",
+            "description": "Cordless 18V power drill with variable speed.",
+            "name_vi": "Máy khoan pin 18V",
+            "description_vi": "Máy khoan pin 18V không dây với tốc độ biến thiên.",
+            "category_vi": "Dụng cụ",
+            "stock": 15
+        },
+        {
+            "id": 8,
+            "name": "Adjustable Wrench",
+            "price": 120000,
+            "category": "Tools",
+            "image": "https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&q=80&w=600",
+            "description": "Chrome vanadium steel adjustable wrench.",
+            "name_vi": "Mỏ lết điều chỉnh",
+            "description_vi": "Mỏ lết thép chrome vanadium siêu bền.",
+            "category_vi": "Dụng cụ",
+            "stock": 40
+        },
+        {
+            "id": 9,
+            "name": "Tape Measure 5m",
+            "price": 55000,
+            "category": "Tools",
+            "image": "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?auto=format&fit=crop&q=80&w=600",
+            "description": "Heavy duty retractable tape measure.",
+            "name_vi": "Thước cuộn 5m",
+            "description_vi": "Thước cuộn chịu lực cao, vỏ chống va đập.",
+            "category_vi": "Dụng cụ",
+            "stock": 100
+        },
+        {
+            "id": 10,
+            "name": "Safety Helmet",
+            "price": 85000,
+            "category": "Safety",
+            "image": "https://plus.unsplash.com/premium_photo-1661963953460-a292418e2025?auto=format&fit=crop&q=80&w=600",
+            "description": "High impact resistance safety helmet.",
+            "name_vi": "Mũ bảo hộ",
+            "description_vi": "Mũ bảo hộ chịu lực va đập cao.",
+            "category_vi": "Bảo hộ",
+            "stock": 60
+        },
+        {
+            "id": 11,
+            "name": "Claw Hammer",
+            "price": 95000,
+            "category": "Tools",
+            "image": "https://images.unsplash.com/photo-1586864387789-628d085601d9?auto=format&fit=crop&q=80&w=600",
+            "description": "Forged steel claw hammer with rubber grip.",
+            "name_vi": "Búa nhổ đinh",
+            "description_vi": "Búa thép rèn tay cầm cao su chống trượt.",
+            "category_vi": "Dụng cụ",
+            "stock": 45
         }
     ]
 }

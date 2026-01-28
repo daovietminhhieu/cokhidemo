@@ -63,13 +63,7 @@ export default function Contact() {
                     </div>
                 </Reveal>
 
-                <Reveal>
-                    <div style={{ marginTop: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-                        <p>📍 123 Construction Avenue, Hanoi City</p>
-                        <p>📞 +84 123 456 789</p>
-                        <p>✉️ sales@hardwareshop.vn</p>
-                    </div>
-                </Reveal>
+
             </div>
         </div>
     );

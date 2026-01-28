@@ -42,6 +42,22 @@ const translations = {
         admin_add: "Add Product",
         admin_edit: "Edit",
         admin_delete: "Delete",
+
+        // Shop Features
+        search_placeholder: "Search products...",
+        sort_by: "Sort by",
+        sort_default: "Default",
+        sort_price_asc: "Price: Low to High",
+        sort_price_desc: "Price: High to Low",
+        sort_name_asc: "Name: A-Z",
+
+        // New Sections
+        trusted_brands: "Trusted by Industry Leaders",
+        testimonials_title: "What Our Clients Say",
+        newsletter_title: "Stay Updated",
+        newsletter_desc: "Subscribe for exclusive offers and new product arrivals.",
+        newsletter_btn: "Subscribe",
+        newsletter_placeholder: "Enter your email",
     },
     vi: {
         nav_home: "Trang Chủ",
@@ -82,6 +98,22 @@ const translations = {
         admin_add: "Thêm Sản Phẩm",
         admin_edit: "Sửa",
         admin_delete: "Xóa",
+
+        // Shop Features
+        search_placeholder: "Tìm kiếm sản phẩm...",
+        sort_by: "Sắp xếp theo",
+        sort_default: "Mặc định",
+        sort_price_asc: "Giá: Thấp đến Cao",
+        sort_price_desc: "Giá: Cao đến Thấp",
+        sort_name_asc: "Tên: A-Z",
+
+        // New Sections
+        trusted_brands: "Đối Tác Tin Cậy",
+        testimonials_title: "Khách Hàng Nói Gì",
+        newsletter_title: "Đăng Ký Nhận Tin",
+        newsletter_desc: "Nhận thông báo về ưu đãi độc quyền và sản phẩm mới.",
+        newsletter_btn: "Đăng Ký",
+        newsletter_placeholder: "Nhập email của bạn",
     }
 };
 

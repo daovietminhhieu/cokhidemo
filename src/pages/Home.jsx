@@ -10,6 +10,12 @@ import Reveal, { StaggerContainer, StaggerItem } from '../components/Reveal';
 import ScrollIndicator from '../components/ScrollIndicator';
 import Magnetic from '../components/Magnetic';
 
+import Marquee from '../components/Marquee';
+import Stats from '../components/Stats';
+import Brands from '../components/Brands';
+import Testimonials from '../components/Testimonials';
+import Newsletter from '../components/Newsletter';
+
 export default function Home() {
     const { t, language } = useLanguage();
     const { addToCart } = useCart();
@@ -74,6 +80,9 @@ export default function Home() {
                     <ScrollIndicator />
                 </div>
 
+                {/* Marquee Section */}
+                <Marquee />
+
                 {/* Featured Section */}
                 <div className="section container">
                     <Reveal width="100%">
@@ -97,6 +106,8 @@ export default function Home() {
                     </StaggerContainer>
                 </div>
 
+                {/* Stats Section */}
+                <Stats />
 
                 {/* Featured Products */}
                 <div className="section container">
@@ -108,33 +119,33 @@ export default function Home() {
                     <StaggerContainer className="grid" style={{ marginTop: '2rem', pointerEvents: 'auto' }}>
                         {products.slice(0, 3).map((product) => (
                             <StaggerItem key={product.id} className="card">
-                                <div style={{ height: '200px', overflow: 'hidden' }}>
+                                <div style={{ height: '160px', overflow: 'hidden' }}>
                                     <img
                                         src={product.image}
                                         alt={language === 'vi' ? product.name_vi : product.name}
                                         style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
                                 </div>
-                                <div style={{ padding: '1.5rem' }}>
+                                <div style={{ padding: '1rem' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                                        <span style={{ fontSize: '0.8rem', color: 'var(--secondary)', textTransform: 'uppercase', letterSpacing: '1px' }}>
+                                        <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                                             {language === 'vi' ? product.category_vi : product.category}
                                         </span>
-                                        <span style={{ fontWeight: 'bold', color: 'var(--primary)' }}>
+                                        <span style={{ fontWeight: 'bold', color: 'var(--primary)', fontSize: '0.9rem' }}>
                                             {product.price.toLocaleString()} VND
                                         </span>
                                     </div>
-                                    <h3 style={{ marginBottom: '0.5rem', fontSize: '1.2rem' }}>{language === 'vi' ? product.name_vi : product.name}</h3>
+                                    <h3 style={{ marginBottom: '0.5rem', fontSize: '1rem' }}>{language === 'vi' ? product.name_vi : product.name}</h3>
                                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem', marginTop: '1rem' }}>
                                         <button
                                             onClick={() => addToCart(product)}
-                                            style={{ width: '100%', background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)', padding: '8px 4px', fontSize: '0.8rem' }}
+                                            style={{ width: '100%', background: 'transparent', border: '1px solid var(--primary)', color: 'var(--primary)', padding: '0.5rem', fontSize: '0.8rem' }}
                                         >
                                             {t('add_to_cart')}
                                         </button>
                                         <button
                                             onClick={() => alert('Proceeding to checkout')}
-                                            style={{ width: '100%', padding: '8px 4px', fontSize: '0.8rem' }}
+                                            style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem' }}
                                         >
                                             Buy Now
                                         </button>
@@ -144,6 +155,15 @@ export default function Home() {
                         ))}
                     </StaggerContainer>
                 </div>
+
+                {/* Trusted Brands */}
+                <Brands />
+
+                {/* Testimonials */}
+                <Testimonials />
+
+                {/* Newsletter */}
+                <Newsletter />
             </div>
         </div>
     );
