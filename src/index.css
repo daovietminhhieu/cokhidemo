@@ -1,0 +1,265 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #FF6B00;
+  /* Industrial Orange */
+  --secondary: #00A8E8;
+  /* Electric Blue */
+  --bg-dark: #121212;
+  --bg-card: #1E1E1E;
+  --text-light: #F0F0F0;
+  --text-muted: #A0A0A0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: var(--primary);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+  background: #e65a00;
+  transform: translateY(-2px);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid transparent;
+  /* Prepare for border transition */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 107, 0, 0.4);
+  /* Glow effect */
+  border-color: var(--primary);
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+/* Scroll Indicator Styles */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.8;
+  pointer-events: none;
+  /* Let clicks pass through */
+}
+
+.mouse {
+  width: 30px;
+  height: 50px;
+  border: 2px solid var(--text-light);
+  border-radius: 20px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.wheel {
+  width: 4px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 2px;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: scroll 1.5s infinite;
+}
+
+.arrow span {
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-bottom: 2px solid var(--text-light);
+  border-right: 2px solid var(--text-light);
+  transform: rotate(45deg);
+  margin: -5px;
+  animation: arrow 2s infinite;
+}
+
+.arrow span:nth-child(2) {
+  animation-delay: -0.2s;
+}
+
+.arrow span:nth-child(3) {
+  animation-delay: -0.4s;
+}
+
+@keyframes scroll {
+  0% {
+    opacity: 1;
+    top: 10px;
+  }
+
+  100% {
+    opacity: 0;
+    top: 30px;
+  }
+}
+
+@keyframes arrow {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translate(-10px, -10px);
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(10px, 10px);
+  }
+}
+
+/* Login Page Styles */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem;
+  background: var(--bg-card);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 1.5rem;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 350px) {
+  .login-page {
+    padding: 10px;
+  }
+
+  .login-card {
+    padding: 1rem;
+  }
+}
+
+/* Navbar Responsive Styles */
+.nav-links {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-light);
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(18, 18, 18, 0.95);
+    flex-direction: column;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    border-bottom: 1px solid #333;
+  }
+
+  .nav-links.active {
+    max-height: 500px;
+    /* Arbitrary large height */
+    padding: 2rem 0;
+  }
+
+  .nav-links>div {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+}
