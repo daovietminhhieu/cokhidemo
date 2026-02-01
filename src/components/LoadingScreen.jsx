@@ -15,143 +15,165 @@ export default function LoadingScreen({ onComplete }) {
                     setShowEnter(true);
                     return 100;
                 }
-                // Random increment for realistic feel
-                const increment = Math.random() * 15;
+                const increment = Math.random() * 8 + 4; // Smooth progression
                 return Math.min(prev + increment, 100);
             });
-        }, 200);
+        }, 100);
 
         return () => clearInterval(timer);
     }, []);
 
     const handleEnter = () => {
-        play(); // Start audio on user interaction
+        setTimeout(() => {
+            play();
+        }, 100);
         onComplete();
     };
 
     return (
         <motion.div
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
+            exit={{
+                opacity: 0,
+                transition: { duration: 0.6, ease: "easeInOut" }
+            }}
             style={{
                 position: "fixed",
                 top: 0,
                 left: 0,
                 width: "100%",
                 height: "100%",
-                background: "#050505",
+                background: "#1d1d1f", // đổi thành đen
                 zIndex: 9999,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                color: "white",
+                color: "#FFA500", // đổi text chính thành cam
+                overflow: "hidden",
             }}
         >
-            <div style={{ position: "relative", width: "300px", textAlign: "center" }}>
-                {/* TEXT */}
-                <h2
-                    style={{
-                        fontFamily: "'Black Ops One', cursive",
-                        fontSize: "2rem",
-                        letterSpacing: "0.1em",
-                        marginBottom: "1rem",
-                        color: "#ff9557ee", // Construction Yellow
-                        textTransform: "uppercase",
-                    }}
-                >
-                    {showEnter ? "Ready" : "Initializing"}
-                </h2>
 
-                {/* PROGRESS BAR CONTAINER */}
-                <div
+            {/* Logo/Title */}
+            <div style={{
+                marginBottom: "4rem",
+                textAlign: "center"
+            }}>
+                <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
                     style={{
-                        width: "100%",
-                        height: "4px",
-                        background: "rgba(255, 255, 255, 0.1)",
-                        borderRadius: "2px",
-                        overflow: "hidden",
-                        position: "relative",
-                        marginBottom: "1rem"
+                        fontSize: "2.5rem",
+                        fontWeight: 600,
+                        letterSpacing: "-0.02em",
+                        margin: 0,
+                        fontFamily: "system-ui, -apple-system, sans-serif"
                     }}
                 >
-                    {/* PROGRESS BAR FILL */}
+                    inoxdiepduong.com
+                </motion.h1>
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.5 }}
+                    transition={{ delay: 0.3, duration: 0.8 }}
+                    style={{
+                        fontSize: "1rem",
+                        fontWeight: 400,
+                        marginTop: "0.5rem",
+                        fontFamily: "system-ui, -apple-system, sans-serif"
+                    }}
+                >
+                    Vật liệu xây dựng
+                </motion.p>
+            </div>
+
+            {/* Progress Indicator */}
+            <div style={{ width: "280px", marginBottom: "3rem" }}>
+                <div style={{
+                    height: "2px",
+                    width: "100%",
+                    background: "rgba(255,165,0,0.2)", // nền nhạt cam
+                    borderRadius: "1px",
+                    overflow: "hidden"
+                }}>
                     <motion.div
+                        initial={{ width: "0%" }}
+                        animate={{ width: `${progress}%` }}
+                        transition={{ duration: 0.3 }}
                         style={{
                             height: "100%",
-                            background: "#FFC857",
-                            width: `${progress}%`,
-                            transition: "width 0.2s ease-out",
+                            background: "#FFA500", // thanh tiến trình cam
+                            borderRadius: "1px"
                         }}
                     />
                 </div>
 
-                {/* ENTER BUTTON OR PERCENTAGE */}
-                <div style={{ height: "40px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <AnimatePresence mode="wait">
-                        {showEnter ? (
-                            <motion.button
-                                key="enter-btn"
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                onClick={handleEnter}
-                                style={{
-                                    background: "transparent",
-                                    border: "1px solid #FFC857",
-                                    color: "#FFC857",
-                                    padding: "8px 24px",
-                                    fontFamily: "'Courier New', monospace",
-                                    fontSize: "1rem",
-                                    cursor: "pointer",
-                                    textTransform: "uppercase",
-                                    letterSpacing: "2px",
-                                    outline: "none",
-                                    fontWeight: "bold"
-                                }}
-                                whileHover={{ scale: 1.05, background: "rgba(255, 200, 87, 0.1)" }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                Enter Store
-                            </motion.button>
-                        ) : (
-                            <motion.div
-                                key="percentage"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                style={{
-                                    width: "100%",
-                                    fontFamily: "'Courier New', monospace",
-                                    fontSize: "0.9rem",
-                                    color: "rgba(255, 255, 255, 0.5)",
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                }}
-                            >
-                                <span>SYSTEM_CHECK...</span>
-                                <span>{Math.round(progress)}%</span>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        marginTop: "0.5rem",
+                        fontSize: "0.875rem",
+                        color: "rgba(255, 255, 255, 1)",
+                        fontFamily: "system-ui, -apple-system, sans-serif"
+                    }}
+                >
+                    <span>Đang tải</span>
+                    <span>{Math.round(progress)}%</span>
+                </motion.div>
             </div>
 
-            {/* BACKGROUND ELEMENTS (Grid/Decor) */}
-            <div
+            {/* Enter Button */}
+            <AnimatePresence>
+                {showEnter && (
+                    <motion.button
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        onClick={handleEnter}
+                        style={{
+                            background: "transparent",
+                            color: "#FFA500",
+                            border: "1.5px solid #FFA500",
+                            padding: "0.875rem 2.5rem",
+                            fontSize: "1rem",
+                            fontWeight: 500,
+                            borderRadius: "24px",
+                            cursor: "pointer",
+                            fontFamily: "system-ui, -apple-system, sans-serif",
+                            letterSpacing: "-0.01em",
+                            transition: "all 0.2s ease",
+                        }}
+                        whileHover={{
+                            background: "#FFA500",
+                            color: "#1d1d1f"
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                    >
+                        Vào cửa hàng
+                    </motion.button>
+
+                )}
+            </AnimatePresence>
+
+            {/* Subtle Animation */}
+            <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 style={{
                     position: "absolute",
-                    bottom: "2rem",
-                    left: "0",
-                    width: "100%",
-                    textAlign: "center",
-                    opacity: 0.3,
-                    fontSize: "0.7rem",
-                    letterSpacing: "0.2rem",
+                    bottom: "-300px",
+                    width: "600px",
+                    height: "600px",
+                    background: "radial-gradient(circle, rgba(255,165,0,0.05) 0%, transparent 70%)",
+                    borderRadius: "50%",
+                    pointerEvents: "none"
                 }}
-            >
-                HARDWARE STORE © 2026
-            </div>
+            />
+
         </motion.div>
     );
 }

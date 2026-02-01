@@ -142,17 +142,7 @@ export default function Home() {
               style={{ position: "relative", zIndex: 2, userSelect: "none" }}
             >
               <div style={{ opacity: 1 }}>
-                <div
-                  style={{
-                    fontSize: "1rem",
-                    color: "rgba(255,255,255,0.6)",
-                    marginBottom: "3rem",
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {t("shop_name")}
-                </div>
+
                 <div
                   style={{
                     position: "relative",

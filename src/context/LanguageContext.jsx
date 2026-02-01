@@ -64,6 +64,21 @@ const translations = {
     newsletter_placeholder: "Enter your email",
     shop_name: "ProTools Hardware",
     shop_tagline: "Trusted & Durable",
+
+    // Login Page Handlers
+    login_welcome: "Welcome Back",
+    login_create_account: "Create Account",
+    login_desc: "Please enter your details to sign in.",
+    register_desc: "Enter your details to register.",
+    email_username_label: "Email or Username",
+    email_username_placeholder: "Enter your username",
+    confirm_password: "Confirm Password",
+    confirm_password_placeholder: "Repeat password",
+    processing: "Processing...",
+    sign_in: "Sign In",
+    sign_up: "Sign Up",
+    no_account: "Don't have an account? ",
+    has_account: "Already have an account? ",
   },
   vi: {
     nav_home: "Trang Chủ",
@@ -126,6 +141,21 @@ const translations = {
     newsletter_placeholder: "Nhập email của bạn",
     shop_name: "ProTools Hardware",
     shop_tagline: "Tin Cậy & Bền Bỉ",
+
+    // Login Page Handlers
+    login_welcome: "Chào Mừng Trở Lại",
+    login_create_account: "Tạo Tài Khoản",
+    login_desc: "Vui lòng nhập thông tin để đăng nhập.",
+    register_desc: "Nhập thông tin để đăng ký.",
+    email_username_label: "Email hoặc Tên đăng nhập",
+    email_username_placeholder: "Nhập tên đăng nhập",
+    confirm_password: "Xác Nhận Mật Khẩu",
+    confirm_password_placeholder: "Nhập lại mật khẩu",
+    processing: "Đang xử lý...",
+    sign_in: "Đăng Nhập",
+    sign_up: "Đăng Ký",
+    no_account: "Chưa có tài khoản? ",
+    has_account: "Đã có tài khoản? ",
   },
 };
 
