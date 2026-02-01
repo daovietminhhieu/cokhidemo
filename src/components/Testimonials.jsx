@@ -32,21 +32,21 @@ const Testimonials = () => {
     const testimonials = [
         {
             name: "Nguyen Van A",
-            role: "Construction Manager_vi",
+            role: "Construction Manager",
             en_role: "Construction Manager",
             content_vi: "Sản phẩm cực kỳ chất lượng. Tôi đã dùng ốc vít của họ cho dự án chung cư cao cấp và rất hài lòng.",
             content_en: "Extremely high quality products. I used their fasteners for a high-end apartment project and I am very satisfied."
         },
         {
             name: "John Smith",
-            role: "DIY Enthusiast_vi",
+            role: "DIY Enthusiast",
             en_role: "DIY Enthusiast",
             content_vi: "Giao hàng nhanh trong ngày. Đóng gói cẩn thận. Chắc chắn sẽ ủng hộ tiếp.",
             content_en: "Fast same-day shipping. Careful packaging. Will definitely buy again."
         },
         {
             name: "Tran Thi B",
-            role: "Interior Designer_vi",
+            role: "Interior Designer",
             en_role: "Interior Designer",
             content_vi: "Mẫu mã đẹp, phù hợp với thiết kế công nghiệp hiện đại. Giá cả hợp lý.",
             content_en: "Beautiful designs, fits clear with modern industrial design. Reasonable prices."

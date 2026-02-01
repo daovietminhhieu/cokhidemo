@@ -2,18 +2,171 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import Reveal, { StaggerContainer, StaggerItem } from '../components/Reveal';
+import { PRODUCTS } from '../data/mockData';
+import AudioButton from '../components/AudioButton';
+
+function ProductCard({ product }) {
+  const { t, language } = useLanguage();
+  const { addToCart } = useCart();
+  const [qty, setQty] = useState(1);
+
+  const handleAddToCart = () => {
+    if (qty < 1) return;
+    addToCart(product, parseInt(qty));
+  };
+
+  return (
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      background: 'rgba(255,255,255,0.03)',
+      borderRadius: '16px',
+      padding: '1.5rem',
+      border: '1px solid rgba(255,255,255,0.05)',
+      transition: 'transform 0.3s ease, box-shadow 0.3s ease'
+    }}
+      onMouseOver={(e) => {
+        e.currentTarget.style.transform = 'translateY(-5px)';
+        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.3)';
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = 'none';
+      }}
+    >
+      <div style={{
+        overflow: 'hidden',
+        aspectRatio: '1/1',
+        borderRadius: '12px',
+        background: 'rgba(0,0,0,0.2)',
+        marginBottom: '1.5rem',
+        position: 'relative'
+      }}>
+        <img
+          src={product.image}
+          alt={product.name}
+          style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '1rem', transition: 'transform 0.5s ease' }}
+          onMouseOver={(e) => e.target.style.transform = 'scale(1.1)'}
+          onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+        />
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '1rem',
+          gap: '1rem',
+        }}
+      >
+        {/* LEFT */}
+        <div>
+          <h3
+            style={{
+              fontSize: '1.1rem',
+              marginBottom: '0.3rem',
+              fontWeight: 600,
+              letterSpacing: '0.5px',
+              color: '#fff',
+            }}
+          >
+            {language === 'vi' ? product.name_vi : product.name}
+          </h3>
+
+          <span
+            style={{
+              fontSize: '0.75rem',
+              color: '#888',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+            }}
+          >
+            {language === 'vi' ? product.category_vi : product.category}
+          </span>
+        </div>
+
+        {/* RIGHT */}
+        <div>
+          <span
+            style={{
+              fontSize: '1.1rem',
+              fontWeight: 'bold',
+              color: '#fff',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            ${product.price}
+          </span>
+        </div>
+      </div>
+
+
+      <div style={{ marginTop: 'auto', display: 'flex', gap: '0.8rem', alignItems: 'center' }}>
+        <input
+          type="number"
+          min="1"
+          value={qty}
+          onChange={(e) => setQty(parseInt(e.target.value) || 1)}
+          style={{
+            width: '60px',
+            background: 'rgba(255,255,255,0.05)',
+            border: 'none',
+            borderRadius: '50px',
+            color: 'white',
+            padding: '0.75rem 0',
+            textAlign: 'center',
+            fontSize: '0.9rem',
+            outline: 'none',
+            appearance: 'textfield',
+            mozAppearance: 'textfield'
+          }}
+        />
+
+        <button
+          onClick={handleAddToCart}
+          style={{
+            flex: 1,
+            padding: '0.75rem 0',
+            borderRadius: '50px',
+            border: 'none',
+            background: 'white', // High contrast
+            color: 'black',
+            textTransform: 'uppercase',
+            fontSize: '0.75rem',
+            fontWeight: 'bold',
+            letterSpacing: '1px',
+            cursor: 'pointer',
+            transition: 'transform 0.2s, box-shadow 0.2s'
+          }}
+          onMouseOver={(e) => {
+            e.target.style.transform = 'scale(1.02)';
+            e.target.style.boxShadow = '0 5px 15px rgba(255,255,255,0.2)';
+          }}
+          onMouseOut={(e) => {
+            e.target.style.transform = 'scale(1)';
+            e.target.style.boxShadow = 'none';
+          }}
+        >
+          {t('add_to_cart')}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Shop() {
   const { t, language } = useLanguage();
-  const { addToCart } = useCart();
-  const [products, setProducts] = useState([]);
+  // Initialize with mock data
+  const [products, setProducts] = useState(PRODUCTS);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortOption, setSortOption] = useState('default');
 
   // Pagination State
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12; // 12 looks good on 2, 3, 4 column grids
+  const itemsPerPage = 12;
 
   useEffect(() => {
     fetch('http://localhost:3001/api/products')
@@ -27,35 +180,23 @@ export default function Shop() {
     setCurrentPage(1);
   }, [selectedCategory, searchQuery, sortOption]);
 
-  // Extract unique categories
   const categories = ['All', ...new Set(products.map(p => language === 'vi' ? p.category_vi : p.category))];
 
-  // Filter and Sort products
   const filteredProducts = useMemo(() => {
     let result = products;
-
-    // 1. Filter by Category
     if (selectedCategory !== 'All') {
       result = result.filter(p => (language === 'vi' ? p.category_vi : p.category) === selectedCategory);
     }
-
-    // 2. Filter by Search Query
     if (searchQuery) {
       const lowerQuery = searchQuery.toLowerCase();
       result = result.filter(p =>
         (language === 'vi' ? p.name_vi : p.name).toLowerCase().includes(lowerQuery)
       );
     }
-
-    // 3. Sort
-    result = [...result]; // Create a shallow copy to filter
+    result = [...result];
     switch (sortOption) {
-      case 'price_asc':
-        result.sort((a, b) => a.price - b.price);
-        break;
-      case 'price_desc':
-        result.sort((a, b) => b.price - a.price);
-        break;
+      case 'price_asc': result.sort((a, b) => a.price - b.price); break;
+      case 'price_desc': result.sort((a, b) => b.price - a.price); break;
       case 'name_asc':
         result.sort((a, b) => {
           const nameA = language === 'vi' ? a.name_vi : a.name;
@@ -63,14 +204,11 @@ export default function Shop() {
           return nameA.localeCompare(nameB);
         });
         break;
-      default:
-        break;
+      default: break;
     }
-
     return result;
   }, [selectedCategory, searchQuery, sortOption, products, language]);
 
-  // Pagination Logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
@@ -82,196 +220,133 @@ export default function Shop() {
   };
 
   return (
-    <div className="container section" style={{ marginTop: '80px' }}>
-      <Reveal>
-        <h1 style={{ marginBottom: '2rem' }}>{t('shop_title')}</h1>
+    <div className="container section" style={{ marginTop: '40px' }}>
+      <Reveal width="100%">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4rem' }}>
+          <h1 style={{ fontSize: '4rem', textTransform: 'uppercase', lineHeight: 1.2, margin: 0, color: '#ffffff', userSelect: 'none', pointerEvents: 'none' }}>
+            {t('shop_title')}
+          </h1>
+        </div>
       </Reveal>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(200px, 1fr) 4fr', gap: '4rem' }}>
 
-        {/* Controls Bar */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1rem',
-          background: 'var(--bg-card)',
-          padding: '1rem',
-          borderRadius: '8px',
-          border: '1px solid rgba(255,255,255,0.05)'
-        }}>
-          {/* Search */}
-          <input
-            type="text"
-            placeholder={t('search_placeholder')}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            style={{
-              padding: '0.8rem 1rem',
-              borderRadius: '4px',
-              border: '1px solid var(--secondary)',
-              background: 'var(--bg-dark)',
-              color: 'white',
-              minWidth: '250px'
-            }}
-          />
+        {/* Filters - Minimal Sidebar */}
+        <aside>
+          <div style={{ position: 'sticky', top: '120px' }}>
 
-          {/* Sort */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ color: 'var(--text-muted)' }}>{t('sort_by')}:</span>
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-              style={{
-                padding: '0.8rem',
-                borderRadius: '4px',
-                border: '1px solid var(--secondary)',
-                background: 'var(--bg-dark)',
-                color: 'white',
-                cursor: 'pointer'
-              }}
-            >
-              <option value="default">{t('sort_default')}</option>
-              <option value="price_asc">{t('sort_price_asc')}</option>
-              <option value="price_desc">{t('sort_price_desc')}</option>
-              <option value="name_asc">{t('sort_name_asc')}</option>
-            </select>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
-          {/* Left Library/Sidebar */}
-          <aside style={{ width: '250px', flexShrink: 0 }}>
-            <div style={{ position: 'sticky', top: '100px', background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '8px' }}>
-              <h3 style={{ borderBottom: '1px solid #333', paddingBottom: '1rem', marginBottom: '1rem' }}>{t('categories')}</h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {categories.map(cat => (
-                  <li key={cat} style={{ marginBottom: '0.5rem' }}>
-                    <button
-                      onClick={() => setSelectedCategory(cat)}
-                      style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        background: selectedCategory === cat ? 'var(--primary)' : 'transparent',
-                        color: selectedCategory === cat ? 'var(--bg-dark)' : 'var(--text-muted)', /* Adjusted text color for contrast on active */
-                        fontWeight: selectedCategory === cat ? 'bold' : 'normal',
-                        padding: '10px',
-                        borderRadius: '4px',
-                        transition: 'all 0.2s'
-                      }}
-                    >
-                      {cat === 'All' ? t('cat_all') : cat}
-                    </button>
-                  </li>
-                ))}
-              </ul>
+            {/* Search */}
+            <div style={{ mb: '2rem' }}>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{
+                  width: '100%',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: '1px solid #333',
+                  padding: '1rem 0',
+                  color: 'white',
+                  fontSize: '1rem',
+                  marginBottom: '2rem',
+                  outline: 'none'
+                }}
+              />
             </div>
-          </aside>
 
-          {/* Right Product Grid */}
-          <div style={{ flex: 1 }}>
-            {filteredProducts.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text-muted)' }}>
-                <h3>No products found.</h3>
-              </div>
-            ) : (
-              <>
-                <StaggerContainer className="grid">
-                  {currentProducts.map((product) => (
-                    <StaggerItem key={product.id} className="card">
-                      <div style={{ height: '160px', overflow: 'hidden' }}>
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
-                      </div>
-                      <div style={{ padding: '1rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                          <span style={{ fontSize: '0.75rem', color: 'var(--secondary)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                            {language === 'vi' ? product.category_vi : product.category}
-                          </span>
-                          <span style={{ fontWeight: 'bold', color: 'var(--primary)', fontSize: '0.9rem' }}>
-                            {product.price.toLocaleString()} VND
-                          </span>
-                        </div>
-                        <h3 style={{ marginBottom: '0.5rem', fontSize: '1rem' }}>{language === 'vi' ? product.name_vi : product.name}</h3>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: '1rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                          {language === 'vi' ? product.description_vi : product.description}
-                        </p>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                          <button
-                            onClick={() => addToCart(product)}
-                            style={{ width: '100%', background: 'transparent', border: '1px solid var(--secondary)', color: 'var(--text-light)', padding: '0.5rem', fontSize: '0.8rem' }}
-                            onMouseEnter={(e) => { e.target.style.background = 'var(--secondary)'; e.target.style.color = 'white'; }}
-                            onMouseLeave={(e) => { e.target.style.background = 'transparent'; e.target.style.color = 'var(--text-light)'; }}
-                          >
-                            {t('add_to_cart')}
-                          </button>
-                          <button
-                            onClick={() => alert('Proceeding to checkout with: ' + product.name)}
-                            style={{ width: '100%', padding: '0.5rem', fontSize: '0.8rem' }}
-                          >
-                            Buy Now
-                          </button>
-                        </div>
-                      </div>
-                    </StaggerItem>
-                  ))}
-                </StaggerContainer>
+            <h3 style={{ fontSize: '0.9rem', color: '#666', textTransform: 'uppercase', marginBottom: '1rem' }}>{t('categories')}</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {categories.map(cat => (
+                <li key={cat} style={{ marginBottom: '0.5rem' }}>
+                  <button
+                    onClick={() => setSelectedCategory(cat)}
+                    style={{
+                      width: '100%',
+                      textAlign: 'left',
+                      background: 'transparent',
+                      color: selectedCategory === cat ? 'white' : '#666',
+                      fontWeight: selectedCategory === cat ? 'bold' : 'normal',
+                      padding: '5px 0',
+                      border: 'none',
+                      fontSize: '1.1rem',
+                      transition: 'color 0.3s'
+                    }}
+                  >
+                    {cat === 'All' ? t('cat_all') : cat}
+                  </button>
+                </li>
+              ))}
+            </ul>
 
-                {/* Pagination Controls */}
-                {totalPages > 1 && (
-                  <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', marginTop: '3rem' }}>
-                    <button
-                      disabled={currentPage === 1}
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      style={{
-                        background: 'transparent',
-                        border: '1px solid var(--secondary)',
-                        color: currentPage === 1 ? 'var(--text-muted)' : 'var(--text-light)',
-                        opacity: currentPage === 1 ? 0.5 : 1,
-                        cursor: currentPage === 1 ? 'not-allowed' : 'pointer'
-                      }}
-                    >
-                      &lt;
-                    </button>
-
-                    {[...Array(totalPages)].map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handlePageChange(index + 1)}
-                        style={{
-                          background: currentPage === index + 1 ? 'var(--primary)' : 'transparent',
-                          border: currentPage === index + 1 ? 'none' : '1px solid var(--secondary)',
-                          color: currentPage === index + 1 ? 'var(--bg-dark)' : 'var(--text-light)',
-                          width: '40px',
-                          padding: '0.5rem'
-                        }}
-                      >
-                        {index + 1}
-                      </button>
-                    ))}
-
-                    <button
-                      disabled={currentPage === totalPages}
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      style={{
-                        background: 'transparent',
-                        border: '1px solid var(--secondary)',
-                        color: currentPage === totalPages ? 'var(--text-muted)' : 'var(--text-light)',
-                        opacity: currentPage === totalPages ? 0.5 : 1,
-                        cursor: currentPage === totalPages ? 'not-allowed' : 'pointer'
-                      }}
-                    >
-                      &gt;
-                    </button>
-                  </div>
-                )}
-              </>
-            )}
+            <div style={{ marginTop: '2rem' }}>
+              <h3 style={{ fontSize: '0.9rem', color: '#666', textTransform: 'uppercase', marginBottom: '1rem' }}>Sort</h3>
+              <select
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+                style={{
+                  width: '100%',
+                  background: 'transparent',
+                  color: 'white',
+                  border: 'none',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                  outline: 'none'
+                }}
+              >
+                <option value="default">{t('sort_default')}</option>
+                <option value="price_asc">{t('sort_price_asc')}</option>
+                <option value="price_desc">{t('sort_price_desc')}</option>
+                <option value="name_asc">{t('sort_name_asc')}</option>
+              </select>
+            </div>
           </div>
+        </aside>
+
+        {/* Product Grid */}
+        <div style={{ minHeight: '50vh' }}>
+          {filteredProducts.length === 0 ? (
+            <div style={{ padding: '4rem', color: '#666' }}>
+              <h3>No products found.</h3>
+            </div>
+          ) : (
+            <>
+              <StaggerContainer style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                gap: '2rem'
+              }}>
+                {currentProducts.map((product) => (
+                  <StaggerItem key={product.id}>
+                    <ProductCard product={product} />
+                  </StaggerItem>
+                ))}
+              </StaggerContainer>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '4rem', justifyContent: 'center' }}>
+                  {/* Simplistic Pagination */}
+                  <button
+                    disabled={currentPage === 1}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    style={{ color: currentPage === 1 ? '#333' : 'white' }}
+                  >
+                    PREV
+                  </button>
+                  <span style={{ color: '#666' }}>{currentPage} / {totalPages}</span>
+                  <button
+                    disabled={currentPage === totalPages}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    style={{ color: currentPage === totalPages ? '#333' : 'white' }}
+                  >
+                    NEXT
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

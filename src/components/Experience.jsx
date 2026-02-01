@@ -1,152 +1,193 @@
-import React, { useLayoutEffect, useRef } from 'react';
-import { useThree } from '@react-three/fiber';
-import { Float, ContactShadows } from '@react-three/drei';
-import gsap from 'gsap';
-import * as THREE from 'three';
+import React, { useLayoutEffect, useRef, useMemo } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import {
+  Float,
+  ContactShadows,
+  Environment,
+} from "@react-three/drei";
+import * as THREE from "three";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { RealisticScrew, RealisticNut, WingNut, LagScrew, SelfTappingScrew } from "./RealisticHardware";
+import { Hammer, Screwdriver, Wrench } from "./RealisticTools";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Screw({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) {
-    const groupRef = useRef();
-    const headRef = useRef();
-    const shaftRef = useRef();
-    const threadsRef = useRef();
-
-    useLayoutEffect(() => {
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: document.body,
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1
-            }
-        });
-
-        // Rotation Animation only
-        tl.to(groupRef.current.rotation, { x: Math.PI / 4, y: Math.PI / 3, duration: 4 }, 0);
-
-        return () => {
-            if (tl.scrollTrigger) tl.scrollTrigger.kill();
-        };
-    }, []);
-
-    // Create a metallic material
-    const material = new THREE.MeshStandardMaterial({
-        color: '#888888',
-        metalness: 1,
-        roughness: 0.2,
-    });
-
-    return (
-        <group ref={groupRef} position={position} rotation={rotation} scale={scale}>
-            {/* Head */}
-            <mesh ref={headRef} position={[0, 1.8, 0]} castShadow receiveShadow material={material}>
-                <cylinderGeometry args={[0.8, 0.8, 0.6, 6]} />
-            </mesh>
-            {/* Shaft */}
-            <mesh ref={shaftRef} position={[0, 0, 0]} castShadow receiveShadow material={material}>
-                <cylinderGeometry args={[0.35, 0.35, 3, 32]} />
-            </mesh>
-            {/* Threads Group */}
-            <group ref={threadsRef}>
-                {Array.from({ length: 15 }).map((_, i) => (
-                    <mesh key={i} position={[0, -1.2 + (i * 0.15), 0]} rotation={[Math.PI / 2, 0, 0]} material={material}>
-                        <torusGeometry args={[0.36, 0.02, 16, 32]} />
-                    </mesh>
-                ))}
-            </group>
-        </group>
-    );
-}
 
 
 
-// Improved Nut using shape
-function FloatingNut() {
-    // mesh ref removed
-
-    // Create a Hexagon shape with a hole
-    const shape = new THREE.Shape();
-    const radius = 1;
-    for (let i = 0; i < 6; i++) {
-        const angle = (i * Math.PI) / 3;
-        const x = radius * Math.cos(angle);
-        const y = radius * Math.sin(angle);
-        if (i === 0) shape.moveTo(x, y);
-        else shape.lineTo(x, y);
-    }
-    const hole = new THREE.Path();
-    hole.absarc(0, 0, 0.5, 0, Math.PI * 2, false);
-    shape.holes.push(hole);
-
-    const extrudeSettings = { depth: 0.6, bevelEnabled: true, bevelSegments: 2, steps: 1, bevelSize: 0.05, bevelThickness: 0.05 };
-
-    return (
-        <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-            <mesh position={[1.5, 0, 0.5]} rotation={[1, 0.5, 0]} scale={0.5}>
-                <extrudeGeometry args={[shape, extrudeSettings]} />
-                <meshStandardMaterial color="#FF6B00" metalness={0.8} roughness={0.2} />
-            </mesh>
-        </Float>
-    )
-}
-
-
-
+/* ---------- MAIN EXPERIENCE ---------- */
 
 export default function Experience() {
-    const group = useRef();
-    const { camera } = useThree();
+  const timeline = useRef();
+  const { camera } = useThree();
 
-    useLayoutEffect(() => {
-        // GSAP Intro Animation
-        gsap.from(camera.position, {
-            z: 10,
-            y: 5,
-            duration: 2.5,
-            ease: "power3.out"
-        });
+  useLayoutEffect(() => {
+    camera.position.set(0, 0, 5.5);
+    camera.fov = 35;
+    camera.updateProjectionMatrix();
 
-        gsap.to(group.current.rotation, {
-            y: Math.PI * 2,
-            duration: 20,
-            repeat: -1,
-            ease: "none"
-        });
-    }, [camera.position]);
+    timeline.current = gsap.timeline({
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.2,
+      },
+    });
 
-    return (
-        <>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[10, 10, 5]} intensity={1.5} castShadow />
-            <pointLight position={[-10, -10, -10]} intensity={0.5} color="#00A8E8" />
+    timeline.current
+      .to(camera.position, {
+        x: 0.4,
+        y: 0.2,
+        z: 5.2,
+        ease: "power3.out",
+      })
+      .to(
+        camera.position,
+        {
+          x: 0,
+          y: 0,
+          z: 5.5,
+          ease: "power2.out",
+        },
+        "+=0.4",
+      );
 
-            <group ref={group}>
-                <Float speed={1.5} rotationIntensity={0.5} floatIntensity={0.5}>
-                    <Screw position={[-0.5, 0, 0]} rotation={[0, 0, Math.PI / 6]} scale={0.4} />
-                </Float>
-                <FloatingNut />
+    return () => {
+      timeline.current?.kill();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, [camera]);
+
+  return (
+    <>
+      {/* LIGHTING */}
+      <ambientLight intensity={0.8} />
+
+      <directionalLight
+        position={[12, 15, 8]}
+        intensity={3.5}
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+      />
+
+      <pointLight position={[-8, 6, -6]} intensity={0.6} />
+      <pointLight position={[6, -4, 4]} intensity={0.4} />
+
+      {/* ENV */}
+      <Environment preset="warehouse" />
+
+      {/* SHADOWS */}
+      <ContactShadows
+        position={[0, -3.6, 0]}
+        opacity={0.4}
+        scale={14}
+        blur={6}
+        far={6}
+      />
+
+      {/* Floating Hardware Elements - Flying Forward */}
+      <FlowingHardware />
 
 
+    </>
+  );
+}
 
-                {/* Background Particles or Abstract primitives */}
-                <Float speed={1} rotationIntensity={2} floatIntensity={0.2}>
-                    <mesh position={[-2, 1, -1]}>
-                        <boxGeometry args={[0.3, 0.3, 0.3]} />
-                        <meshStandardMaterial color="#333" metalness={0.5} roughness={0.1} />
-                    </mesh>
-                </Float>
-                <Float speed={1} rotationIntensity={2} floatIntensity={0.2}>
-                    <mesh position={[2, -1, -0.5]}>
-                        <torusGeometry args={[0.3, 0.08, 16, 32]} />
-                        <meshStandardMaterial color="#00A8E8" metalness={0.8} roughness={0.1} />
-                    </mesh>
-                </Float>
-            </group>
+function MovingItem({ children, offsetZ = 0, speed = 3, xRange = 8, yRange = 6 }) {
+  const ref = useRef();
+  // Store current speed in a ref so we can vary it per loop without re-rendering
+  const currentSpeed = useRef(speed);
 
-            <ContactShadows position={[0, -3.5, 0]} opacity={0.4} scale={10} blur={3} far={4} resolution={64} frames={1} />
-        </>
-    );
+  const startZ = -15;
+  const endZ = 10;
+
+  useFrame((state, delta) => {
+    if (ref.current) {
+      // Move forward
+      ref.current.position.z += delta * currentSpeed.current;
+
+      // Reset loop
+      if (ref.current.position.z > endZ) {
+        ref.current.position.z = startZ;
+
+        // Randomize X and Y to create new trajectory
+        ref.current.position.x = (Math.random() - 0.5) * xRange;
+        ref.current.position.y = (Math.random() - 0.5) * yRange;
+
+        // Randomize speed slightly (+- 20%) to prevent synchronization
+        currentSpeed.current = speed * (0.8 + Math.random() * 0.4);
+
+        // Randomize rotation
+        ref.current.rotation.x = Math.random() * Math.PI * 2;
+        ref.current.rotation.y = Math.random() * Math.PI * 2;
+        ref.current.rotation.z = Math.random() * Math.PI * 2;
+      }
+    }
+  });
+
+  return (
+    <group ref={ref} position={[0, 0, offsetZ]}>
+      {children}
+    </group>
+  );
+}
+
+function FlowingHardware() {
+  return (
+    <group rotation={[0, 0, 0]}>
+      {/* 
+          Wrap Float inside MovingItem so they bob while moving. 
+          We spread them out on X/Y initially.
+          offsetZ adjusts their initial position in the loop.
+      */}
+
+      {/* Item 1: Large Lag Screw */}
+      <MovingItem offsetZ={-2} speed={2.5}>
+        <Float speed={2} rotationIntensity={2} floatIntensity={2}>
+          <LagScrew position={[-6, 3, 0]} rotation={[0.5, 1, 0.2]} scale={0.7} />
+        </Float>
+      </MovingItem>
+
+      {/* Item 2: Wing Nut */}
+      <MovingItem offsetZ={-8} speed={3}>
+        <Float speed={2} rotationIntensity={2} floatIntensity={2}>
+          <WingNut position={[7, -3, 0]} rotation={[-0.5, 0.5, 0]} scale={0.8} />
+        </Float>
+      </MovingItem>
+
+      {/* Item 3: Self Tapping Screw */}
+      <MovingItem offsetZ={-14} speed={2.8}>
+        <Float speed={2} rotationIntensity={2} floatIntensity={2}>
+          <SelfTappingScrew position={[-2, 5, 0]} rotation={[1, 0, 1]} scale={0.6} />
+        </Float>
+      </MovingItem>
+
+      {/* --- TOOLS --- */}
+
+      {/* Item 3: Hammer */}
+      <MovingItem offsetZ={-4} speed={2.0}>
+        <Float speed={1.5} rotationIntensity={1.5}>
+          <Hammer position={[-4, -2, 0]} rotation={[0, 0, Math.PI / 4]} scale={0.8} />
+        </Float>
+      </MovingItem>
+
+      {/* Item 4: Screwdriver (Phillips) */}
+      <MovingItem offsetZ={-12} speed={3.2}>
+        <Float speed={2.5} rotationIntensity={2}>
+          <Screwdriver position={[6, 2, 0]} rotation={[1, 1, 0]} scale={0.8} type="phillips" />
+        </Float>
+      </MovingItem>
+
+      {/* Item 5: Wrench */}
+      <MovingItem offsetZ={-16} speed={2.4}>
+        <Float speed={2} rotationIntensity={2}>
+          <Wrench position={[-3, 4, 0]} rotation={[0.5, 0.5, 0]} scale={0.8} />
+        </Float>
+      </MovingItem>
+    </group>
+  );
 }

@@ -1,61 +1,156 @@
-import React from 'react';
-import { useLanguage } from '../context/LanguageContext';
-import { Link } from 'react-router-dom';
-import Reveal from './Reveal';
+import React from "react";
+import { useLanguage } from "../context/LanguageContext";
+import { Link } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Reveal from "./Reveal";
 
 export default function Footer() {
-    const { t } = useLanguage();
+  const { t } = useLanguage();
+  const { scrollYProgress } = useScroll();
 
-    return (
-        <footer style={{
-            background: 'rgba(10, 10, 10, 0.8)',
-            backdropFilter: 'blur(10px)',
-            color: '#888',
-            padding: '4rem 0 2rem',
-            marginTop: 'auto',
-            borderTop: '1px solid #333',
-            position: 'relative',
-            zIndex: 10
-        }}>
-            <Reveal width="100%">
-                <div className="container">
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+  // Animate footer based on scroll
+  const footerOpacity = useTransform(scrollYProgress, [0.7, 1], [0.3, 1]);
+  const footerY = useTransform(scrollYProgress, [0.7, 1], [40, 0]);
+  const footerRotate = useTransform(scrollYProgress, [0.7, 1], [2, 0]);
 
-                        {/* Brand */}
-                        <div>
-                            <h2 style={{ color: 'white', marginBottom: '1rem', letterSpacing: '1px' }}>
-                                HARDWARE<span style={{ color: 'var(--primary)' }}>SHOP</span>
-                            </h2>
-                            <p style={{ lineHeight: '1.6' }}>
-                                Precision tools for professionals. <br />
-                                Designed for durability and performance.
-                            </p>
-                        </div>
+  return (
+    <motion.footer
+      style={{
+        padding: "4rem var(--spacing-container)",
+        marginTop: "auto",
+        borderTop: "1px solid rgba(255,255,255,0.1)",
+        position: "relative",
+        zIndex: 10,
+        scrollSnapAlign: "end",
+        opacity: footerOpacity,
+        y: footerY,
+        rotateX: footerRotate,
+      }}
+    >
+      <Reveal width="100%">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "4rem",
+          }}
+        >
+          {/* Brand */}
+          <motion.div
+            style={{ maxWidth: "400px" }}
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: false }}
+          >
+            <h2
+              style={{
+                fontSize: "2rem",
+                marginBottom: "1rem",
+                textTransform: "uppercase",
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Hardware<span style={{ opacity: 0.5 }}>.Store</span>
+            </h2>
+            <p style={{ color: "#666", fontSize: "0.9rem" }}>
+              Precision tools for the modern creator. <br />
+              Engineered for those who demand excellence.
+            </p>
+          </motion.div>
 
-                        {/* Quick Links */}
-                        <div>
-                            <h3 style={{ color: 'white', marginBottom: '1rem' }}>Quick Links</h3>
-                            <ul style={{ listStyle: 'none', padding: 0 }}>
-                                <li style={{ marginBottom: '0.5rem' }}><Link to="/" style={{ color: '#888', textDecoration: 'none' }}>Home</Link></li>
-                                <li style={{ marginBottom: '0.5rem' }}><Link to="/shop" style={{ color: '#888', textDecoration: 'none' }}>Products</Link></li>
-                                <li style={{ marginBottom: '0.5rem' }}><Link to="/contact" style={{ color: '#888', textDecoration: 'none' }}>Contact</Link></li>
-                            </ul>
-                        </div>
+          {/* Links */}
+          <div style={{ display: "flex", gap: "4rem" }}>
+            {[
+              {
+                title: "Explore",
+                links: [
+                  { label: "Home", to: "/" },
+                  { label: "Shop", to: "/shop" },
+                  { label: "Contact", to: "/contact" },
+                ],
+              },
+              {
+                title: "Connect",
+                links: [
+                  { label: "Instagram", to: "#" },
+                  { label: "Twitter", to: "#" },
+                  { label: "Email", to: "#" },
+                ],
+              },
+            ].map((section, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 + idx * 0.1 }}
+                viewport={{ once: false }}
+              >
+                <h4
+                  style={{
+                    textTransform: "uppercase",
+                    marginBottom: "1.5rem",
+                    fontSize: "0.85rem",
+                    color: "#888",
+                  }}
+                >
+                  {section.title}
+                </h4>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    margin: 0,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "0.8rem",
+                  }}
+                >
+                  {section.links.map((link, linkIdx) => (
+                    <motion.li
+                      key={linkIdx}
+                      whileHover={{ x: 5, color: "var(--accent)" }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Link
+                        to={link.to}
+                        style={{
+                          fontSize: "1.1rem",
+                          textDecoration: "none",
+                          color: "inherit",
+                        }}
+                      >
+                        {link.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
 
-                        {/* Contact */}
-                        <div>
-                            <h3 style={{ color: 'white', marginBottom: '1rem' }}>Contact</h3>
-                            <p style={{ marginBottom: '0.5rem' }}>📍 123 Construction Ave, Hanoi</p>
-                            <p style={{ marginBottom: '0.5rem' }}>📞 +84 123 456 789</p>
-                            <p>✉️ sales@hardwareshop.vn</p>
-                        </div>
-                    </div>
-
-                    <div style={{ borderTop: '1px solid #222', paddingTop: '2rem', textAlign: 'center', fontSize: '0.9rem' }}>
-                        &copy; {new Date().getFullYear()} HardwareShop. All rights reserved.
-                    </div>
-                </div>
-            </Reveal>
-        </footer>
-    );
+        <motion.div
+          style={{
+            marginTop: "4rem",
+            paddingTop: "2rem",
+            borderTop: "1px solid rgba(255,255,255,0.1)",
+            display: "flex",
+            justifyContent: "space-between",
+            color: "#444",
+            fontSize: "0.8rem",
+            textTransform: "uppercase",
+          }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: false }}
+        >
+          <span>&copy; {new Date().getFullYear()} HardwareStore</span>
+          <span>All rights reserved</span>
+        </motion.div>
+      </Reveal>
+    </motion.footer>
+  );
 }
