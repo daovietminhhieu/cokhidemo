@@ -1,14 +1,22 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
   useTransform,
-  useMotionTemplate,
 } from "framer-motion";
 
 function StickySection({ children, index }) {
   const ref = useRef(null);
   const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 900px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
 
   // Track scroll: when this section enters -> exits viewport
   const { scrollYProgress } = useScroll({
@@ -32,23 +40,23 @@ function StickySection({ children, index }) {
 
   return (
     <div
-      style={{ position: "relative", minHeight: "100vh" }}
+      style={{ position: "relative", minHeight: isMobile ? "auto" : "100vh" }}
       ref={containerRef}
     >
       <motion.div
         ref={ref}
         style={{
-          position: "sticky",
-          top: 0,
-          height: "100vh",
+          position: isMobile ? "static" : "sticky",
+          top: isMobile ? "auto" : 0,
+          height: isMobile ? "auto" : "100vh",
           zIndex: 10 + index,
-          overflow: "hidden",
+          overflow: isMobile ? "visible" : "hidden",
           transformOrigin: "center center",
           perspective: "1200px",
-          y,
-          opacity,
-          scale,
-          willChange: "transform, opacity", // Optimized
+          y: isMobile ? 0 : y,
+          opacity: isMobile ? 1 : opacity,
+          scale: isMobile ? 1 : scale,
+          willChange: isMobile ? "auto" : "transform, opacity",
         }}
       >
         {children}

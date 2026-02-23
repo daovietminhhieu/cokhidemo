@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import Experience from "../components/Experience";
@@ -40,20 +40,29 @@ export default function Home() {
   const products = PRODUCTS;
   const [hoveredCharIndex, setHoveredCharIndex] = useState(-1);
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 900px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener?.("change", update);
+    return () => mq.removeEventListener?.("change", update);
+  }, []);
 
   const sheetStyle = {
-    height: "100vh",
+    height: isMobile ? "auto" : "100vh",
     width: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    padding: "4rem",
+    padding: isMobile ? "1.5rem 1rem" : "4rem",
     background: "rgba(10, 10, 10, 0.4)",
-    backdropFilter: "blur(8px)",
+    backdropFilter: isMobile ? "none" : "blur(8px)",
     borderTop: "1px solid rgba(255,255,255,0.1)",
     position: "relative",
     boxSizing: "border-box",
-    boxShadow: "0 -20px 50px rgba(0,0,0,0.8)",
+    boxShadow: isMobile ? "none" : "0 -20px 50px rgba(0,0,0,0.8)",
   };
 
   const sheet1Style = {
@@ -67,14 +76,15 @@ export default function Home() {
     ...sheetStyle,
     background:
       "linear-gradient(135deg, rgba(15, 25, 35, 0.5) 0%, rgba(20, 30, 40, 0.5) 100%)",
-    borderLeft: "4px solid rgba(80, 90, 100, 0.6)",
+    borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)",
   };
 
   const sheet3Style = {
     ...sheetStyle,
     background:
       "linear-gradient(135deg, rgba(20, 30, 40, 0.5) 0%, rgba(10, 10, 10, 0.5) 100%)",
-    borderLeft: "4px solid rgba(80, 90, 100, 0.6)",
+    borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)",
+    marginTop: isMobile ? "1.25rem" : 0,
   };
 
   const sheet4Style = {
