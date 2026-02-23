@@ -59,7 +59,7 @@ export default function ProductDetail() {
         </div>
       </Reveal>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '3rem', alignItems: 'start' }}>
+      <div className="product-detail-grid">
         <Reveal width="100%">
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '18px', overflow: 'hidden' }}>
             <div style={{ aspectRatio: '1/1', background: 'rgba(0,0,0,0.25)', display: 'grid', placeItems: 'center' }}>

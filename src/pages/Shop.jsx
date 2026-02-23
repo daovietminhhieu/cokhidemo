@@ -181,7 +181,7 @@ export default function Shop() {
         </div>
       </Reveal>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(200px,1fr) 4fr', gap: '4rem' }}>
+      <div className="shop-grid">
         <aside>
           <input
             type="text"
@@ -234,7 +234,7 @@ export default function Shop() {
               key={`${selectedCategory}-${searchQuery}-${safePage}`}
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
                 gap: '2rem'
               }}
             >

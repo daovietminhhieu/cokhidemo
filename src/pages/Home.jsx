@@ -104,6 +104,7 @@ export default function Home() {
       {/* CHAPTER 1: THE VISUAL STORY (3D Background) */}
       {/* Fixed position, scrubs based on total page scroll */}
       <div
+        className="home-3d"
         style={{
           position: "fixed",
           top: 0,
@@ -277,7 +278,7 @@ export default function Home() {
                     name: "Công Cụ & Dụng Cụ",
                     image: imgCongcu,
                     count: "1,200+",
-                    key: "congcu",
+                    key: "dungcu",
                   },
                 ].map((cat, idx) => (
                   <div
@@ -295,10 +296,11 @@ export default function Home() {
                   >
                     <div
                       style={{
-                        height: "150px",
-                        marginBottom: "1rem",
+                        height: "170px",
+                        marginBottom: "0",
                         overflow: "hidden",
                         borderRadius: "4px",
+                        position: "relative",
                       }}
                     >
                       <img
@@ -309,21 +311,48 @@ export default function Home() {
                           width: "100%",
                           height: "100%",
                           objectFit: "contain",
+                          transform: "translateZ(0)",
                         }}
                       />
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background:
+                            "linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.0) 60%)",
+                          pointerEvents: "none",
+                        }}
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          left: "12px",
+                          right: "12px",
+                          bottom: "10px",
+                          textAlign: "left",
+                          color: "white",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontSize: "clamp(0.95rem, 2.5vw, 1.1rem)",
+                            fontWeight: 700,
+                            lineHeight: 1.2,
+                            textShadow: "0 2px 8px rgba(0,0,0,0.6)",
+                          }}
+                        >
+                          {cat.name}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "clamp(0.75rem, 2vw, 0.9rem)",
+                            opacity: 0.8,
+                          }}
+                        >
+                          {cat.count} sản phẩm
+                        </div>
+                      </div>
                     </div>
-                    <h3
-                      style={{
-                        fontSize: "1.1rem",
-                        color: "white",
-                        marginBottom: "0.5rem",
-                      }}
-                    >
-                      {cat.name}
-                    </h3>
-                    <p style={{ color: "#666", fontSize: "0.9rem" }}>
-                      {cat.count} sản phẩm
-                    </p>
                   </div>
                 ))}
               </div>

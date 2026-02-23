@@ -79,14 +79,7 @@ export default function CartPage() {
           </Link>
         </div>
       ) : (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '2fr minmax(260px, 1fr)',
-            gap: '2.5rem',
-            alignItems: 'flex-start',
-          }}
-        >
+        <div className="cart-grid">
           {/* Items list */}
           <div
             style={{
@@ -96,20 +89,7 @@ export default function CartPage() {
               padding: '1.5rem',
             }}
           >
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '2fr 1fr 1fr auto',
-                gap: '1rem',
-                paddingBottom: '0.75rem',
-                marginBottom: '1rem',
-                borderBottom: '1px solid rgba(255,255,255,0.06)',
-                fontSize: '0.8rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                color: '#666',
-              }}
-            >
+            <div className="cart-header">
               <span>{t('cart_column_product') || 'Product'}</span>
               <span>{t('cart_column_qty') || 'Qty'}</span>
               <span>{t('cart_column_price') || 'Price'}</span>
@@ -118,15 +98,7 @@ export default function CartPage() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               {cart.map((item) => (
-                <div
-                  key={item.id}
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '2fr 1fr 1fr auto',
-                    gap: '1rem',
-                    alignItems: 'center',
-                  }}
-                >
+                <div key={item.id} className="cart-item">
                   <div>
                     <div
                       style={{
