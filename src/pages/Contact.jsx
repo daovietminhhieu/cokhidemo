@@ -1,8 +1,22 @@
+import React, { useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import Reveal from '../components/Reveal';
 
 export default function Contact() {
     const { t } = useLanguage();
+    const location = useLocation();
+
+    const prefillMessage = useMemo(() => {
+        const state = location?.state;
+        if (!state?.productName) return '';
+        return `Tôi muốn liên hệ về sản phẩm: ${state.productName} (${state.productId || ''})`;
+    }, [location?.state]);
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState(prefillMessage);
+
     return (
         <div className="container section" style={{ marginTop: '80px', minHeight: '80vh' }}>
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -37,6 +51,8 @@ export default function Contact() {
                                 <input
                                     type="text"
                                     placeholder="LE VAN A"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     style={{
                                         width: '100%',
                                         padding: '1rem 0',
@@ -67,6 +83,8 @@ export default function Contact() {
                                 <input
                                     type="email"
                                     placeholder="EMAIL@EXAMPLE.COM"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     style={{
                                         width: '100%',
                                         padding: '1rem 0',
@@ -97,6 +115,8 @@ export default function Contact() {
                                 <textarea
                                     rows="4"
                                     placeholder="TELL US ABOUT YOUR PROJECT..."
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
                                     style={{
                                         width: '100%',
                                         padding: '1rem 0',
@@ -112,7 +132,7 @@ export default function Contact() {
                                     }}
                                     onFocus={(e) => e.target.style.borderColor = 'white'}
                                     onBlur={(e) => e.target.style.borderColor = '#333'}
-                                ></textarea>
+                                />
                             </div>
 
                             <button

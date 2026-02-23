@@ -64,11 +64,12 @@ export default function LoadingScreen({ onComplete }) {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                     style={{
-                        fontSize: "2.5rem",
-                        fontWeight: 600,
-                        letterSpacing: "-0.02em",
-                        margin: 0,
-                        fontFamily: "system-ui, -apple-system, sans-serif"
+                        fontSize: "6vw",
+                        lineHeight: 0.8,
+                        letterSpacing: "-0.05em",
+                        color: "transparent",
+                        WebkitTextStroke: "2px white",
+                        marginBottom: 30,
                     }}
                 >
                     inoxdiepduong.com
@@ -78,10 +79,13 @@ export default function LoadingScreen({ onComplete }) {
                     animate={{ opacity: 0.5 }}
                     transition={{ delay: 0.3, duration: 0.8 }}
                     style={{
-                        fontSize: "1rem",
-                        fontWeight: 400,
-                        marginTop: "0.5rem",
-                        fontFamily: "system-ui, -apple-system, sans-serif"
+                        fontSize: "6vw",
+                        lineHeight: 0.8,
+                        letterSpacing: "-0.05em",
+                        color: "transparent",
+                        WebkitTextStroke: "2px white",
+                        margin: 0,
+                            
                     }}
                 >
                     Vật liệu xây dựng
@@ -135,17 +139,12 @@ export default function LoadingScreen({ onComplete }) {
                         exit={{ opacity: 0 }}
                         onClick={handleEnter}
                         style={{
-                            background: "transparent",
-                            color: "#FFA500",
-                            border: "1.5px solid #FFA500",
-                            padding: "0.875rem 2.5rem",
-                            fontSize: "1rem",
-                            fontWeight: 500,
-                            borderRadius: "24px",
-                            cursor: "pointer",
-                            fontFamily: "system-ui, -apple-system, sans-serif",
-                            letterSpacing: "-0.01em",
-                            transition: "all 0.2s ease",
+                            fontSize: "2vw",
+                            lineHeight: 0.8,
+                            letterSpacing: "-0.05em",
+                            color: "transparent",
+                            WebkitTextStroke: "2px white",
+                            margin: 0,
                         }}
                         whileHover={{
                             background: "#FFA500",

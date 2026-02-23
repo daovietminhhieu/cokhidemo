@@ -1,13 +1,18 @@
-import React, { Suspense, useState, useEffect, useRef } from "react";
+import React, { Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import Experience from "../components/Experience";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useCart } from "../context/CartContext";
 import Marquee from "../components/Marquee";
 import { PRODUCTS } from "../data/mockData";
 import PullToReveal from "../components/PullToReveal";
+import imgOcvit from "../assets/ocvit_bovitinoxhopnhua.webp";
+// import imgPhukien from "../assets/.jpg";
+import imgVatlieu from "../assets/vatlieu_thepu.webp"
+import imgKhoa from "../assets/khoa_vachot3.jfif";
+import imgCongcu from "../assets/dungcucokhi_botuocnovit.png";
 
 // Minimalist components inline
 const SectionTitle = ({ children }) => (
@@ -34,6 +39,7 @@ export default function Home() {
   const { addToCart } = useCart();
   const products = PRODUCTS;
   const [hoveredCharIndex, setHoveredCharIndex] = useState(-1);
+  const navigate = useNavigate();
 
   const sheetStyle = {
     height: "100vh",
@@ -250,28 +256,28 @@ export default function Home() {
               <div className="grid-products">
                 {[
                   {
-                    name: "Ốc Vít & Bu Lông",
-                    image:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtLQeNIxrEBhwtECYgGZMNJG2NYATbCGwFAA&s",
+                    name: "Ốc Vít - Bu Lông - Phụ kiện ren",
+                    image: imgOcvit,
                     count: "2,500+",
+                    key: "ocvit",
                   },
                   {
-                    name: "Phụ Kiện Lắp Ráp",
-                    image:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtLQeNIxrEBhwtECYgGZMNJG2NYATbCGwFAA&s",
+                    name: "Vật liệu cơ khí",
+                    image: imgVatlieu,
                     count: "1,800+",
+                    key: "vatlieu",
                   },
                   {
                     name: "Khóa & Chốt",
-                    image:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtLQeNIxrEBhwtECYgGZMNJG2NYATbCGwFAA&s",
+                    image: imgKhoa,
                     count: "900+",
+                    key: "khoa",
                   },
                   {
                     name: "Công Cụ & Dụng Cụ",
-                    image:
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtLQeNIxrEBhwtECYgGZMNJG2NYATbCGwFAA&s",
+                    image: imgCongcu,
                     count: "1,200+",
+                    key: "congcu",
                   },
                 ].map((cat, idx) => (
                   <div
@@ -285,6 +291,7 @@ export default function Home() {
                       transition: "all 0.3s ease",
                       overflow: "hidden",
                     }}
+                    onClick={() => navigate(`/shop?category=${encodeURIComponent(cat.key)}`)}
                   >
                     <div
                       style={{
@@ -297,10 +304,11 @@ export default function Home() {
                       <img
                         src={cat.image}
                         alt={cat.name}
+                        loading="lazy"
                         style={{
                           width: "100%",
                           height: "100%",
-                          objectFit: "cover",
+                          objectFit: "contain",
                         }}
                       />
                     </div>
@@ -455,16 +463,19 @@ export default function Home() {
               <div className="grid-news">
                 {[
                   {
+                    id: "guide-screws",
                     title: "Hướng Dẫn Chọn Ốc Vít Đúng",
                     desc: "Tìm hiểu cách chọn kích cỡ, chất liệu và độ bền phù hợp cho dự án của bạn.",
                     date: "Tháng 1, 2026",
                   },
                   {
+                    id: "sustainable",
                     title: "Xu Hướng Xây Dựng Bền Vững",
                     desc: "Khám phá các phương pháp xây dựng hiện đại và thân thiện với môi trường.",
                     date: "Tháng 1, 2026",
                   },
                   {
+                    id: "diy-maintenance",
                     title: "Bảo Trì & Sửa Chữa DIY",
                     desc: "Mẹo và thủ thuật duy trì nhà cửa với các công cụ chuyên dụng.",
                     date: "Tháng 12, 2025",
@@ -479,6 +490,7 @@ export default function Home() {
                       cursor: "pointer",
                       transition: "all 0.3s ease",
                     }}
+                    onClick={() => navigate(`/news/${article.id}`)}
                   >
                     <p
                       style={{

@@ -380,6 +380,16 @@ button,
   transition: all 0.3s ease;
 }
 
+/* Dim overlay when nav/cart is open */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 900;
+}
+
 /* Media Queries */
 @media (max-width: 1024px) {
   .grid-products {

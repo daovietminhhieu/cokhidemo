@@ -55,6 +55,10 @@ const translations = {
     sort_price_desc: "Price: High to Low",
     sort_name_asc: "Name: A-Z",
 
+    no_results: "No products found.",
+    prev: "Prev",
+    next: "Next",
+
     // New Sections
     trusted_brands: "Trusted by Industry Leaders",
     testimonials_title: "What Our Clients Say",
@@ -64,6 +68,12 @@ const translations = {
     newsletter_placeholder: "Enter your email",
     shop_name: "ProTools Hardware",
     shop_tagline: "Trusted & Durable",
+
+    // Product detail / generic
+    not_found_title: "Not found",
+    not_found_message: "Product does not exist.",
+    back_to_shop: "Back to Shop",
+    contact_cta: "Contact",
 
     // Login Page Handlers
     login_welcome: "Welcome Back",
@@ -79,6 +89,18 @@ const translations = {
     sign_up: "Sign Up",
     no_account: "Don't have an account? ",
     has_account: "Already have an account? ",
+    about_title: "About Hardware.Store",
+    about_intro_1:
+      "We craft precision tools for creators and makers. Our mission is to provide durable, accurate, and thoughtfully engineered hardware that professionals can rely on.",
+    about_intro_2:
+      "From material selection to final delivery, every step is optimized for performance, safety, and longevity. We partner with trusted manufacturers and inspect each batch for quality.",
+    about_values_title: "Our Values",
+    about_values_precision: "Precision engineering",
+    about_values_durability: "Material durability",
+    about_values_service: "Customer-first service",
+    about_contact_title: "Contact",
+    about_contact_text:
+      "Reach us at hello@hardware.store for wholesale and support.",
   },
   vi: {
     nav_home: "Trang Chủ",
@@ -132,6 +154,10 @@ const translations = {
     sort_price_desc: "Giá: Cao đến Thấp",
     sort_name_asc: "Tên: A-Z",
 
+    no_results: "Không tìm thấy sản phẩm.",
+    prev: "Trước",
+    next: "Sau",
+
     // New Sections
     trusted_brands: "Đối Tác Tin Cậy",
     testimonials_title: "Khách Hàng Nói Gì",
@@ -141,6 +167,12 @@ const translations = {
     newsletter_placeholder: "Nhập email của bạn",
     shop_name: "ProTools Hardware",
     shop_tagline: "Tin Cậy & Bền Bỉ",
+
+    // Product detail / generic
+    not_found_title: "Không tìm thấy",
+    not_found_message: "Sản phẩm không tồn tại.",
+    back_to_shop: "Quay lại trang sản phẩm",
+    contact_cta: "Liên hệ",
 
     // Login Page Handlers
     login_welcome: "Chào Mừng Trở Lại",
@@ -156,6 +188,18 @@ const translations = {
     sign_up: "Đăng Ký",
     no_account: "Chưa có tài khoản? ",
     has_account: "Đã có tài khoản? ",
+    about_title: "Giới Thiệu",
+    about_intro_1:
+      "Chúng tôi phát triển dụng cụ và phụ kiện cơ khí với độ chính xác cao. Sứ mệnh của chúng tôi là cung cấp sản phẩm bền bỉ, chính xác và được thiết kế cẩn trọng để bạn có thể tin cậy.",
+    about_intro_2:
+      "Từ khâu chọn vật liệu đến giao hàng, mọi bước đều được tối ưu cho hiệu năng, an toàn và tuổi thọ. Chúng tôi hợp tác với nhà sản xuất uy tín và kiểm soát chất lượng theo lô.",
+    about_values_title: "Giá Trị Cốt Lõi",
+    about_values_precision: "Kỹ thuật chính xác",
+    about_values_durability: "Độ bền vật liệu",
+    about_values_service: "Lấy khách hàng làm trung tâm",
+    about_contact_title: "Liên Hệ",
+    about_contact_text:
+      "Liên hệ: hello@hardware.store để nhận báo giá sỉ và hỗ trợ.",
   },
 };
 
