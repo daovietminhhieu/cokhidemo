@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import Experience from "../components/Experience";
@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useCart } from "../context/CartContext";
 import Marquee from "../components/Marquee";
-import { PRODUCTS } from "../data/mockData";
+import { getAssetProducts } from "../data/assetsProducts";
 import PullToReveal from "../components/PullToReveal";
 import imgOcvit from "../assets/ocvit_bovitinoxhopnhua.webp";
 // import imgPhukien from "../assets/.jpg";
@@ -37,7 +37,7 @@ const SectionTitle = ({ children }) => (
 export default function Home() {
   const { t, language } = useLanguage();
   const { addToCart } = useCart();
-  const products = PRODUCTS;
+  const products = useMemo(() => getAssetProducts(), []);
   const [hoveredCharIndex, setHoveredCharIndex] = useState(-1);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
@@ -407,10 +407,10 @@ export default function Home() {
                       </div>
                     )}
                     <h3 style={{ fontSize: "1.2rem", color: "white" }}>
-                      {language === "vi" ? product.name : product.name}
+                      {language === "vi" ? (product.name_vi || product.name) : product.name}
                     </h3>
                     <p style={{ color: "var(--accent)", fontWeight: "bold" }}>
-                      ${product.price}
+                      {product.price} vnd
                     </p>
                     <button
                       onClick={() => addToCart(product)}
