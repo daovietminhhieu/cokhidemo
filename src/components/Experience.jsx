@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useMemo } from "react";
+import React, { useLayoutEffect, useRef, useMemo, Suspense } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import {
   Float,
@@ -9,8 +9,7 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { RealisticScrew, RealisticNut, WingNut, LagScrew, SelfTappingScrew } from "./RealisticHardware";
-import { Hammer, Screwdriver, Wrench } from "./RealisticTools";
+import { ImportedModel } from "./ImportedModel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -139,54 +138,60 @@ function MovingItem({ children, offsetZ = 0, speed = 3, xRange = 8, yRange = 6 }
 function FlowingHardware() {
   return (
     <group rotation={[0, 0, 0]}>
-      {/* 
-          Wrap Float inside MovingItem so they bob while moving. 
-          We spread them out on X/Y initially.
-          offsetZ adjusts their initial position in the loop.
-      */}
-
-      {/* Item 1: Large Lag Screw */}
+      {/* 1. oc1.glb */}
       <MovingItem offsetZ={-2} speed={2.5}>
-        <Float speed={2} rotationIntensity={2} floatIntensity={2}>
-          <LagScrew position={[-6, 3, 0]} rotation={[0.5, 1, 0.2]} scale={0.7} />
-        </Float>
+        <Suspense fallback={null}>
+          <ImportedModel url="/models/oc1.glb" scale={1.5} position={[-2, 1.5, 0]} animate={true} />
+        </Suspense>
       </MovingItem>
 
-      {/* Item 2: Wing Nut */}
-      <MovingItem offsetZ={-8} speed={3}>
-        <Float speed={2} rotationIntensity={2} floatIntensity={2}>
-          <WingNut position={[7, -3, 0]} rotation={[-0.5, 0.5, 0]} scale={0.8} />
-        </Float>
+      {/* 2. bua.glb */}
+      <MovingItem offsetZ={-8} speed={3.0}>
+        <Suspense fallback={null}>
+          <ImportedModel url="/models/bua.glb" scale={0.8} position={[4, -1, 0]} animate={true} />
+        </Suspense>
       </MovingItem>
 
-      {/* Item 3: Self Tapping Screw */}
-      <MovingItem offsetZ={-14} speed={2.8}>
-        <Float speed={2} rotationIntensity={2} floatIntensity={2}>
-          <SelfTappingScrew position={[-2, 5, 0]} rotation={[1, 0, 1]} scale={0.6} />
-        </Float>
+      {/* 3. bua2.glb */}
+      <MovingItem offsetZ={-14} speed={2.2}>
+        <Suspense fallback={null}>
+          <ImportedModel url="/models/bua2.glb" scale={0.7} position={[-3, -3, 0]} animate={true} />
+        </Suspense>
       </MovingItem>
 
-      {/* --- TOOLS --- */}
-
-      {/* Item 3: Hammer */}
-      <MovingItem offsetZ={-4} speed={2.0}>
-        <Float speed={1.5} rotationIntensity={1.5}>
-          <Hammer position={[-4, -2, 0]} rotation={[0, 0, Math.PI / 4]} scale={0.8} />
-        </Float>
+      {/* 4. cole.glb */}
+      <MovingItem offsetZ={-5} speed={2.8}>
+        <Suspense fallback={null}>
+          <ImportedModel url="/models/cole.glb" scale={1.0} position={[2, 3, 0]} animate={true} />
+        </Suspense>
       </MovingItem>
 
-      {/* Item 4: Screwdriver (Phillips) */}
-      <MovingItem offsetZ={-12} speed={3.2}>
-        <Float speed={2.5} rotationIntensity={2}>
-          <Screwdriver position={[6, 2, 0]} rotation={[1, 1, 0]} scale={0.8} type="phillips" />
-        </Float>
+      {/* 5. kim.glb */}
+      <MovingItem offsetZ={-11} speed={2.4}>
+        <Suspense fallback={null}>
+          <ImportedModel url="/models/kim.glb" scale={0.9} position={[-4, 0.5, 0]} animate={true} />
+        </Suspense>
       </MovingItem>
 
-      {/* Item 5: Wrench */}
-      <MovingItem offsetZ={-16} speed={2.4}>
-        <Float speed={2} rotationIntensity={2}>
-          <Wrench position={[-3, 4, 0]} rotation={[0.5, 0.5, 0]} scale={0.8} />
-        </Float>
+      {/* 6. maykhoang.glb */}
+      <MovingItem offsetZ={-17} speed={2.0}>
+        <Suspense fallback={null}>
+          <ImportedModel url="/models/maykhoang.glb" scale={1.2} position={[0, -2, 0]} animate={true} />
+        </Suspense>
+      </MovingItem>
+
+      {/* 7. tovit.glb */}
+      <MovingItem offsetZ={-3} speed={3.2}>
+        <Suspense fallback={null}>
+          <ImportedModel url="/models/tovit.glb" scale={0.8} position={[3, 1, 0]} animate={true} />
+        </Suspense>
+      </MovingItem>
+
+      {/* 8. xabeng.glb */}
+      <MovingItem offsetZ={-9} speed={2.6}>
+        <Suspense fallback={null}>
+          <ImportedModel url="/models/xabeng.glb" scale={1.1} position={[-1, 4, 0]} animate={true} />
+        </Suspense>
       </MovingItem>
     </group>
   );

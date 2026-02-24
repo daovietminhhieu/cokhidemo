@@ -18,7 +18,6 @@ function App() {
           {loading && <LoadingScreen key="loading" onComplete={() => setLoading(false)} />}
         </AnimatePresence>
 
-        {/* Content always rendered, hidden or behind loading screen */}
         <div style={{
           opacity: loading ? 0 : 1,
           transition: 'opacity 0.8s ease-in-out',
@@ -29,7 +28,7 @@ function App() {
           height: '100%',
           zIndex: 0,
           pointerEvents: loading ? 'none' : 'auto',
-          willChange: 'opacity' // Hint to browser to promote to layer
+          willChange: 'opacity'
         }}>
           <Navbar />
           <ScrollProgress />
