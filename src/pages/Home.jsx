@@ -1,3 +1,14 @@
+/** ========= REPORT =========
+ * Sửa lại cấu trúc trang Home
+ * 
+ * ....
+ * 
+ * Giới thiệu về cửa hàng 
+ */
+
+
+
+
 import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
