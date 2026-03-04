@@ -7,6 +7,7 @@ import About from "../pages/About";
 import Login from "../pages/Login";
 import Admin from "../pages/Admin";
 import ProductDetail from "../pages/ProductDetail";
+import NewsDetail from "../pages/NewsDetail";
 import PageTransition from "./PageTransition";
 import ImageLoaderDemo from "./ImageLoaderDemo";
 
@@ -69,6 +70,14 @@ export default function AnimatedRoutes() {
           element={
             <PageTransition>
               <Admin />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/news/:articleId"
+          element={
+            <PageTransition>
+              <NewsDetail />
             </PageTransition>
           }
         />

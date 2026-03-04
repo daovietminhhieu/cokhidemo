@@ -1,3 +1,4 @@
+
 import React, { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import Reveal from "../components/Reveal";
@@ -87,8 +88,8 @@ export default function NewsDetail() {
             {language === "vi" ? "Không tìm thấy bài viết" : "Article not found"}
           </h1>
         </Reveal>
-        <Link to="/news" style={{ color: "#fff", textDecoration: "underline" }}>
-          {language === "vi" ? "← Quay lại Tin Tức" : "← Back to News"}
+        <Link to="/" style={{ color: "#fff", textDecoration: "underline" }}>
+          {language === "vi" ? "← Quay lại Trang chủ" : "← Back to Home"}
         </Link>
       </div>
     );
@@ -99,8 +100,8 @@ export default function NewsDetail() {
       <Reveal width="100%">
         <div style={{ maxWidth: "900px", margin: "0 auto", color: "white" }}>
           <div style={{ marginBottom: "1rem" }}>
-            <Link to="/news" style={{ color: "#aaa", textDecoration: "none" }}>
-              {language === "vi" ? "← Tin Tức" : "← News"}
+            <Link to="/" style={{ color: "#aaa", textDecoration: "none" }}>
+              {language === "vi" ? "← Trang chủ" : "← Home"}
             </Link>
           </div>
           <p style={{ color: "#c8b26a", textTransform: "uppercase", letterSpacing: "0.06em" }}>
