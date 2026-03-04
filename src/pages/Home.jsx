@@ -18,10 +18,11 @@ import { useLanguage } from "../context/LanguageContext";
 import { useCart } from "../context/CartContext";
 import Marquee from "../components/Marquee";
 import { getAssetProducts } from "../data/assetsProducts";
+import { SeoTags } from "../seo/SeoTags";
 import PullToReveal from "../components/PullToReveal";
+import FeaturedProductPopup from "../components/FeaturedProductPopup";
 import imgOcvit from "../assets/ocvit_bovitinoxhopnhua.webp";
-// import imgPhukien from "../assets/.jpg";
-import imgVatlieu from "../assets/vatlieu_thepu.webp"
+import imgVatlieu from "../assets/vatlieu_thepu.webp";
 import imgKhoa from "../assets/khoa_vachot3.jfif";
 import imgCongcu from "../assets/dungcucokhi_botuocnovit.png";
 
@@ -50,6 +51,7 @@ export default function Home() {
   const { addToCart } = useCart();
   const products = useMemo(() => getAssetProducts(), []);
   const [hoveredCharIndex, setHoveredCharIndex] = useState(-1);
+  const [showProductPopup, setShowProductPopup] = useState(false);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
 
@@ -61,19 +63,34 @@ export default function Home() {
     return () => mq.removeEventListener?.("change", update);
   }, []);
 
+  // Auto-show featured products popup after delay
+  useEffect(() => {
+    const hiddenToday = localStorage.getItem('hideFeaturedPopup');
+    const today = new Date().toDateString();
+    
+    // Only show if not hidden today
+    if (hiddenToday !== today) {
+      const timer = setTimeout(() => {
+        setShowProductPopup(true);
+      }, 10000); // Show after 10 seconds
+      
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   const sheetStyle = {
-    height: isMobile ? "auto" : "100vh",
+    height: "auto",
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    padding: isMobile ? "1.5rem 1rem" : "4rem",
+    justifyContent: "flex-start",
+    padding: isMobile ? "0.8rem 1rem 1.2rem" : "1.4rem 0",
     background: "rgba(10, 10, 10, 0.4)",
-    backdropFilter: isMobile ? "none" : "blur(8px)",
-    borderTop: "1px solid rgba(255,255,255,0.1)",
+    backdropFilter: isMobile ? "none" : "blur(6px)",
+    borderTop: "1px solid rgba(255,255,255,0.06)",
     position: "relative",
     boxSizing: "border-box",
-    boxShadow: isMobile ? "none" : "0 -20px 50px rgba(0,0,0,0.8)",
+    boxShadow: isMobile ? "none" : "0 -10px 28px rgba(0,0,0,0.7)",
   };
 
   const sheet1Style = {
@@ -95,7 +112,7 @@ export default function Home() {
     background:
       "linear-gradient(135deg, rgba(20, 30, 40, 0.5) 0%, rgba(10, 10, 10, 0.5) 100%)",
     borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)",
-    marginTop: isMobile ? "1.25rem" : 0,
+    marginTop: isMobile ? "0.2rem" : 0,
   };
 
   const sheet4Style = {
@@ -115,13 +132,17 @@ export default function Home() {
   const sectionLabel = {
     fontSize: "0.75rem",
     color: "rgba(255,255,255,0.4)",
-    marginBottom: "1rem",
+    marginBottom: "0.6rem",
     letterSpacing: "0.25em",
     textTransform: "uppercase",
   };
 
   return (
-    <div>
+      <div>
+      <SeoTags
+        title={language === "vi" ? "Trang chủ" : "Home"}
+        description={t("seo_home_desc") || "Khám phá kho cơ khí, inox, ốc vít và vật liệu xây dựng với trải nghiệm 3D sống động."}
+      />
       {/* CHAPTER 1: THE VISUAL STORY (3D Background) */}
       {/* Fixed position, scrubs based on total page scroll */}
       <div
@@ -164,7 +185,7 @@ export default function Home() {
       <div style={{ position: "relative", zIndex: 10 }}>
         <PullToReveal>
           {/* SHEET 1: INTRO - "The Standard" */}
-          <div style={sheet1Style} className="sheet-content">
+          <div style={{...sheet1Style, marginTop: isMobile ? "0" : "10vh"}} className="sheet-content">
             <div
               className="container"
               style={{ position: "relative", zIndex: 2, userSelect: "none" }}
@@ -305,16 +326,41 @@ export default function Home() {
                   <div
                     key={idx}
                     style={{
-                      background: "rgba(100,200,255,0.05)",
-                      border: "1px solid rgba(100,200,255,0.2)",
+                      position: "relative",
+                      background:
+                        "radial-gradient(circle at top, rgba(100,200,255,0.18), rgba(5,10,20,0.95))",
+                      border: "1px solid rgba(100,200,255,0.35)",
                       padding: "2rem",
                       textAlign: "center",
                       cursor: "pointer",
-                      transition: "all 0.3s ease",
+                      transition: "transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease",
                       overflow: "hidden",
+                      borderRadius: "18px",
+                      boxShadow: "0 18px 45px rgba(0,0,0,0.6)",
                     }}
                     onClick={() => navigate(`/shop?category=${encodeURIComponent(cat.key)}`)}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-10px) scale(1.03)";
+                      e.currentTarget.style.boxShadow = "0 26px 60px rgba(0, 200, 255, 0.35)";
+                      e.currentTarget.style.borderColor = "rgba(150,230,255,0.9)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0) scale(1)";
+                      e.currentTarget.style.boxShadow = "0 18px 45px rgba(0,0,0,0.6)";
+                      e.currentTarget.style.borderColor = "rgba(100,200,255,0.35)";
+                    }}
                   >
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: "-40%",
+                        background:
+                          "radial-gradient(circle at 0% 0%, rgba(0,220,255,0.16), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,255,255,0.05), transparent 55%)",
+                        opacity: 0.6,
+                        pointerEvents: "none",
+                      }}
+                    />
+
                     <div
                       style={{
                         height: "170px",
@@ -329,10 +375,12 @@ export default function Home() {
                         alt={cat.name}
                         loading="lazy"
                         style={{
+                          position: "relative",
                           width: "100%",
                           height: "100%",
                           objectFit: "contain",
-                          transform: "translateZ(0)",
+                          transform: "translateZ(0) scale(1.02)",
+                          transition: "transform 0.6s ease",
                         }}
                       />
                       <div
@@ -394,10 +442,33 @@ export default function Home() {
                     key={product.id}
                     className="product-card"
                     style={{
-                      background: "rgba(144,238,144,0.05)",
-                      padding: "1rem",
-                      border: "1px solid rgba(144,238,144,0.2)",
                       position: "relative",
+                      background:
+                        "radial-gradient(circle at top, rgba(144,238,144,0.18), rgba(10,20,10,0.95))",
+                      padding: "1.5rem",
+                      border: "1px solid rgba(144,238,144,0.4)",
+                      position: "relative",
+                      borderRadius: "18px",
+                      boxShadow: "0 18px 45px rgba(0,0,0,0.7)",
+                      overflow: "hidden",
+                      transition:
+                        "transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform =
+                        "translateY(-10px) scale(1.03)";
+                      e.currentTarget.style.boxShadow =
+                        "0 26px 60px rgba(144,238,144,0.35)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(200,255,200,0.9)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform =
+                        "translateY(0) scale(1)";
+                      e.currentTarget.style.boxShadow =
+                        "0 18px 45px rgba(0,0,0,0.7)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(144,238,144,0.4)";
                     }}
                   >
                     {idx === 0 && (
@@ -440,6 +511,44 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+
+              {/* Button to Open Featured Products Popup */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "2.5rem",
+                }}
+              >
+                <button
+                  onClick={() => setShowProductPopup(true)}
+                  style={{
+                    padding: "1rem 2.5rem",
+                    background: "linear-gradient(135deg, rgba(100, 200, 100, 0.8), rgba(144, 238, 144, 0.6))",
+                    color: "white",
+                    border: "1px solid rgba(144, 238, 144, 0.4)",
+                    borderRadius: "50px",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                    fontSize: "1rem",
+                    transition: "all 0.3s ease",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.background = "linear-gradient(135deg, rgba(144, 238, 144, 0.9), rgba(200, 255, 200, 0.7))";
+                    e.target.style.transform = "scale(1.05)";
+                    e.target.style.boxShadow = "0 10px 30px rgba(144, 238, 144, 0.4)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.background = "linear-gradient(135deg, rgba(100, 200, 100, 0.8), rgba(144, 238, 144, 0.6))";
+                    e.target.style.transform = "scale(1)";
+                    e.target.style.boxShadow = "none";
+                  }}
+                >
+                  👀 Xem Tất Cả Sản Phẩm Nổi Bật
+                </button>
+              </div>
             </div>
           </div>
 
@@ -471,8 +580,30 @@ export default function Home() {
                   <div
                     key={idx}
                     style={{
-                      borderLeft: "2px solid rgba(255,107,107,0.3)",
+                      position: "relative",
+                      borderLeft: "2px solid rgba(255,107,107,0.6)",
                       paddingLeft: "2rem",
+                      paddingTop: "1.5rem",
+                      paddingBottom: "1.5rem",
+                      borderRadius: "14px",
+                      background:
+                        "linear-gradient(135deg, rgba(80,20,20,0.7), rgba(10,10,15,0.95))",
+                      boxShadow: "0 18px 40px rgba(0,0,0,0.8)",
+                      overflow: "hidden",
+                      transition:
+                        "transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform =
+                        "translateY(-8px) scale(1.02)";
+                      e.currentTarget.style.boxShadow =
+                        "0 26px 60px rgba(255,107,107,0.45)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform =
+                        "translateY(0) scale(1)";
+                      e.currentTarget.style.boxShadow =
+                        "0 18px 40px rgba(0,0,0,0.8)";
                     }}
                   >
                     <span
@@ -534,13 +665,34 @@ export default function Home() {
                   <div
                     key={idx}
                     style={{
-                      background: "rgba(255,215,100,0.05)",
-                      border: "1px solid rgba(255,215,100,0.15)",
-                      padding: "1.5rem",
+                      position: "relative",
+                      background:
+                        "radial-gradient(circle at top, rgba(255,215,100,0.18), rgba(25,15,5,0.96))",
+                      border: "1px solid rgba(255,215,100,0.35)",
+                      padding: "1.8rem",
                       cursor: "pointer",
-                      transition: "all 0.3s ease",
+                      borderRadius: "18px",
+                      boxShadow: "0 18px 45px rgba(0,0,0,0.7)",
+                      transition:
+                        "transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease",
                     }}
                     onClick={() => navigate(`/news/${article.id}`)}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform =
+                        "translateY(-10px) scale(1.03)";
+                      e.currentTarget.style.boxShadow =
+                        "0 26px 60px rgba(255,215,100,0.4)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(255,235,180,0.95)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform =
+                        "translateY(0) scale(1)";
+                      e.currentTarget.style.boxShadow =
+                        "0 18px 45px rgba(0,0,0,0.7)";
+                      e.currentTarget.style.borderColor =
+                        "rgba(255,215,100,0.35)";
+                    }}
                   >
                     <p
                       style={{
@@ -589,6 +741,49 @@ export default function Home() {
           </div>
         </PullToReveal>
       </div>
+
+      {/* Floating Action Button - Featured Products */}
+      <button
+        onClick={() => setShowProductPopup(true)}
+        style={{
+          position: "fixed",
+          bottom: "30px",
+          right: "30px",
+          width: "60px",
+          height: "60px",
+          borderRadius: "50%",
+          background: "linear-gradient(135deg, rgba(144, 238, 144, 0.8), rgba(100, 200, 100, 0.9))",
+          border: "2px solid rgba(144, 238, 144, 0.6)",
+          color: "white",
+          fontSize: "1.8rem",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          boxShadow: "0 8px 24px rgba(144, 238, 144, 0.4)",
+          transition: "all 0.3s ease",
+          zIndex: 900,
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = "scale(1.15) translateY(-5px)";
+          e.currentTarget.style.boxShadow = "0 12px 32px rgba(144, 238, 144, 0.6)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = "scale(1) translateY(0)";
+          e.currentTarget.style.boxShadow = "0 8px 24px rgba(144, 238, 144, 0.4)";
+        }}
+        title="Xem sản phẩm nổi bật"
+      >
+        ✨
+      </button>
+
+      {/* Featured Products Popup */}
+      <FeaturedProductPopup
+        isOpen={showProductPopup}
+        onClose={() => setShowProductPopup(false)}
+        onDontShowAgain={() => setShowProductPopup(false)}
+        products={products.slice(0, 4)}
+      />
     </div>
   );
 }

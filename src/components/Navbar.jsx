@@ -73,14 +73,34 @@ export default function Navbar() {
         <Link
           to="/"
           style={{
-            fontFamily: "var(--font-header)",
-            fontSize: "1.5rem",
-            fontWeight: 800,
-            letterSpacing: "-0.02em",
-            textTransform: "uppercase",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.6rem",
+            textDecoration: "none",
+            color: "inherit",
           }}
         >
-          Inox<span style={{ opacity: 0.5 }}>diepduong</span>
+          {/* <img
+            src="/logo.png"
+            alt="Inox Diep Duong logo"
+            style={{
+              height: "50px",
+              width: "auto",
+              display: "block",
+              borderRadius: "5px",
+            }}
+          /> */}
+          <span
+            style={{
+              fontFamily: "var(--font-header)",
+              fontSize: "1.4rem",
+              fontWeight: 800,
+              letterSpacing: "-0.02em",
+              textTransform: "uppercase",
+            }}
+          >
+            Inox<span style={{ opacity: 0.5 }}>diepduong</span>
+          </span>
         </Link>
 
         <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>

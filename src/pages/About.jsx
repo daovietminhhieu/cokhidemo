@@ -1,10 +1,16 @@
 import React from "react";
 import Reveal from "../components/Reveal";
 import { useLanguage } from "../context/LanguageContext";
+import { SeoTags } from "../seo/SeoTags";
 
 export default function About() {
   const { t } = useLanguage();
   return (
+    <>
+      <SeoTags
+        title={t("about_title")}
+        description={t("seo_about_desc") || "Tìm hiểu về Inox Diệp Dương – đơn vị cung cấp giải pháp cơ khí, inox và vật liệu xây dựng uy tín."}
+      />
     <div
       style={{
         minHeight: "100vh",
@@ -50,5 +56,6 @@ export default function About() {
         </div>
       </Reveal>
     </div>
+    </>
   );
 }

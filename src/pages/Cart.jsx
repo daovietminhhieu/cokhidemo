@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import Reveal from '../components/Reveal';
+import { SeoTags } from '../seo/SeoTags';
 
 export default function CartPage() {
   const { cart, cartCount, removeFromCart, clearCart } = useCart();
@@ -11,6 +12,11 @@ export default function CartPage() {
   const total = cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
 
   return (
+    <>
+      <SeoTags
+        title={t('cart_title') || 'Giỏ hàng'}
+        description={t('seo_cart_desc') || 'Xem lại toàn bộ sản phẩm bạn đã thêm vào giỏ tại Inox Diệp Dương.'}
+      />
     <div className="container section" style={{ marginTop: '80px', marginBottom: '80px' }} key={language}>
       <Reveal width="100%">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '3rem' }}>
@@ -212,6 +218,7 @@ export default function CartPage() {
         </div>
       )}
     </div>
+    </>
   );
 }
 

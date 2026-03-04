@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import Reveal, { StaggerContainer, StaggerItem } from '../components/Reveal';
 import { getAssetProducts } from '../data/assetsProducts';
+import { SeoTags } from '../seo/SeoTags';
 
 function ProductCard({ product }) {
   const { t, language } = useLanguage();
@@ -15,26 +16,73 @@ function ProductCard({ product }) {
   };
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      background: 'rgba(255,255,255,0.03)',
-      borderRadius: '16px',
-      padding: '1.5rem',
-      border: '1px solid rgba(255,255,255,0.05)',
-    }}>
-      <div style={{
-        aspectRatio: '1/1',
-        borderRadius: '12px',
-        background: 'rgba(0,0,0,0.2)',
-        marginBottom: '1.5rem',
-        overflow: 'hidden'
-      }}>
+    <div
+      style={{
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        background:
+          'radial-gradient(circle at top, rgba(100,200,255,0.18), rgba(5,10,20,0.95))',
+        borderRadius: '18px',
+        padding: '1.5rem',
+        border: '1px solid rgba(100,200,255,0.35)',
+        boxShadow: '0 18px 45px rgba(0,0,0,0.7)',
+        transition:
+          'transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease',
+        overflow: 'hidden',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-10px) scale(1.03)';
+        e.currentTarget.style.boxShadow =
+          '0 26px 60px rgba(0, 200, 255, 0.35)';
+        e.currentTarget.style.borderColor = 'rgba(150,230,255,0.9)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0) scale(1)';
+        e.currentTarget.style.boxShadow = '0 18px 45px rgba(0,0,0,0.7)';
+        e.currentTarget.style.borderColor = 'rgba(100,200,255,0.35)';
+      }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          inset: '-40%',
+          background:
+            'radial-gradient(circle at 0% 0%, rgba(0,220,255,0.16), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,255,255,0.04), transparent 55%)',
+          opacity: 0.6,
+          pointerEvents: 'none',
+        }}
+      />
+      <div
+        style={{
+          aspectRatio: '1/1',
+          borderRadius: '14px',
+          background: 'rgba(0,0,0,0.5)',
+          marginBottom: '1.5rem',
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
         <Link to={`/shop/${encodeURIComponent(product.id)}`}>
           <img
             src={product.image}
             alt={product.name}
-            style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '1rem' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              padding: '1rem',
+              transform: 'translateZ(0) scale(1.02)',
+              transition: 'transform 0.6s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform =
+                'translateZ(0) scale(1.08)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform =
+                'translateZ(0) scale(1.02)';
+            }}
           />
         </Link>
       </div>
@@ -172,7 +220,11 @@ export default function Shop() {
   };
 
   return (
-    <div className="container section" style={{ marginTop: '40px' }}>
+      <div className="container section" style={{ marginTop: '40px' }}>
+      <SeoTags
+        title={t('shop_title')}
+        description={t('seo_shop_desc') || 'Tìm kiếm và lọc hàng nghìn sản phẩm cơ khí, inox, ốc vít và vật liệu xây dựng.'}
+      />
       <Reveal width="100%">
         <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
           <h1 style={{ fontSize: '4rem', color: '#fff' }}>
@@ -298,6 +350,6 @@ export default function Shop() {
           </button>
         </div>
       </div>
-    </div>
+      </div>
   );
 }

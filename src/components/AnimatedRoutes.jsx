@@ -9,9 +9,6 @@ import Admin from "../pages/Admin";
 import ProductDetail from "../pages/ProductDetail";
 import PageTransition from "./PageTransition";
 import ImageLoaderDemo from "./ImageLoaderDemo";
-import News from "../pages/News";
-import NewsDetail from "../pages/NewsDetail";
-import CartPage from "../pages/Cart";
 
 export default function AnimatedRoutes() {
   const location = useLocation();
@@ -60,14 +57,6 @@ export default function AnimatedRoutes() {
           }
         />
         <Route
-          path="/cart"
-          element={
-            <PageTransition>
-              <CartPage />
-            </PageTransition>
-          }
-        />
-        <Route
           path="/login"
           element={
             <PageTransition>
@@ -88,22 +77,6 @@ export default function AnimatedRoutes() {
           element={
             <PageTransition>
               <ImageLoaderDemo />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/news"
-          element={
-            <PageTransition>
-              <News />
-            </PageTransition>
-          }
-        />
-        <Route
-          path="/news/:articleId"
-          element={
-            <PageTransition>
-              <NewsDetail />
             </PageTransition>
           }
         />

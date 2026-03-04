@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import Reveal from '../components/Reveal';
+import { SeoTags } from '../seo/SeoTags';
 
 export default function Contact() {
     const { t } = useLanguage();
@@ -18,6 +19,11 @@ export default function Contact() {
     const [message, setMessage] = useState(prefillMessage);
 
     return (
+        <>
+        <SeoTags
+            title={t('contact_title')}
+            description={t('seo_contact_desc') || 'Liên hệ Inox Diệp Dương để được tư vấn giải pháp cơ khí, inox và vật liệu xây dựng phù hợp.'}
+        />
         <div className="container section" style={{ marginTop: '80px', minHeight: '80vh' }}>
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
                 <Reveal width="100%">
@@ -166,5 +172,6 @@ export default function Contact() {
                 </Reveal>
             </div>
         </div>
+        </>
     );
 }

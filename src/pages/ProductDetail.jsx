@@ -4,6 +4,7 @@ import Reveal from '../components/Reveal';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import { getAssetProducts } from '../data/assetsProducts';
+import { SeoTags } from '../seo/SeoTags';
 
 export default function ProductDetail() {
   const { t, language } = useLanguage();
@@ -50,6 +51,12 @@ export default function ProductDetail() {
   const displayCategory = language === 'vi' ? product.category_vi : product.category;
 
   return (
+    <>
+      <SeoTags
+        title={displayName}
+        description={language === 'vi' ? product.description_vi : product.description}
+        image={product.image}
+      />
     <div className="container section" style={{ marginTop: '60px', minHeight: '80vh' }}>
       <Reveal width="100%">
         <div style={{ marginBottom: '2rem' }}>
@@ -154,6 +161,7 @@ export default function ProductDetail() {
         </Reveal>
       </div>
     </div>
+    </>
   );
 }
 
