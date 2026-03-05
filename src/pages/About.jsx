@@ -51,6 +51,7 @@ export default function About() {
             <div>
               <h3 style={{ marginBottom: "0.5rem" }}>{t("about_contact_title")}</h3>
               <p style={{ color: "#bbb" }}>{t("about_contact_text")}</p>
+              <p style={{ color: "#bbb" }}>1234567890</p>
             </div>
           </div>
         </div>

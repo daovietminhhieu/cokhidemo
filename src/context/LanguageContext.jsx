@@ -199,7 +199,7 @@ const translations = {
     about_values_service: "Lấy khách hàng làm trung tâm",
     about_contact_title: "Liên Hệ",
     about_contact_text:
-      "Liên hệ: hello@hardware.store để nhận báo giá sỉ và hỗ trợ.",
+      "Email: hello@hardware.store để nhận báo giá sỉ và hỗ trợ.",
   },
 };
 
