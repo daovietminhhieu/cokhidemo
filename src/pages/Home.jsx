@@ -11,7 +11,7 @@
 
 import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
+import { Environment, AdaptiveDpr, PerformanceMonitor } from "@react-three/drei";
 import Experience from "../components/Experience";
 import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
@@ -219,8 +219,17 @@ export default function Home() {
       >
         <Canvas
           camera={{ position: [0, 0, 6], fov: 40 }}
-          gl={{ antialias: true, alpha: true }}
+          gl={{ 
+            antialias: false, 
+            alpha: true, 
+            powerPreference: "high-performance",
+            stencil: false,
+            depth: true
+          }}
+          dpr={[1, 1.5]}
+          performance={{ min: 0.5 }}
         >
+          <AdaptiveDpr pixelated />
           <Suspense fallback={null}>
             <Experience />
           </Suspense>

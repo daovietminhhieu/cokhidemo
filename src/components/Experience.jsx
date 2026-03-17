@@ -136,63 +136,37 @@ function MovingItem({ children, offsetZ = 0, speed = 3, xRange = 8, yRange = 6 }
 }
 
 function FlowingHardware() {
+  const isMobile = window.innerWidth < 768;
   return (
     <group rotation={[0, 0, 0]}>
-      {/* 1. oc1.glb */}
-      <MovingItem offsetZ={-2} speed={2.5}>
+      {/* Reduced set of items for better performance */}
+      <MovingItem offsetZ={-2} speed={2.0}>
         <Suspense fallback={null}>
           <ImportedModel url="/models/oc1.glb" scale={1.5} position={[-2, 1.5, 0]} animate={true} />
         </Suspense>
       </MovingItem>
 
-      {/* 2. bua.glb */}
-      <MovingItem offsetZ={-8} speed={3.0}>
+      <MovingItem offsetZ={-8} speed={2.5}>
         <Suspense fallback={null}>
           <ImportedModel url="/models/bua.glb" scale={0.8} position={[4, -1, 0]} animate={true} />
         </Suspense>
       </MovingItem>
 
-      {/* 3. bua2.glb */}
-      <MovingItem offsetZ={-14} speed={2.2}>
-        <Suspense fallback={null}>
-          <ImportedModel url="/models/bua2.glb" scale={0.7} position={[-3, -3, 0]} animate={true} />
-        </Suspense>
-      </MovingItem>
+      {!isMobile && (
+        <>
+          <MovingItem offsetZ={-5} speed={2.2}>
+            <Suspense fallback={null}>
+              <ImportedModel url="/models/cole.glb" scale={1.0} position={[2, 3, 0]} animate={true} />
+            </Suspense>
+          </MovingItem>
 
-      {/* 4. cole.glb */}
-      <MovingItem offsetZ={-5} speed={2.8}>
-        <Suspense fallback={null}>
-          <ImportedModel url="/models/cole.glb" scale={1.0} position={[2, 3, 0]} animate={true} />
-        </Suspense>
-      </MovingItem>
-
-      {/* 5. kim.glb */}
-      <MovingItem offsetZ={-11} speed={2.4}>
-        <Suspense fallback={null}>
-          <ImportedModel url="/models/kim.glb" scale={0.9} position={[-4, 0.5, 0]} animate={true} />
-        </Suspense>
-      </MovingItem>
-
-      {/* 6. maykhoang.glb */}
-      <MovingItem offsetZ={-17} speed={2.0}>
-        <Suspense fallback={null}>
-          <ImportedModel url="/models/maykhoang.glb" scale={1.2} position={[0, -2, 0]} animate={true} />
-        </Suspense>
-      </MovingItem>
-
-      {/* 7. tovit.glb */}
-      <MovingItem offsetZ={-3} speed={3.2}>
-        <Suspense fallback={null}>
-          <ImportedModel url="/models/tovit.glb" scale={0.8} position={[3, 1, 0]} animate={true} />
-        </Suspense>
-      </MovingItem>
-
-      {/* 8. xabeng.glb */}
-      <MovingItem offsetZ={-9} speed={2.6}>
-        <Suspense fallback={null}>
-          <ImportedModel url="/models/xabeng.glb" scale={1.1} position={[-1, 4, 0]} animate={true} />
-        </Suspense>
-      </MovingItem>
+          <MovingItem offsetZ={-11} speed={2.0}>
+            <Suspense fallback={null}>
+              <ImportedModel url="/models/kim.glb" scale={0.9} position={[-4, 0.5, 0]} animate={true} />
+            </Suspense>
+          </MovingItem>
+        </>
+      )}
     </group>
   );
 }
