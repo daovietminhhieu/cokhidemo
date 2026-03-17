@@ -119,7 +119,13 @@ export default function Navbar() {
           <AudioButton size={40} />
         </div>
 
-        <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <div 
+          className="hamburger" 
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
+          role="button"
+          aria-expanded={isMenuOpen}
+        >
           <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
           <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
           <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
@@ -178,6 +184,8 @@ export default function Navbar() {
                   cursor: "pointer",
                 }}
                 onClick={() => setIsCartOpen((prev) => !prev)}
+                role="button"
+                aria-label={`Open cart, ${cartCount} items`}
               >
                 CART ({cartCount})
               </span>
@@ -386,6 +394,7 @@ export default function Navbar() {
                 setIsMenuOpen(false);
               }}
               style={{ fontSize: "0.9rem", fontWeight: 500 }}
+              aria-label={`Toggle language, current: ${language}`}
             >
               {language === "en" ? "EN" : "VI"}
             </button>

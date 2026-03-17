@@ -69,8 +69,8 @@ export default function Experience() {
         position={[12, 15, 8]}
         intensity={3.5}
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        shadow-mapSize-width={512}
+        shadow-mapSize-height={512}
       />
 
       <pointLight position={[-8, 6, -6]} intensity={0.6} />

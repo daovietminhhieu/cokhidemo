@@ -35,7 +35,7 @@ const GearIcon = ({ size = 100, color = "#FFA500", duration = 10, clockwise = tr
         initial={{ rotate: 0 }}
         animate={{ rotate: clockwise ? 360 : -360 }}
         transition={{ duration, repeat: Infinity, ease: "linear" }}
-        style={{ opacity: 0.15, position: "absolute" }}
+        style={{ opacity: 0.1, position: "absolute", willChange: "transform" }}
     >
         <path d="M12.22 2h-.44a2 2 0 0 0-2 2 2 2 0 0 1-2 2 2 2 0 0 0-2 2 2 2 0 0 1-2 2 2 2 0 0 0-2 2v.44a2 2 0 0 0 2 2 2 2 0 0 1 2 2 2 2 0 0 0 2 2 2 2 0 0 1 2 2 2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2 2 2 0 0 1 2-2 2 2 0 0 0 2-2 2 2 0 0 1 2-2 2 2 0 0 0 2-2v-.44a2 2 0 0 0-2-2 2 2 0 0 1-2-2 2 2 0 0 0-2-2 2 2 0 0 1-2-2 2 2 0 0 0-2-2z" />
         <circle cx="12" cy="12" r="3" />
@@ -78,13 +78,12 @@ const DataColumn = ({ left }) => {
             zIndex: 5
         }}>
             {data.map((item, i) => (
-                <motion.div
+                <div
                     key={i}
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 2, delay: i * 0.2, repeat: Infinity }}
+                    style={{ opacity: 0.5 }}
                 >
                     {item}
-                </motion.div>
+                </div>
             ))}
         </div>
     );
@@ -231,19 +230,14 @@ export default function LoadingScreen({ onComplete }) {
             <DataColumn />
 
             {/* AMBIENT BACKGROUND */}
-            <motion.div
-                animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: [0.3, 0.5, 0.3],
-                }}
-                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            <div
                 style={{
                     position: "absolute",
                     top: "20%",
                     left: "10%",
                     width: "40vw",
                     height: "40vw",
-                    background: "radial-gradient(circle, rgba(255,165,0,0.08) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, rgba(255,165,0,0.05) 0%, transparent 70%)",
                     filter: "blur(60px)",
                     pointerEvents: "none",
                     zIndex: 0,
