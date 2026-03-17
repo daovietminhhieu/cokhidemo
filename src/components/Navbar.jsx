@@ -135,6 +135,7 @@ export default function Navbar() {
           <div style={{ display: "flex", gap: "3rem", alignItems: "center" }}>
             <Link
               to="/shop"
+              aria-label="Xem cửa hàng sản phẩm"
               style={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
@@ -148,6 +149,7 @@ export default function Navbar() {
             </Link>
             <Link
               to="/contact"
+              aria-label="Liên hệ với chúng tôi"
               style={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
@@ -161,6 +163,7 @@ export default function Navbar() {
             </Link>
             <Link
               to="/about"
+              aria-label="Về chúng tôi"
               style={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
@@ -374,7 +377,7 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              <Link to="/login" onClick={() => setIsMenuOpen(false)}>
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} aria-label="Đăng nhập tài khoản">
                 <span
                   style={{
                     fontSize: "0.9rem",

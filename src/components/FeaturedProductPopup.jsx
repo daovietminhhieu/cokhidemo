@@ -133,6 +133,7 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
             {/* Close Button */}
             <button
               onClick={onClose}
+              aria-label="Đóng bảng tin"
               style={{
                 background: 'rgba(255, 107, 107, 0.15)',
                 border: '2px solid rgba(255, 107, 107, 0.3)',
@@ -403,6 +404,7 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
             </p>
             <button
               onClick={handleDontShowAgain}
+              aria-label="Không hiển thị lại bảng tin này hôm nay"
               style={{
                 padding: '0.65rem 1.5rem',
                 background: 'rgba(255, 255, 255, 0.08)',

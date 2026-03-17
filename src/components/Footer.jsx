@@ -74,9 +74,9 @@ export default function Footer() {
               {
                 title: "Connect",
                 links: [
-                  { label: "Instagram", to: "#" },
-                  { label: "Twitter", to: "#" },
-                  { label: "Email", to: "#" },
+                  { label: "Instagram", to: "#", aria: "Follow us on Instagram" },
+                  { label: "Twitter", to: "#", aria: "Follow us on Twitter" },
+                  { label: "Email", to: "mailto:info@inoxdiepduong.com", aria: "Send us an email" },
                 ],
               },
             ].map((section, idx) => (
@@ -115,6 +115,7 @@ export default function Footer() {
                     >
                       <Link
                         to={link.to}
+                        aria-label={link.aria || link.label}
                         style={{
                           fontSize: "1.1rem",
                           textDecoration: "none",

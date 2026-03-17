@@ -408,16 +408,20 @@ export default function Home() {
                     <div
                       style={{
                         height: "170px",
+                        aspectRatio: "1.5 / 1",
                         marginBottom: "0",
                         overflow: "hidden",
                         borderRadius: "4px",
                         position: "relative",
+                        background: "rgba(0,0,0,0.1)"
                       }}
                     >
                       <img
                         src={cat.image}
-                        alt={cat.name}
+                        alt={`Danh mục ${cat.name}`}
                         loading="lazy"
+                        width="300"
+                        height="200"
                         style={{
                           position: "relative",
                           width: "100%",
@@ -468,7 +472,7 @@ export default function Home() {
                     </div>
                   </div>
                 )) : (
-                  <div style={{ padding: '2rem', color: 'rgba(255,255,255,0.5)', textAlign: 'center', width: '100%', gridColumn: '1 / -1' }}>
+                  <div style={{ padding: '8rem', color: 'rgba(255,255,255,0.5)', textAlign: 'center', width: '100%', gridColumn: '1 / -1', minHeight: '400px' }}>
                     <h3>Chưa có danh mục sản phẩm nào</h3>
                   </div>
                 )}
@@ -485,11 +489,11 @@ export default function Home() {
               <SectionTitle>Sản Phẩm Nổi Bật & Khuyến Mãi</SectionTitle>
 
               {loading ? (
-                <div style={{ padding: "4rem", color: "#666", textAlign: "center" }}>
-                  <h3>Loading...</h3>
+                <div style={{ padding: "8rem", color: "#666", textAlign: "center", minHeight: "600px" }}>
+                  <div className="loader-dots">Loading products...</div>
                 </div>
               ) : products.length === 0 ? (
-                <div style={{ padding: "4rem", color: "#666", textAlign: "center" }}>
+                <div style={{ padding: "8rem", color: "#666", textAlign: "center", minHeight: "600px" }}>
                   <h3>Chưa có sản phẩm nổi bật</h3>
                 </div>
               ) : (
@@ -546,8 +550,14 @@ export default function Home() {
                           -20%
                         </div>
                       )}
-                      <div style={{ aspectRatio: '1/1', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', marginBottom: '1rem', overflow: 'hidden' }}>
-                        <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                      <div style={{ aspectRatio: '1/1', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', marginBottom: '1rem', overflow: 'hidden', containIntrinsicSize: '1/1' }}>
+                        <img 
+                          src={product.image} 
+                          alt={`Sản phẩm ${language === "vi" ? (product.name_vi || product.name) : product.name}`} 
+                          width="250"
+                          height="250"
+                          style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+                        />
                       </div>
                       <h3 style={{ fontSize: "1.1rem", color: "white", marginBottom: '0.5rem' }}>
                         {language === "vi" ? (product.name_vi || product.name) : product.name}
