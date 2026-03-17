@@ -1,18 +1,19 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Reveal from '../components/Reveal';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
-import { getAssetProducts } from '../data/assetsProducts';
 import { SeoTags } from '../seo/SeoTags';
+import { getItemById } from '../services/api';
 
 export default function ProductDetail() {
   const { t, language } = useLanguage();
   const { addToCart } = useCart();
   const { productId } = useParams();
   const [qty, setQty] = useState(1);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const products = useMemo(() => getAssetProducts(), []);
   const decodedId = useMemo(() => {
     if (!productId) return '';
     try {
@@ -22,16 +23,34 @@ export default function ProductDetail() {
     }
   }, [productId]);
 
-  const product = useMemo(
-    () => products.find((p) => p.id === decodedId),
-    [products, decodedId]
-  );
+  useEffect(() => {
+    const loadProduct = async () => {
+      if (!decodedId) return;
+      try {
+        const data = await getItemById(decodedId);
+        setProduct(data);
+      } catch (err) {
+        console.error("Failed to load product:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProduct();
+  }, [decodedId]);
 
   const handleAddToCart = () => {
     if (!product) return;
     if (qty < 1) return;
     addToCart(product, parseInt(qty));
   };
+
+  if (loading) {
+    return (
+      <div className="container section" style={{ marginTop: '80px', minHeight: '70vh', color: 'white' }}>
+        <h3>Loading...</h3>
+      </div>
+    );
+  }
 
   if (!product) {
     return (
@@ -47,14 +66,15 @@ export default function ProductDetail() {
     );
   }
 
-  const displayName = language === 'vi' ? product.name_vi : product.name;
-  const displayCategory = language === 'vi' ? product.category_vi : product.category;
+  const displayName = language === 'vi' ? (product.name_vi || product.name) : product.name;
+  const displayCategory = language === 'vi' ? (product.category_vi || product.category) : product.category;
+  const displayDescription = language === 'vi' ? (product.description_vi || product.description) : product.description;
 
   return (
     <>
       <SeoTags
         title={displayName}
-        description={language === 'vi' ? product.description_vi : product.description}
+        description={displayDescription}
         image={product.image}
       />
     <div className="container section" style={{ marginTop: '60px', minHeight: '80vh' }}>
@@ -91,7 +111,7 @@ export default function ProductDetail() {
             </div>
 
             <div style={{ color: '#999', marginBottom: '1.5rem', lineHeight: 1.7 }}>
-              {language === 'vi' ? product.description_vi : product.description}
+              {displayDescription}
             </div>
 
             <div style={{ display: 'flex', gap: '0.8rem', alignItems: 'center', marginBottom: '1.2rem' }}>

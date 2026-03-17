@@ -1,0 +1,228 @@
+.admin-contacts-page {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.admin-contacts-page .page-header {
+    margin-bottom: 1rem;
+}
+
+.admin-contacts-page .header-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.admin-contacts-page .header-subtitle {
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.admin-contacts-page .controls-card {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.admin-contacts-page .search-box {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f1f5f9;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    color: #64748b;
+}
+
+.admin-contacts-page .search-box input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+    color: #1e293b;
+}
+
+.admin-contacts-page .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f1f5f9;
+    padding: 0 1rem;
+    border-radius: 12px;
+    color: #64748b;
+}
+
+.admin-contacts-page .filter-group select {
+    background: transparent;
+    border: none;
+    padding: 0.75rem 0.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    outline: none;
+}
+
+.admin-contacts-page .contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.admin-contacts-page .contact-card {
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.admin-contacts-page .contact-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+}
+
+.admin-contacts-page .contact-card.new {
+    border-left: 4px solid #6366f1;
+}
+
+.admin-contacts-page .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-contacts-page .status-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.admin-contacts-page .contact-card.new .status-badge {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.admin-contacts-page .contact-card.read .status-badge {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.admin-contacts-page .contact-card.replied .status-badge {
+    background: #ecfdf5;
+    color: #10b981;
+}
+
+.admin-contacts-page .delete-btn {
+    color: #94a3b8;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.admin-contacts-page .delete-btn:hover {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+.admin-contacts-page .info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #475569;
+}
+
+.admin-contacts-page .info-row .name {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 1.1rem;
+}
+
+.admin-contacts-page .info-row .email {
+    font-size: 0.95rem;
+}
+
+.admin-contacts-page .info-row .date {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.admin-contacts-page .message-box {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    gap: 0.75rem;
+    border: 1px solid #f1f5f9;
+}
+
+.admin-contacts-page .message-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #334155;
+    margin: 0;
+}
+
+.admin-contacts-page .card-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: auto;
+}
+
+.admin-contacts-page .action-btn {
+    flex: 1;
+    padding: 0.6rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.admin-contacts-page .action-btn.read {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.admin-contacts-page .action-btn.reply {
+    background: #6366f1;
+    color: #ffffff;
+}
+
+.admin-contacts-page .action-btn.undo {
+    background: #ffffff;
+    border-color: #e2e8f0;
+    color: #64748b;
+}
+
+.admin-contacts-page .action-btn:hover {
+    filter: brightness(0.95);
+}
+
+.admin-contacts-page .loading-state, 
+.admin-contacts-page .empty-state {
+    grid-column: 1 / -1;
+    padding: 4rem;
+    text-align: center;
+    color: #94a3b8;
+    background: #ffffff;
+    border-radius: 20px;
+    border: 2px dashed #e2e8f0;
+}

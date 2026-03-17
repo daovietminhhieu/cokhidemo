@@ -5,11 +5,16 @@ import Shop from "../pages/Shop";
 import Contact from "../pages/Contact";
 import About from "../pages/About";
 import Login from "../pages/Login";
-import Admin from "../pages/Admin";
+import Admin from "../pages/admin/Admin";
+import AdminContacts from "../pages/admin/AdminContacts";
+import AdminProfile from "../pages/admin/AdminProfile";
 import ProductDetail from "../pages/ProductDetail";
 import NewsDetail from "../pages/NewsDetail";
+import Cart from "../pages/Cart";
 import PageTransition from "./PageTransition";
 import ImageLoaderDemo from "./ImageLoaderDemo";
+
+
 
 export default function AnimatedRoutes() {
   const location = useLocation();
@@ -74,6 +79,22 @@ export default function AnimatedRoutes() {
           }
         />
         <Route
+          path="/admin/contacts"
+          element={
+            <PageTransition>
+              <AdminContacts />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/admin/profile"
+          element={
+            <PageTransition>
+              <AdminProfile />
+            </PageTransition>
+          }
+        />
+        <Route
           path="/news/:articleId"
           element={
             <PageTransition>
@@ -89,6 +110,24 @@ export default function AnimatedRoutes() {
             </PageTransition>
           }
         />
+        <Route
+          path="/cart"
+          element={
+            <PageTransition>
+              <Cart />
+            </PageTransition>
+          }
+        />
+
+        {/* <Route
+          path="/dashboard"
+          element={
+            <PageTransition>
+              <Dashboard />
+            </PageTransition>
+          }
+        
+        /> */}
       </Routes>
     </AnimatePresence>
   );

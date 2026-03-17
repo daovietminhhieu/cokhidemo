@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -11,15 +11,6 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
   const { language } = useLanguage();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia('(max-width: 768px)');
-    const update = () => setIsMobile(mq.matches);
-    update();
-    mq.addEventListener?.('change', update);
-    return () => mq.removeEventListener?.('change', update);
-  }, []);
 
   const handleDontShowAgain = () => {
     localStorage.setItem('hideFeaturedPopup', new Date().toDateString());
@@ -61,12 +52,11 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
           zIndex: 1000,
           opacity: isOpen ? 1 : 0,
           transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          width: isMobile ? '100%' : '86%',
-          maxWidth: isMobile ? '480px' : '900px',
-          maxHeight: isMobile ? '85vh' : '80vh',
-          overflow: 'hidden',
+          width: '90%',
+          maxWidth: '950px',
+          maxHeight: '90vh',
+          overflow: 'auto',
           pointerEvents: isOpen ? 'auto' : 'none',
-          padding: isMobile ? '0 1rem' : 0,
         }}
       >
         {/* Modal Content */}
@@ -76,12 +66,11 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
             backdropFilter: 'blur(20px)',
             border: '2px solid rgba(144, 238, 144, 0.3)',
             borderRadius: '24px',
-              padding: isMobile ? '1.8rem 1.4rem 1.6rem' : '3rem',
+            padding: '3rem',
             boxShadow: '0 25px 60px rgba(144, 238, 144, 0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
             animation: isOpen ? 'popupSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none',
             position: 'relative',
-              overflow: 'auto',
-              maxHeight: isMobile ? '85vh' : '80vh',
+            overflow: 'hidden',
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -104,20 +93,18 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              alignItems: isMobile ? 'flex-start' : 'center',
-              gap: isMobile ? '1rem' : '0',
-              marginBottom: isMobile ? '1.6rem' : '2.5rem',
+              alignItems: 'center',
+              marginBottom: '2.5rem',
               borderBottom: '2px solid rgba(144, 238, 144, 0.2)',
-              paddingBottom: isMobile ? '1rem' : '1.5rem',
+              paddingBottom: '1.5rem',
               position: 'relative',
               zIndex: 1,
-              flexDirection: isMobile ? 'column' : 'row',
             }}
           >
             <div>
               <h2
                 style={{
-                  fontSize: isMobile ? '1.8rem' : '2.5rem',
+                  fontSize: '2.5rem',
                   color: 'white',
                   margin: 0,
                   textTransform: 'uppercase',
@@ -150,8 +137,8 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                 background: 'rgba(255, 107, 107, 0.15)',
                 border: '2px solid rgba(255, 107, 107, 0.3)',
                 color: 'white',
-                width: isMobile ? '40px' : '45px',
-                height: isMobile ? '40px' : '45px',
+                width: '45px',
+                height: '45px',
                 borderRadius: '50%',
                 cursor: 'pointer',
                 display: 'flex',
@@ -181,9 +168,9 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(240px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
               gap: '1.8rem',
-              marginBottom: isMobile ? '1.6rem' : '2rem',
+              marginBottom: '2rem',
               position: 'relative',
               zIndex: 1,
             }}
@@ -273,7 +260,7 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                   <div
                     style={{
                       width: '100%',
-                      height: isMobile ? '140px' : '160px',
+                      height: '160px',
                       background: 'rgba(100, 100, 150, 0.15)',
                       borderRadius: '12px',
                       marginBottom: '1.2rem',

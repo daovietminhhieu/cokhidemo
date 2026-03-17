@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import Reveal from '../components/Reveal';
 import { SeoTags } from '../seo/SeoTags';
+import { submitContact } from '../services/api';
 
 export default function Contact() {
     const { t } = useLanguage();
@@ -17,6 +18,29 @@ export default function Contact() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState(prefillMessage);
+    const [sending, setSending] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!name || !email || !message) {
+            alert("Vui lòng điền đầy đủ thông tin");
+            return;
+        }
+
+        setSending(true);
+        try {
+            await submitContact({ name, email, message });
+            alert("Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.");
+            setName('');
+            setEmail('');
+            setMessage('');
+        } catch (err) {
+            console.error(err);
+            alert("Gửi liên hệ thất bại. Vui lòng thử lại sau.");
+        } finally {
+            setSending(false);
+        }
+    };
 
     return (
         <>
@@ -42,7 +66,7 @@ export default function Contact() {
 
                 <Reveal width="100%">
                     <div style={{ padding: '2rem 0' }}>
-                        <form style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
                             <div style={{ position: 'relative' }}>
                                 <label style={{
                                     position: 'absolute',
@@ -72,6 +96,7 @@ export default function Contact() {
                                     }}
                                     onFocus={(e) => e.target.style.borderColor = 'white'}
                                     onBlur={(e) => e.target.style.borderColor = '#333'}
+                                    required
                                 />
                             </div>
 
@@ -104,6 +129,7 @@ export default function Contact() {
                                     }}
                                     onFocus={(e) => e.target.style.borderColor = 'white'}
                                     onBlur={(e) => e.target.style.borderColor = '#333'}
+                                    required
                                 />
                             </div>
 
@@ -138,33 +164,39 @@ export default function Contact() {
                                     }}
                                     onFocus={(e) => e.target.style.borderColor = 'white'}
                                     onBlur={(e) => e.target.style.borderColor = '#333'}
+                                    required
                                 />
                             </div>
 
                             <button
                                 type="submit"
+                                disabled={sending}
                                 style={{
                                     alignSelf: 'flex-start',
-                                    background: 'transparent',
-                                    color: '#fff',
+                                    background: sending ? '#333' : 'transparent',
+                                    color: sending ? '#666' : '#fff',
                                     border: '1px solid #fff',
                                     padding: '1rem 3rem',
                                     borderRadius: '50px',
                                     textTransform: 'uppercase',
                                     marginTop: '2rem',
-                                    cursor: 'pointer',
+                                    cursor: sending ? 'not-allowed' : 'pointer',
                                     transition: 'background 0.3s ease, color 0.3s ease',
                                 }}
                                 onMouseOver={(e) => {
-                                    e.target.style.background = '#fff';
-                                    e.target.style.color = '#000';
+                                    if (!sending) {
+                                        e.target.style.background = '#fff';
+                                        e.target.style.color = '#000';
+                                    }
                                 }}
                                 onMouseOut={(e) => {
-                                    e.target.style.background = 'transparent';
-                                    e.target.style.color = '#fff';
+                                    if (!sending) {
+                                        e.target.style.background = 'transparent';
+                                        e.target.style.color = '#fff';
+                                    }
                                 }}
                             >
-                                {t('contact_send')}
+                                {sending ? "SENDING..." : t('contact_send')}
                             </button>
 
                         </form>

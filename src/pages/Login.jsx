@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { loginL, signupL } from '../services/api.js';
+
 
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -12,7 +14,7 @@ export default function Login() {
     const [isRegister, setIsRegister] = useState(false);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { login } = useAuth();
+    const { login,user } = useAuth();
     const { t } = useLanguage();
     const navigate = useNavigate();
 
@@ -38,20 +40,37 @@ export default function Login() {
                 setIsLoading(false);
                 return;
             }
-            if (login(username, password)) {
-                navigate('/admin');
-            } else {
-                alert("Registration successful! (Mock)");
-                setIsRegister(false);
+
+            try {
+                // Replace with actual API call                
+                const res = await signupL({ name: username, email: username, password, role: 'user' });
+                if(!res) {
+                    setError(t('Registration failed') || "Registration failed");
+                    return;
+                }
+                setIsLoading(false);                
+                alert(t('Registration successful') || "Registration successful! (Mock)");
+                navigate('/login');
+            } catch (err) {
+                setError(t('Registration failed') || "Registration failed");
+                setIsLoading(false);
+                return;
             }
+            setIsRegister(false);
+            
         } else {
-            if (login(username, password)) {
-                navigate('/admin');
+            
+            const res = await loginL({ email: username, password });
+            if(res.success) {
+                console.log("Login response:", res);
+                setIsLoading(false);
+                alert(t('Login successful') || "Login successful! (Mock)");
+                login(res.user, res.token);
             } else {
                 setError(t('login_error') || 'Invalid Credentials');
             }
         }
-        setIsLoading(false);
+        
     };
 
     const primaryColor = "#ff9557"; // Safety Orange

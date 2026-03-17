@@ -17,7 +17,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../context/LanguageContext";
 import { useCart } from "../context/CartContext";
 import Marquee from "../components/Marquee";
-import { getAssetProducts } from "../data/assetsProducts";
 import { SeoTags } from "../seo/SeoTags";
 import PullToReveal from "../components/PullToReveal";
 import FeaturedProductPopup from "../components/FeaturedProductPopup";
@@ -25,6 +24,7 @@ import imgOcvit from "../assets/ocvit_bovitinoxhopnhua.webp";
 import imgVatlieu from "../assets/vatlieu_thepu.webp";
 import imgKhoa from "../assets/khoa_vachot3.jfif";
 import imgCongcu from "../assets/dungcucokhi_botuocnovit.png";
+import { getItems } from "../services/api";
 
 // Minimalist components inline
 const SectionTitle = ({ children }) => (
@@ -49,11 +49,26 @@ const SectionTitle = ({ children }) => (
 export default function Home() {
   const { t, language } = useLanguage();
   const { addToCart } = useCart();
-  const products = useMemo(() => getAssetProducts(), []);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [hoveredCharIndex, setHoveredCharIndex] = useState(-1);
   const [showProductPopup, setShowProductPopup] = useState(false);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await getItems();
+        setProducts(data || []);
+      } catch (err) {
+        console.error("Failed to load products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 900px)");
@@ -78,19 +93,64 @@ export default function Home() {
     }
   }, []);
 
+  // Dynamic Categories derived from products (Top 4 by count)
+  const dynamicCategories = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    
+    const catMap = {};
+    products.forEach(p => {
+      const catName = p.category || "Khác";
+      if (!catMap[catName]) {
+        catMap[catName] = {
+          name: catName,
+          count: 0,
+          image: p.image, // Use the first product's image as Representative
+          key: catName.toLowerCase()
+        };
+      }
+      catMap[catName].count += 1;
+    });
+    
+    return Object.values(catMap)
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 4);
+  }, [products]);
+
+  // Featured Products selection (4 cheapest + 2 most expensive)
+  const featuredProductsList = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    
+    const sortedByPrice = [...products].sort((a, b) => Number(a.price) - Number(b.price));
+    
+    if (sortedByPrice.length <= 6) return sortedByPrice;
+
+    const cheapest = sortedByPrice.slice(0, 4);
+    const expensive = sortedByPrice.slice(-2);
+    
+    // Combine and ensure unique IDs
+    const combined = [...cheapest];
+    expensive.forEach(item => {
+      if (!combined.find(c => c.id === item.id)) {
+        combined.push(item);
+      }
+    });
+    
+    return combined;
+  }, [products]);
+
   const sheetStyle = {
-    height: "auto",
+    height: isMobile ? "auto" : "100vh",
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
-    padding: isMobile ? "0.8rem 1rem 1.2rem" : "1.4rem 0",
+    justifyContent: "center",
+    padding: isMobile ? "1.5rem 1rem" : "4rem",
     background: "rgba(10, 10, 10, 0.4)",
-    backdropFilter: isMobile ? "none" : "blur(6px)",
-    borderTop: "1px solid rgba(255,255,255,0.06)",
+    backdropFilter: isMobile ? "none" : "blur(8px)",
+    borderTop: "1px solid rgba(255,255,255,0.1)",
     position: "relative",
     boxSizing: "border-box",
-    boxShadow: isMobile ? "none" : "0 -10px 28px rgba(0,0,0,0.7)",
+    boxShadow: isMobile ? "none" : "0 -20px 50px rgba(0,0,0,0.8)",
   };
 
   const sheet1Style = {
@@ -112,7 +172,7 @@ export default function Home() {
     background:
       "linear-gradient(135deg, rgba(20, 30, 40, 0.5) 0%, rgba(10, 10, 10, 0.5) 100%)",
     borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)",
-    marginTop: isMobile ? "0.2rem" : 0,
+    marginTop: isMobile ? "1.25rem" : 0,
   };
 
   const sheet4Style = {
@@ -132,7 +192,7 @@ export default function Home() {
   const sectionLabel = {
     fontSize: "0.75rem",
     color: "rgba(255,255,255,0.4)",
-    marginBottom: "0.6rem",
+    marginBottom: "1rem",
     letterSpacing: "0.25em",
     textTransform: "uppercase",
   };
@@ -185,7 +245,7 @@ export default function Home() {
       <div style={{ position: "relative", zIndex: 10 }}>
         <PullToReveal>
           {/* SHEET 1: INTRO - "The Standard" */}
-          <div style={{...sheet1Style, marginTop: isMobile ? "0" : "10vh"}} className="sheet-content">
+          <div style={sheet1Style} className="sheet-content">
             <div
               className="container"
               style={{ position: "relative", zIndex: 2, userSelect: "none" }}
@@ -297,32 +357,7 @@ export default function Home() {
             >
               <SectionTitle>Danh Mục Sản Phẩm Chính</SectionTitle>
               <div className="grid-products">
-                {[
-                  {
-                    name: "Ốc Vít - Bu Lông - Phụ kiện ren",
-                    image: imgOcvit,
-                    count: "2,500+",
-                    key: "ocvit",
-                  },
-                  {
-                    name: "Vật liệu cơ khí",
-                    image: imgVatlieu,
-                    count: "1,800+",
-                    key: "vatlieu",
-                  },
-                  {
-                    name: "Khóa & Chốt",
-                    image: imgKhoa,
-                    count: "900+",
-                    key: "khoa",
-                  },
-                  {
-                    name: "Công Cụ & Dụng Cụ",
-                    image: imgCongcu,
-                    count: "1,200+",
-                    key: "dungcu",
-                  },
-                ].map((cat, idx) => (
+                {dynamicCategories.length > 0 ? dynamicCategories.map((cat, idx) => (
                   <div
                     key={idx}
                     style={{
@@ -423,7 +458,11 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                ))}
+                )) : (
+                  <div style={{ padding: '2rem', color: 'rgba(255,255,255,0.5)', textAlign: 'center', width: '100%', gridColumn: '1 / -1' }}>
+                    <h3>Chưa có danh mục sản phẩm nào</h3>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -436,81 +475,99 @@ export default function Home() {
             >
               <SectionTitle>Sản Phẩm Nổi Bật & Khuyến Mãi</SectionTitle>
 
-              <div className="grid-products">
-                {products.slice(0, 4).map((product, idx) => (
-                  <div
-                    key={product.id}
-                    className="product-card"
-                    style={{
-                      position: "relative",
-                      background:
-                        "radial-gradient(circle at top, rgba(144,238,144,0.18), rgba(10,20,10,0.95))",
-                      padding: "1.5rem",
-                      border: "1px solid rgba(144,238,144,0.4)",
-                      position: "relative",
-                      borderRadius: "18px",
-                      boxShadow: "0 18px 45px rgba(0,0,0,0.7)",
-                      overflow: "hidden",
-                      transition:
-                        "transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform =
-                        "translateY(-10px) scale(1.03)";
-                      e.currentTarget.style.boxShadow =
-                        "0 26px 60px rgba(144,238,144,0.35)";
-                      e.currentTarget.style.borderColor =
-                        "rgba(200,255,200,0.9)";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform =
-                        "translateY(0) scale(1)";
-                      e.currentTarget.style.boxShadow =
-                        "0 18px 45px rgba(0,0,0,0.7)";
-                      e.currentTarget.style.borderColor =
-                        "rgba(144,238,144,0.4)";
-                    }}
-                  >
-                    {idx === 0 && (
-                      <div
+              {loading ? (
+                <div style={{ padding: "4rem", color: "#666", textAlign: "center" }}>
+                  <h3>Loading...</h3>
+                </div>
+              ) : products.length === 0 ? (
+                <div style={{ padding: "4rem", color: "#666", textAlign: "center" }}>
+                  <h3>Chưa có sản phẩm nổi bật</h3>
+                </div>
+              ) : (
+                <div className="grid-products">
+                  {featuredProductsList.map((product, idx) => (
+                    <div
+                      key={product.id}
+                      className="product-card"
+                      style={{
+                        position: "relative",
+                        background:
+                          "radial-gradient(circle at top, rgba(144,238,144,0.18), rgba(10,20,10,0.95))",
+                        padding: "1.5rem",
+                        border: "1px solid rgba(144,238,144,0.4)",
+                        borderRadius: "18px",
+                        boxShadow: "0 18px 45px rgba(0,0,0,0.7)",
+                        overflow: "hidden",
+                        transition:
+                          "transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(-10px) scale(1.03)";
+                        e.currentTarget.style.boxShadow =
+                          "0 26px 60px rgba(144,238,144,0.35)";
+                        e.currentTarget.style.borderColor =
+                          "rgba(200,255,200,0.9)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform =
+                          "translateY(0) scale(1)";
+                        e.currentTarget.style.boxShadow =
+                          "0 18px 45px rgba(0,0,0,0.7)";
+                        e.currentTarget.style.borderColor =
+                          "rgba(144,238,144,0.4)";
+                      }}
+                      onClick={() => navigate(`/shop/${encodeURIComponent(product.id)}`)}
+                    >
+                      {idx === 0 && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: "-10px",
+                            right: "10px",
+                            background: "rgba(255,107,107,0.8)",
+                            color: "white",
+                            padding: "0.3rem 0.7rem",
+                            fontSize: "0.75rem",
+                            borderRadius: "2px",
+                            fontWeight: "bold",
+                            zIndex: 2
+                          }}
+                        >
+                          -20%
+                        </div>
+                      )}
+                      <div style={{ aspectRatio: '1/1', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', marginBottom: '1rem', overflow: 'hidden' }}>
+                        <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                      </div>
+                      <h3 style={{ fontSize: "1.1rem", color: "white", marginBottom: '0.5rem' }}>
+                        {language === "vi" ? (product.name_vi || product.name) : product.name}
+                      </h3>
+                      <p style={{ color: "var(--accent)", fontWeight: "bold", marginBottom: '1rem' }}>
+                        {product.price} vnd
+                      </p>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          addToCart(product);
+                        }}
                         style={{
-                          position: "absolute",
-                          top: "-10px",
-                          right: "10px",
-                          background: "rgba(255,107,107,0.8)",
-                          color: "white",
-                          padding: "0.3rem 0.7rem",
-                          fontSize: "0.75rem",
-                          borderRadius: "2px",
+                          width: '100%',
+                          padding: "0.75rem 1rem",
+                          background: "white",
+                          color: "black",
+                          border: "none",
+                          borderRadius: "50px",
+                          cursor: "pointer",
                           fontWeight: "bold",
                         }}
                       >
-                        -20%
-                      </div>
-                    )}
-                    <h3 style={{ fontSize: "1.2rem", color: "white" }}>
-                      {language === "vi" ? (product.name_vi || product.name) : product.name}
-                    </h3>
-                    <p style={{ color: "var(--accent)", fontWeight: "bold" }}>
-                      {product.price} vnd
-                    </p>
-                    <button
-                      onClick={() => addToCart(product)}
-                      style={{
-                        marginTop: "0.5rem",
-                        padding: "0.5rem 1rem",
-                        background: "white",
-                        color: "black",
-                        border: "none",
-                        cursor: "pointer",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Thêm Vào Giỏ
-                    </button>
-                  </div>
-                ))}
-              </div>
+                        Thêm Vào Giỏ
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Button to Open Featured Products Popup */}
               <div
@@ -778,12 +835,14 @@ export default function Home() {
       </button>
 
       {/* Featured Products Popup */}
-      <FeaturedProductPopup
-        isOpen={showProductPopup}
-        onClose={() => setShowProductPopup(false)}
-        onDontShowAgain={() => setShowProductPopup(false)}
-        products={products.slice(0, 4)}
-      />
+      {!loading && products.length > 0 && (
+        <FeaturedProductPopup
+          isOpen={showProductPopup}
+          onClose={() => setShowProductPopup(false)}
+          onDontShowAgain={() => setShowProductPopup(false)}
+          products={featuredProductsList.slice(0, 4)}
+        />
+      )}
     </div>
   );
 }

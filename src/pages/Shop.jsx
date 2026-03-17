@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import Reveal, { StaggerContainer, StaggerItem } from '../components/Reveal';
-import { getAssetProducts } from '../data/assetsProducts';
 import { SeoTags } from '../seo/SeoTags';
+import { getItems } from '../services/api';
 
 function ProductCard({ product }) {
   const { t, language } = useLanguage();
@@ -14,6 +14,9 @@ function ProductCard({ product }) {
   const handleAddToCart = () => {
     if (qty > 0) addToCart(product, qty);
   };
+
+  const displayName = language === 'vi' ? (product.name_vi || product.name) : product.name;
+  const displayCategory = language === 'vi' ? (product.category_vi || product.category) : product.category;
 
   return (
     <div
@@ -66,7 +69,7 @@ function ProductCard({ product }) {
         <Link to={`/shop/${encodeURIComponent(product.id)}`}>
           <img
             src={product.image}
-            alt={product.name}
+            alt={displayName}
             style={{
               width: '100%',
               height: '100%',
@@ -89,12 +92,12 @@ function ProductCard({ product }) {
 
       <Link to={`/shop/${encodeURIComponent(product.id)}`} style={{ textDecoration: 'none' }}>
         <h3 style={{ fontSize: '1.1rem', color: '#fff' }}>
-          {language === 'vi' ? product.name_vi : product.name}
+          {displayName}
         </h3>
       </Link>
 
       <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase' }}>
-        {language === 'vi' ? product.category_vi : product.category}
+        {displayCategory}
       </span>
 
       <div style={{ marginTop: 'auto', display: 'flex', gap: '0.8rem' }}>
@@ -139,7 +142,22 @@ function ProductCard({ product }) {
 export default function Shop() {
   const { t, language } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
-  const products = useMemo(() => getAssetProducts(), []);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await getItems();
+        setProducts(data);
+      } catch (err) {
+        console.error("Failed to load products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
 
   const selectedCategory =
     (searchParams.get('category') || 'all').toLowerCase();
@@ -151,16 +169,17 @@ export default function Shop() {
   const currentPage = Number.isFinite(currentPageRaw) && currentPageRaw > 0 ? currentPageRaw : 1;
   const itemsPerPage = 12;
 
+  // Derive category keys from server data
   const categoryKeys = useMemo(
-    () => ['all', ...new Set(products.map((p) => p.categoryKey))],
+    () => ['all', ...new Set(products.map((p) => (p.categoryKey || p.category || 'misc').toLowerCase()))],
     [products]
   );
 
   const getCategoryLabel = (key) => {
     if (key === 'all') return t('cat_all');
-    const sample = products.find((p) => p.categoryKey === key);
+    const sample = products.find((p) => (p.categoryKey || p.category || 'misc').toLowerCase() === key);
     if (!sample) return key.toUpperCase();
-    return language === 'vi' ? sample.category_vi : sample.category;
+    return language === 'vi' ? (sample.category_vi || sample.category) : sample.category;
   };
 
   const filteredProducts = useMemo(() => {
@@ -174,13 +193,16 @@ export default function Shop() {
     let base = products;
 
     if (inKeys && selectedCategory !== 'all') {
-      base = base.filter((p) => p.categoryKey === selectedCategory);
+      base = base.filter((p) => (p.categoryKey || p.category || 'misc').toLowerCase() === selectedCategory);
     }
 
     const q = (searchQuery || (!inKeys && selectedCategory !== 'all' ? selectedCategory : '')).trim();
     if (q) {
       const nq = normalize(q);
-      base = base.filter((p) => normalize(language === 'vi' ? p.name_vi : p.name).includes(nq));
+      base = base.filter((p) => {
+        const name = language === 'vi' ? (p.name_vi || p.name) : p.name;
+        return normalize(name).includes(nq);
+      });
     }
 
     return base;

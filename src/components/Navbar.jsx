@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useLanguage } from "../context/LanguageContext";
 import { useCart } from "../context/CartContext";
@@ -13,6 +13,8 @@ export default function Navbar() {
   const { user, logout } = useAuth();
   const { cart, cartCount, removeFromCart, clearCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
   const [scrolled, setScrolled] = useState(false);
   const overlayActive = isMenuOpen || isCartOpen;
 
@@ -44,13 +46,21 @@ export default function Navbar() {
         position: "fixed",
         top: 0,
         width: "100%",
-        padding: scrolled ? "20px 0" : "40px 0",
-        transition: "all 0.5s ease",
+        height: isAdmin ? "70px" : "auto",
+        padding: isAdmin ? "12px 0" : (scrolled ? "15px 0" : "25px 0"),
+        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         zIndex: 1000,
-        background: scrolled || overlayActive ? "rgba(15,15,15,0.55)" : "transparent",
-        backdropFilter: scrolled || overlayActive ? "blur(6px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "transparent",
-        color: "#fff",
+        background: isAdmin 
+          ? "#0f172a" 
+          : (scrolled || overlayActive ? "rgba(15,15,15,0.85)" : "transparent"),
+        backdropFilter: scrolled || overlayActive ? "blur(12px)" : "none",
+        borderBottom: isAdmin 
+          ? "1px solid rgba(255,255,255,0.1)" 
+          : (scrolled ? "1px solid rgba(255,255,255,0.08)" : "transparent"),
+        color: "#ffffff",
+        boxShadow: isAdmin ? "0 10px 30px -10px rgba(0,0,0,0.5)" : "none",
+        display: "flex",
+        alignItems: "center"
       }}
     >
       {overlayActive && (
@@ -63,63 +73,69 @@ export default function Navbar() {
         />
       )}
       <div
-        className="container"
+        className="navbar-content"
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          width: "100%",
+          maxWidth: "100%",
+          padding: "0 5%",
         }}
       >
-        <Link
-          to="/"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "0.6rem",
-            textDecoration: "none",
-            color: "inherit",
-          }}
-        >
-          {/* <img
-            src="/logo.png"
-            alt="Inox Diep Duong logo"
+        <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
+          <Link
+            to="/"
             style={{
-              height: "50px",
-              width: "auto",
-              display: "block",
-              borderRadius: "5px",
-            }}
-          /> */}
-          <span
-            style={{
-              fontFamily: "var(--font-header)",
-              fontSize: "1.4rem",
-              fontWeight: 800,
-              letterSpacing: "-0.02em",
-              textTransform: "uppercase",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.4rem",
+              textDecoration: "none",
+              color: "inherit",
             }}
           >
-            Inox<span style={{ opacity: 0.5 }}>diepduong</span>
-          </span>
-        </Link>
-
-        <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-          <span style={{ background: "white" }}></span>
-          <span style={{ background: "white" }}></span>
-          <span style={{ background: "white" }}></span>
+            <span
+              style={{
+                fontFamily: "'Fredoka One', cursive",
+                fontSize: "1.8rem",
+                fontWeight: 400,
+                letterSpacing: "0.02em",
+                textTransform: "lowercase",
+                display: "flex",
+                alignItems: "center",
+                lineHeight: 1,
+                color: "#fff",
+                textShadow: isAdmin 
+                  ? "3px 3px 0 #1e293b, 6px 6px 0 rgba(0,0,0,0.2)"
+                  : "2px 2px 0 rgba(0,0,0,0.3)"
+              }}
+            >
+              inoxdiepduong
+            </span>
+          </Link>
         </div>
 
-        <div className={`nav-links ${isMenuOpen ? "active" : ""}`}>
+        <div style={{ flex: 0, display: "flex", justifyContent: "center" }}>
+          <AudioButton size={40} />
+        </div>
 
+        <div className="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+          <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
+          <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
+          <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
+        </div>
+
+        <div className={`nav-links ${isMenuOpen ? "active" : ""}`} style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
           <div style={{ display: "flex", gap: "3rem", alignItems: "center" }}>
-            <AudioButton size={40} />
             <Link
               to="/shop"
               style={{
-                fontSize: "0.9rem",
-                fontWeight: 500,
+                fontSize: "0.85rem",
+                fontWeight: 700,
                 letterSpacing: "0.05em",
                 textTransform: "uppercase",
+                color: isAdmin ? "#f8fafc" : "inherit",
+                opacity: isAdmin ? 0.9 : 1
               }}
             >
               {t("nav_products")}
@@ -127,10 +143,12 @@ export default function Navbar() {
             <Link
               to="/contact"
               style={{
-                fontSize: "0.9rem",
-                fontWeight: 500,
+                fontSize: "0.85rem",
+                fontWeight: 700,
                 letterSpacing: "0.05em",
                 textTransform: "uppercase",
+                color: isAdmin ? "#f8fafc" : "inherit",
+                opacity: isAdmin ? 0.9 : 1
               }}
             >
               {t("nav_contact")}
@@ -138,10 +156,12 @@ export default function Navbar() {
             <Link
               to="/about"
               style={{
-                fontSize: "0.9rem",
-                fontWeight: 500,
+                fontSize: "0.85rem",
+                fontWeight: 700,
                 letterSpacing: "0.05em",
                 textTransform: "uppercase",
+                color: isAdmin ? "#f8fafc" : "inherit",
+                opacity: isAdmin ? 0.9 : 1
               }}
             >
               About
