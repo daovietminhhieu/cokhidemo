@@ -61,7 +61,7 @@ export default function AdminLayout({ children }) {
                         ))}
                     </div>
 
-                    {/* {/* <div className="nav-actions"> */}
+                    <div className="nav-actions"> 
                         {/* <button 
                             className="lang-toggle"
                             onClick={() => setLanguage(language === 'vi' ? 'en' : 'vi')}
