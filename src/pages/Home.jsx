@@ -419,7 +419,7 @@ export default function Home() {
                       <img
                         src={cat.image}
                         alt={`Danh mục ${cat.name}`}
-                        loading="lazy"
+                        loading="eager"
                         width="300"
                         height="200"
                         style={{

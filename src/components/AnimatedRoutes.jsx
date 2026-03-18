@@ -2,8 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { lazy, Suspense } from "react";
 
-// Lazy load all pages
-const Home = lazy(() => import("../pages/Home"));
+import Home from "../pages/Home";
 const Shop = lazy(() => import("../pages/Shop"));
 const Contact = lazy(() => import("../pages/Contact"));
 const About = lazy(() => import("../pages/About"));

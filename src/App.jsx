@@ -1,6 +1,5 @@
-import { useState, lazy, Suspense } from "react";
-const Navbar = lazy(() => import("./components/Navbar"));
-const AnimatedRoutes = lazy(() => import("./components/AnimatedRoutes"));
+import Navbar from "./components/Navbar";
+import AnimatedRoutes from "./components/AnimatedRoutes";
 import ScrollProgress from "./components/ScrollProgress";
 import { CartProvider } from "./context/CartContext";
 import { AudioProvider } from "./context/AudioContext";

@@ -390,7 +390,7 @@ export default function Navbar() {
                 </span>
               </Link>
             )}
-
+{/* 
             <button
               onClick={() => {
                 toggleLanguage();
@@ -400,7 +400,7 @@ export default function Navbar() {
               aria-label={`Toggle language, current: ${language}`}
             >
               {language === "en" ? "EN" : "VI"}
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
