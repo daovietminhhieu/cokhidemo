@@ -116,8 +116,6 @@ export default function LoadingScreen({ onComplete }) {
                 if (prev >= 100) {
                     clearInterval(timer);
                     setShowEnter(true);
-                    // auto proceed for bots and fast LCP
-                    onComplete();
                     return 100;
                 }
                 const increment = Math.random() * 30 + 20;

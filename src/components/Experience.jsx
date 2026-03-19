@@ -135,7 +135,7 @@ function MovingItem({ children, offsetZ = 0, speed = 3, xRange = 8, yRange = 6 }
   );
 }
 
-function FlowingHardware() {
+const FlowingHardware = React.memo(() => {
   const isMobile = window.innerWidth < 768;
   return (
     <group rotation={[0, 0, 0]}>
@@ -169,4 +169,4 @@ function FlowingHardware() {
       )}
     </group>
   );
-}
+});

@@ -6,16 +6,23 @@ import { AudioProvider } from "./context/AudioContext";
 import LoadingScreen from "./components/LoadingScreen";
 import { AnimatePresence } from "framer-motion";
 import { SeoProvider } from "./seo/SeoProvider";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 function App() {
   const [loading, setLoading] = useState(true);
+  const [isPending, startTransition] = useTransition();
+
+  const handleComplete = () => {
+    startTransition(() => {
+      setLoading(false);
+    });
+  };
 
   return (
     <SeoProvider>
       <CartProvider>
         <AudioProvider>
           <AnimatePresence mode="wait">
-            {loading && <LoadingScreen key="loading" onComplete={() => setLoading(false)} />}
+            {loading && <LoadingScreen key="loading" onComplete={handleComplete} />}
           </AnimatePresence>
 
           <div style={{
