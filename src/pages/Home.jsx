@@ -9,7 +9,7 @@
 
 
 
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Environment, AdaptiveDpr, PerformanceMonitor } from "@react-three/drei";
 import Experience from "../components/Experience";
@@ -172,13 +172,13 @@ export default function Home() {
   useEffect(() => {
     const hiddenToday = localStorage.getItem('hideFeaturedPopup');
     const today = new Date().toDateString();
-    
+
     // Only show if not hidden today
     if (hiddenToday !== today) {
       const timer = setTimeout(() => {
         setShowProductPopup(true);
       }, 10000); // Show after 10 seconds
-      
+
       return () => clearTimeout(timer);
     }
   }, []);
@@ -186,7 +186,7 @@ export default function Home() {
   // Dynamic Categories derived from products (Top 4 by count)
   const dynamicCategories = useMemo(() => {
     if (!products || products.length === 0) return [];
-    
+
     const catMap = {};
     products.forEach(p => {
       const catName = p.category || "Khác";
@@ -200,7 +200,7 @@ export default function Home() {
       }
       catMap[catName].count += 1;
     });
-    
+
     return Object.values(catMap)
       .sort((a, b) => b.count - a.count)
       .slice(0, 4);
@@ -209,14 +209,14 @@ export default function Home() {
   // Featured Products selection (4 cheapest + 2 most expensive)
   const featuredProductsList = useMemo(() => {
     if (!products || products.length === 0) return [];
-    
+
     const sortedByPrice = [...products].sort((a, b) => Number(a.price) - Number(b.price));
-    
+
     if (sortedByPrice.length <= 6) return sortedByPrice;
 
     const cheapest = sortedByPrice.slice(0, 4);
     const expensive = sortedByPrice.slice(-2);
-    
+
     // Combine and ensure unique IDs
     const combined = [...cheapest];
     expensive.forEach(item => {
@@ -224,7 +224,7 @@ export default function Home() {
         combined.push(item);
       }
     });
-    
+
     return combined;
   }, [products]);
 
@@ -265,7 +265,7 @@ export default function Home() {
   }, [isMobile]);
 
   return (
-      <div>
+    <div>
       <SeoTags
         title={language === "vi" ? "Trang chủ" : "Home"}
         description={t("seo_home_desc") || "Khám phá kho cơ khí, inox, ốc vít và vật liệu xây dựng với trải nghiệm 3D sống động."}
@@ -286,9 +286,9 @@ export default function Home() {
       >
         <Canvas
           camera={{ position: [0, 0, 6], fov: 40 }}
-          gl={{ 
-            antialias: false, 
-            alpha: true, 
+          gl={{
+            antialias: false,
+            alpha: true,
             powerPreference: "high-performance",
             stencil: false,
             depth: true
