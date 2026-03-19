@@ -6,7 +6,7 @@ import { AudioProvider } from "./context/AudioContext";
 import LoadingScreen from "./components/LoadingScreen";
 import { AnimatePresence } from "framer-motion";
 import { SeoProvider } from "./seo/SeoProvider";
-
+import { useState } from "react";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +20,7 @@ function App() {
 
           <div style={{
             opacity: loading ? 0 : 1,
-            transition: 'opacity 0.8s ease-in-out',
+            transition: 'opacity 0.3s ease-in-out',
             position: 'absolute',
             top: 0,
             left: 0,

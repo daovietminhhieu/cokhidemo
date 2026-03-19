@@ -420,6 +420,8 @@ export default function Home() {
                         src={cat.image}
                         alt={`Danh mục ${cat.name}`}
                         loading="eager"
+                        fetchpriority="high"
+                        decoding="async"
                         width="300"
                         height="200"
                         style={{
@@ -556,6 +558,8 @@ export default function Home() {
                           alt={`Sản phẩm ${language === "vi" ? (product.name_vi || product.name) : product.name}`} 
                           width="250"
                           height="250"
+                          fetchpriority={idx < 2 ? "high" : "low"}
+                          decoding="async"
                           style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
                         />
                       </div>

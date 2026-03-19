@@ -30,4 +30,4 @@ export function ImportedModel({ url, position = [0, 0, 0], rotation = [0, 0, 0],
 }
 
 // Pre-load the model if you have a specific one (uncomment and change path)
-// useGLTF.preload("/models/your_model.glb");
+useGLTF.preload("/models/oc1.glb");

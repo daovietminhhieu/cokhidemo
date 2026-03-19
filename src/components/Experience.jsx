@@ -148,7 +148,7 @@ function FlowingHardware() {
 
       <MovingItem offsetZ={-8} speed={2.5}>
         <Suspense fallback={null}>
-          <ImportedModel url="/models/bua.glb" scale={0.8} position={[4, -1, 0]} animate={true} />
+          <ImportedModel url="/models/oc1.glb" scale={1.2} position={[4, -1, 0]} animate={true} rotation={[Math.PI/2, 0, 0]} />
         </Suspense>
       </MovingItem>
 
@@ -162,7 +162,7 @@ function FlowingHardware() {
 
           <MovingItem offsetZ={-11} speed={2.0}>
             <Suspense fallback={null}>
-              <ImportedModel url="/models/kim.glb" scale={0.9} position={[-4, 0.5, 0]} animate={true} />
+              <ImportedModel url="/models/oc1.glb" scale={1.1} position={[-4, 0.5, 0]} animate={true} />
             </Suspense>
           </MovingItem>
         </>

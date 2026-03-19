@@ -115,15 +115,15 @@ export default function LoadingScreen({ onComplete }) {
             setProgress((prev) => {
                 if (prev >= 100) {
                     clearInterval(timer);
-                    setTimeout(() => setShowEnter(true), 150);
-                    // auto proceed after a short while even without click for bots
-                    setTimeout(onComplete, 1200); 
+                    setShowEnter(true);
+                    // auto proceed for bots and fast LCP
+                    onComplete();
                     return 100;
                 }
-                const increment = Math.random() * 25 + 10;
+                const increment = Math.random() * 30 + 20;
                 return Math.min(prev + increment, 100);
             });
-        }, 80);
+        }, 50);
 
         return () => {
             clearInterval(timer);
@@ -145,7 +145,7 @@ export default function LoadingScreen({ onComplete }) {
     return (
         <motion.div
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 1, ease: [0.76, 0, 0.24, 1] } }}
+            exit={{ opacity: 0, transition: { duration: 0.4, ease: [0.76, 0, 0.24, 1] } }}
             style={{
                 position: "fixed",
                 inset: 0,
