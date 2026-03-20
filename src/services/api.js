@@ -3,7 +3,7 @@ export const API_BASE =
   import.meta.env.VITE_API_BASE || "http://localhost:3000";
 
 
-// console.log("🌐 Using API base:", API_BASE);
+console.log("🌐 Using API base:", API_BASE);
 
 
 
@@ -198,5 +198,16 @@ export async function updateProfile(id, profileData) {
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.message || "Cập nhật hồ sơ thất bại");
+  return data;
+}
+
+export async function submitOrder(orderData) {
+  const res = await fetch(`${API_BASE}/local/user/submit-order`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(orderData),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || "Gửi đơn hàng thất bại");
   return data;
 }

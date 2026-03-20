@@ -1,20 +1,36 @@
 const Contact = require("../../model/local/contact.model");
+// import {
+//     contactUserTemplate,
+//     contactAdminTemplate,
+// } from '../../utils/template.js';
 
-const sendContact = (req, res) => {
+const { contactUserTemplate, contactAdminTemplate } = require("../../utils/template");
+const { sendEmail } = require("../../configs/resend");
+
+const sendContact = async (req, res) => {
     try {
         const { name, email, message } = req.body;
+        console.log(name, email, message);
         if (!name || !email || !message) {
             return res.status(400).json({
                 success: false,
                 message: "Vui lòng điền đầy đủ thông tin"
             });
         }
-
+        console.log("send contact");
         const newContact = Contact.saveContact({ name, email, message });
+
+        // send email
+        await sendEmail({
+            to: email,
+            subject: "We received your message",
+            html: contactUserTemplate(name),
+        });
+        console.log('send email user');
 
         return res.status(201).json({
             success: true,
-            message: "Gửi liên hệ thành công",
+            message: "Gửi liên hệ thành côngggg",
             data: newContact
         });
     } catch (err) {

@@ -50,12 +50,12 @@ export default function Navbar() {
         padding: isAdmin ? "12px 0" : (scrolled ? "15px 0" : "25px 0"),
         transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         zIndex: 1000,
-        background: isAdmin 
-          ? "#0f172a" 
+        background: isAdmin
+          ? "#0f172a"
           : (scrolled || overlayActive ? "rgba(15,15,15,0.85)" : "transparent"),
         backdropFilter: scrolled || overlayActive ? "blur(12px)" : "none",
-        borderBottom: isAdmin 
-          ? "1px solid rgba(255,255,255,0.1)" 
+        borderBottom: isAdmin
+          ? "1px solid rgba(255,255,255,0.1)"
           : (scrolled ? "1px solid rgba(255,255,255,0.08)" : "transparent"),
         color: "#ffffff",
         boxShadow: isAdmin ? "0 10px 30px -10px rgba(0,0,0,0.5)" : "none",
@@ -105,7 +105,7 @@ export default function Navbar() {
                 alignItems: "center",
                 lineHeight: 1,
                 color: "#fff",
-                textShadow: isAdmin 
+                textShadow: isAdmin
                   ? "3px 3px 0 #1e293b, 6px 6px 0 rgba(0,0,0,0.2)"
                   : "2px 2px 0 rgba(0,0,0,0.3)"
               }}
@@ -119,8 +119,8 @@ export default function Navbar() {
           <AudioButton size={40} />
         </div>
 
-        <div 
-          className="hamburger" 
+        <div
+          className="hamburger"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
           role="button"
@@ -173,7 +173,7 @@ export default function Navbar() {
                 opacity: isAdmin ? 0.9 : 1
               }}
             >
-              About
+              Về chúng tôi
             </Link>
 
             {/* Cart display */}
@@ -190,7 +190,7 @@ export default function Navbar() {
                 role="button"
                 aria-label={`Open cart, ${cartCount} items`}
               >
-                CART ({cartCount})
+                Giỏ hàng ({cartCount})
               </span>
 
               {isCartOpen && (
@@ -226,7 +226,7 @@ export default function Navbar() {
                         opacity: 0.7,
                       }}
                     >
-                      {t("nav_cart") || "Cart"}
+                      Giỏ hàng
                     </span>
                     {cart.length > 0 && (
                       <button
@@ -241,7 +241,7 @@ export default function Navbar() {
                           cursor: "pointer",
                         }}
                       >
-                        {t("cart_clear") || "Clear"}
+                        Xóa giỏ hàng
                       </button>
                     )}
                   </div>
@@ -253,7 +253,7 @@ export default function Navbar() {
                         color: "rgba(255,255,255,0.6)",
                       }}
                     >
-                      {t("cart_empty") || "Your cart is empty."}
+                      Giỏ hàng trống
                     </div>
                   ) : (
                     <>
@@ -340,7 +340,7 @@ export default function Navbar() {
                           cursor: "pointer",
                         }}
                       >
-                        {t("nav_view_cart") || "View cart"}
+                        Xem giỏ hàng
                       </button>
                     </>
                   )}
@@ -390,7 +390,7 @@ export default function Navbar() {
                 </span>
               </Link>
             )}
-{/* 
+            {/* 
             <button
               onClick={() => {
                 toggleLanguage();

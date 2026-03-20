@@ -22,7 +22,7 @@ export function SeoTags({
 
   return (
     <Helmet>
-      <html lang={language === 'vi' ? 'vi' : 'en'} />
+      <html lang={'vi'} />
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta name="robots" content="index,follow" />

@@ -16,22 +16,25 @@ export default function Contact() {
     }, [location?.state]);
 
     const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState(prefillMessage);
     const [sending, setSending] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!name || !email || !message) {
+        if (!name || !phone || !email || !message) {
             alert("Vui lòng điền đầy đủ thông tin");
             return;
         }
 
         setSending(true);
         try {
-            await submitContact({ name, email, message });
+            const res = await submitContact({ name, phone, email, message });
+            console.log(res);
             alert("Gửi liên hệ thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.");
             setName('');
+            setPhone('');
             setEmail('');
             setMessage('');
         } catch (err) {
@@ -44,166 +47,199 @@ export default function Contact() {
 
     return (
         <>
-        <SeoTags
-            title={t('contact_title')}
-            description={t('seo_contact_desc') || 'Liên hệ Inox Diệp Dương để được tư vấn giải pháp cơ khí, inox và vật liệu xây dựng phù hợp.'}
-        />
-        <div className="container section" style={{ marginTop: '80px', minHeight: '80vh' }}>
-            <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <Reveal width="100%">
-                    <h1 style={{
-                        fontSize: '6vw',
-                        marginBottom: '4rem',
-                        textAlign: 'center',
-                        textTransform: 'uppercase',
-                        letterSpacing: '-0.02em',
-                        lineHeight: 0.9,
-                        color: "rgba(255, 255, 255, 1)"
-                    }}>
-                        {t('contact_title')}
-                    </h1>
-                </Reveal>
+            <SeoTags
+                title={t('contact_title')}
+                description={t('seo_contact_desc') || 'Liên hệ Inox Diệp Dương để được tư vấn giải pháp cơ khí, inox và vật liệu xây dựng phù hợp.'}
+            />
+            <div className="container section" style={{ marginTop: '80px', minHeight: '80vh' }}>
+                <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                    <Reveal width="100%">
+                        <h1 style={{
+                            fontSize: '6vw',
+                            marginBottom: '4rem',
+                            textAlign: 'center',
+                            textTransform: 'uppercase',
+                            letterSpacing: '-0.02em',
+                            lineHeight: 0.9,
+                            color: "rgba(255, 255, 255, 1)"
+                        }}>
+                            {t('contact_title')}
+                        </h1>
+                    </Reveal>
 
-                <Reveal width="100%">
-                    <div style={{ padding: '2rem 0' }}>
-                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-                            <div style={{ position: 'relative' }}>
-                                <label style={{
-                                    position: 'absolute',
-                                    top: '-1.5rem',
-                                    left: 0,
-                                    fontSize: '0.8rem',
-                                    textTransform: 'uppercase',
-                                    color: '#666'
-                                }}>
-                                    {t('contact_name')}
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="LE VAN A"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                    <Reveal width="100%">
+                        <div style={{ padding: '2rem 0' }}>
+                            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
+                                <div style={{ position: 'relative' }}>
+                                    <label style={{
+                                        position: 'absolute',
+                                        top: '-1.5rem',
+                                        left: 0,
+                                        fontSize: '0.8rem',
+                                        textTransform: 'uppercase',
+                                        color: '#666'
+                                    }}>
+                                        {t('contact_name')}
+                                    </label>
+                                    <input
+                                        type="text"
+                                        placeholder="LE VAN A"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        style={{
+                                            width: '100%',
+                                            padding: '1rem 0',
+                                            background: 'transparent',
+                                            border: 'none',
+                                            borderBottom: '1px solid #333',
+                                            color: 'white',
+                                            fontSize: '1.5rem',
+                                            outline: 'none',
+                                            borderRadius: 0
+                                        }}
+                                        onFocus={(e) => e.target.style.borderColor = 'white'}
+                                        onBlur={(e) => e.target.style.borderColor = '#333'}
+                                        required
+                                    />
+                                </div>
+
+                                <div style={{ position: 'relative' }}>
+                                    <label style={{
+                                        position: 'absolute',
+                                        top: '-1.5rem',
+                                        left: 0,
+                                        fontSize: '0.8rem',
+                                        textTransform: 'uppercase',
+                                        color: '#666'
+                                    }}>
+                                        {t('contact_email')}
+                                    </label>
+                                    <input
+                                        type="email"
+                                        placeholder="EMAIL@EXAMPLE.COM"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        style={{
+                                            width: '100%',
+                                            padding: '1rem 0',
+                                            background: 'transparent',
+                                            border: 'none',
+                                            borderBottom: '1px solid #333',
+                                            color: 'white',
+                                            fontSize: '1.5rem',
+                                            outline: 'none',
+                                            borderRadius: 0
+                                        }}
+                                        onFocus={(e) => e.target.style.borderColor = 'white'}
+                                        onBlur={(e) => e.target.style.borderColor = '#333'}
+                                        required
+                                    />
+                                </div>
+
+                                <div style={{ position: 'relative' }}>
+                                    <label style={{
+                                        position: 'absolute',
+                                        top: '-1.5rem',
+                                        left: 0,
+                                        fontSize: '0.8rem',
+                                        textTransform: 'uppercase',
+                                        color: '#666'
+                                    }}>
+                                        Số điện thoại liên hệ
+                                    </label>
+                                    <input
+                                        type="number"
+                                        placeholder="0123456789"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                        style={{
+                                            width: '100%',
+                                            padding: '1rem 0',
+                                            background: 'transparent',
+                                            border: 'none',
+                                            borderBottom: '1px solid #333',
+                                            color: 'white',
+                                            fontSize: '1.5rem',
+                                            outline: 'none',
+                                            borderRadius: 0
+                                        }}
+                                        onFocus={(e) => e.target.style.borderColor = 'white'}
+                                        onBlur={(e) => e.target.style.borderColor = '#333'}
+                                        required
+                                    />
+                                </div>
+
+                                <div style={{ position: 'relative' }}>
+                                    <label style={{
+                                        position: 'absolute',
+                                        top: '-1.5rem',
+                                        left: 0,
+                                        fontSize: '0.8rem',
+                                        textTransform: 'uppercase',
+                                        color: '#666'
+                                    }}>
+                                        {t('contact_message')}
+                                    </label>
+                                    <textarea
+                                        rows="4"
+                                        placeholder="HÃY CHO CHÚNG TÔI BIẾT NHỮNG GÌ TRONG SUY NGHĨ CỦA BẠN HIỆN TẠI 😄..."
+                                        value={message}
+                                        onChange={(e) => setMessage(e.target.value)}
+                                        style={{
+                                            width: '100%',
+                                            padding: '1rem 0',
+                                            background: 'transparent',
+                                            border: 'none',
+                                            borderBottom: '1px solid #333',
+                                            color: 'white',
+                                            fontSize: '1.5rem',
+                                            outline: 'none',
+                                            resize: 'none',
+                                            fontFamily: 'inherit',
+                                            borderRadius: 0
+                                        }}
+                                        onFocus={(e) => e.target.style.borderColor = 'white'}
+                                        onBlur={(e) => e.target.style.borderColor = '#333'}
+                                        required
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={sending}
                                     style={{
-                                        width: '100%',
-                                        padding: '1rem 0',
-                                        background: 'transparent',
-                                        border: 'none',
-                                        borderBottom: '1px solid #333',
-                                        color: 'white',
-                                        fontSize: '1.5rem',
-                                        outline: 'none',
-                                        borderRadius: 0
+                                        alignSelf: 'flex-start',
+                                        background: sending ? '#333' : 'transparent',
+                                        color: sending ? '#666' : '#fff',
+                                        border: '1px solid #fff',
+                                        padding: '1rem 3rem',
+                                        borderRadius: '50px',
+                                        textTransform: 'uppercase',
+                                        marginTop: '2rem',
+                                        cursor: sending ? 'not-allowed' : 'pointer',
+                                        transition: 'background 0.3s ease, color 0.3s ease',
                                     }}
-                                    onFocus={(e) => e.target.style.borderColor = 'white'}
-                                    onBlur={(e) => e.target.style.borderColor = '#333'}
-                                    required
-                                />
-                            </div>
-
-                            <div style={{ position: 'relative' }}>
-                                <label style={{
-                                    position: 'absolute',
-                                    top: '-1.5rem',
-                                    left: 0,
-                                    fontSize: '0.8rem',
-                                    textTransform: 'uppercase',
-                                    color: '#666'
-                                }}>
-                                    {t('contact_email')}
-                                </label>
-                                <input
-                                    type="email"
-                                    placeholder="EMAIL@EXAMPLE.COM"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    style={{
-                                        width: '100%',
-                                        padding: '1rem 0',
-                                        background: 'transparent',
-                                        border: 'none',
-                                        borderBottom: '1px solid #333',
-                                        color: 'white',
-                                        fontSize: '1.5rem',
-                                        outline: 'none',
-                                        borderRadius: 0
+                                    onMouseOver={(e) => {
+                                        if (!sending) {
+                                            e.target.style.background = '#fff';
+                                            e.target.style.color = '#000';
+                                        }
                                     }}
-                                    onFocus={(e) => e.target.style.borderColor = 'white'}
-                                    onBlur={(e) => e.target.style.borderColor = '#333'}
-                                    required
-                                />
-                            </div>
-
-                            <div style={{ position: 'relative' }}>
-                                <label style={{
-                                    position: 'absolute',
-                                    top: '-1.5rem',
-                                    left: 0,
-                                    fontSize: '0.8rem',
-                                    textTransform: 'uppercase',
-                                    color: '#666'
-                                }}>
-                                    {t('contact_message')}
-                                </label>
-                                <textarea
-                                    rows="4"
-                                    placeholder="TELL US ABOUT YOUR PROJECT..."
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    style={{
-                                        width: '100%',
-                                        padding: '1rem 0',
-                                        background: 'transparent',
-                                        border: 'none',
-                                        borderBottom: '1px solid #333',
-                                        color: 'white',
-                                        fontSize: '1.5rem',
-                                        outline: 'none',
-                                        resize: 'none',
-                                        fontFamily: 'inherit',
-                                        borderRadius: 0
+                                    onMouseOut={(e) => {
+                                        if (!sending) {
+                                            e.target.style.background = 'transparent';
+                                            e.target.style.color = '#fff';
+                                        }
                                     }}
-                                    onFocus={(e) => e.target.style.borderColor = 'white'}
-                                    onBlur={(e) => e.target.style.borderColor = '#333'}
-                                    required
-                                />
-                            </div>
+                                >
+                                    {sending ? "SENDING..." : t('contact_send')}
+                                </button>
 
-                            <button
-                                type="submit"
-                                disabled={sending}
-                                style={{
-                                    alignSelf: 'flex-start',
-                                    background: sending ? '#333' : 'transparent',
-                                    color: sending ? '#666' : '#fff',
-                                    border: '1px solid #fff',
-                                    padding: '1rem 3rem',
-                                    borderRadius: '50px',
-                                    textTransform: 'uppercase',
-                                    marginTop: '2rem',
-                                    cursor: sending ? 'not-allowed' : 'pointer',
-                                    transition: 'background 0.3s ease, color 0.3s ease',
-                                }}
-                                onMouseOver={(e) => {
-                                    if (!sending) {
-                                        e.target.style.background = '#fff';
-                                        e.target.style.color = '#000';
-                                    }
-                                }}
-                                onMouseOut={(e) => {
-                                    if (!sending) {
-                                        e.target.style.background = 'transparent';
-                                        e.target.style.color = '#fff';
-                                    }
-                                }}
-                            >
-                                {sending ? "SENDING..." : t('contact_send')}
-                            </button>
-
-                        </form>
-                    </div>
-                </Reveal>
+                            </form>
+                        </div>
+                    </Reveal>
+                </div>
             </div>
-        </div>
         </>
     );
 }

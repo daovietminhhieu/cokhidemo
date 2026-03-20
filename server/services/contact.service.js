@@ -22,7 +22,7 @@ export async function handleNewContact(data) {
 
     // 3. Send email to admin
     await sendEmail({
-        to: "admin@ant-tech.asia",
+        to: "immhisme1@gmail.com",
         subject: "New contact",
         html: contactAdminTemplate(name, email, message),
     });
