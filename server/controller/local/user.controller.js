@@ -496,13 +496,13 @@
 // };
 
 const Item = require('../../model/local/item.model');
-const { v4: uuidv4 } = require("uuid");
+const { randomUUID } = require('crypto');
 const createNewItem = (req, res) => {
     try {
         const { name, price, quantity, image, description, category } = req.body;
 
         const newItem = {
-            id: uuidv4(),
+            id: randomUUID(),
             name,
             price,
             quantity,

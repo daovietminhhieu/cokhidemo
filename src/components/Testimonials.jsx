@@ -54,11 +54,11 @@ const Testimonials = () => {
     ];
 
     return (
-        <div className="section container">
+        <div className="section container" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
             <Reveal>
-                <h2 style={{ marginBottom: '3rem' }}>{t('testimonials_title')}</h2>
+                <h2 style={{ marginBottom: '1.8rem', color: '#ff4b4b', textShadow: '0 0 18px rgba(255, 75, 75, 0.9)' }}>{t('testimonials_title')}</h2>
             </Reveal>
-            <div className="grid">
+            <div className="grid" style={{ gap: '0.8rem' }}>
                 {testimonials.map((item, index) => (
                     <TestimonialCard
                         key={index}

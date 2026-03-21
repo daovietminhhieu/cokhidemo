@@ -1,9 +1,9 @@
 const { readFile, writeFile } = require("../../utils/fileStore");
-const { v4: uuidv4 } = require("uuid");
+const { randomUUID } = require("crypto");
 
 class Contact {
     constructor(data) {
-        this.id = data.id || uuidv4();
+        this.id = data.id || randomUUID();
         this.name = data.name || "";
         this.email = data.email || "";
         this.message = data.message || "";

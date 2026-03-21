@@ -18,13 +18,16 @@ const StatItem = ({ number, label }) => (
 
 const Stats = () => {
     return (
-        <div className="section container">
+        <div className="section container" style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
             <div className="glass" style={{
-                padding: '4rem',
-                borderRadius: '20px',
+                padding: '2rem 2rem',
+                borderRadius: '16px',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                gap: '2rem'
+                gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+                gap: '1rem',
+                background: 'rgba(40, 0, 0, 0.8)',
+                border: '1px solid rgba(255, 85, 60, 0.9)',
+                boxShadow: '0 12px 40px rgba(255, 72, 44, 0.5)'
             }}>
                 <StatItem number="2500+" label="Premium Products" />
                 <StatItem number="15k+" label="Happy Clients" />

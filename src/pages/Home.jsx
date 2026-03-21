@@ -13,6 +13,9 @@ const CategoriesSheet = lazy(() => import("../components/home/CategoriesSheet"))
 const FeaturedSheet = lazy(() => import("../components/home/FeaturedSheet"));
 const AdvantagesSheet = lazy(() => import("../components/home/AdvantagesSheet"));
 const NewsSheet = lazy(() => import("../components/home/NewsSheet"));
+const Stats = lazy(() => import("../components/Stats"));
+const Testimonials = lazy(() => import("../components/Testimonials"));
+const Newsletter = lazy(() => import("../components/Newsletter"));
 const Background3D = lazy(() => import("../components/home/Background3D"));
 
 export default function Home() {
@@ -126,11 +129,20 @@ export default function Home() {
         <PullToReveal>
           <Suspense fallback={<div style={{ height: "100vh", background: "rgba(0,0,0,0.2)" }} />}>
             <IntroSheet style={sheet1Style} t={t} hoveredCharIndex={hoveredCharIndex} setHoveredCharIndex={setHoveredCharIndex} />
+          </Suspense>
+          <Suspense fallback={<div style={{ height: "100vh", background: "rgba(0,0,0,0.2)" }} />}>
             <CategoriesSheet style={sheet2Style} dynamicCategories={dynamicCategories} onNavigate={handleNavigate} />
+          </Suspense>
+          <Suspense fallback={<div style={{ height: "100vh", background: "rgba(0,0,0,0.2)" }} />}>
             <FeaturedSheet style={sheet3Style} loading={loading} products={products} featuredProductsList={featuredProductsList} language={language} onAddToCart={handleAddToCart} onNavigate={handleNavigate} onShowPopup={handleShowPopup} />
+          </Suspense>
+          <Suspense fallback={<div style={{ height: "100vh", background: "rgba(0,0,0,0.2)" }} />}>
             <AdvantagesSheet style={sheet4Style} t={t} />
+          </Suspense>
+          <Suspense fallback={<div style={{ height: "100vh", background: "rgba(0,0,0,0.2)" }} />}>
             <NewsSheet style={sheet5Style} onNavigate={handleNavigate} />
           </Suspense>
+
         </PullToReveal>
       </div>
 

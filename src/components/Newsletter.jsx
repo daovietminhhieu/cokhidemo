@@ -5,12 +5,14 @@ const Newsletter = () => {
     const { t } = useLanguage();
 
     return (
-        <div className="container" style={{ marginBottom: '4rem' }}>
+        <div className="container" style={{ marginBottom: '1.5rem', paddingTop: '1rem', paddingBottom: '1rem' }}>
             <div className="glass" style={{
-                padding: '4rem 2rem',
+                padding: '2.2rem 1.3rem',
                 borderRadius: '16px',
                 textAlign: 'center',
-                backgroundImage: 'radial-gradient(circle at center, rgba(75, 85, 99, 0.2) 0%, transparent 70%)'
+                background: 'rgba(40, 0, 0, 0.82)',
+                border: '1px solid rgba(255, 98, 52, 0.88)',
+                boxShadow: '0 18px 38px rgba(255, 102, 62, 0.45)'
             }}>
                 <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{t('newsletter_title')}</h2>
                 <p style={{ marginBottom: '2rem', color: 'var(--text-muted)' }}>{t('newsletter_desc')}</p>
