@@ -385,7 +385,7 @@ export default function CartPage() {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                    <label style={{ fontSize: '0.8rem', color: '#666', textTransform: 'uppercase' }}>Email (không bắt buộc)</label>
+                    <label style={{ fontSize: '0.8rem', color: '#666', textTransform: 'uppercase' }}>Email</label>
                     <input
                       type="email"
                       name="email"
