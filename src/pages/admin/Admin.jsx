@@ -49,7 +49,7 @@ export default function AdminDashboard() {
         price: '',
         category: '',
         description: '',
-        image: 'https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?auto=format&fit=crop&q=80&w=600',
+        image: '',
         quantity: ''
     });
 
@@ -188,7 +188,7 @@ export default function AdminDashboard() {
                 price: '',
                 category: '',
                 description: '',
-                image: 'https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?auto=format&fit=crop&q=80&w=600',
+                image: '',
                 quantity: ''
             });
             setShowAddForm(false);

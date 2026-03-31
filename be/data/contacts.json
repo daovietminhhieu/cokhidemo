@@ -1,0 +1,164 @@
+[
+  {
+    "id": "7e4e1441-579a-470b-86db-6bdf641a0f48",
+    "name": "Le van A",
+    "email": "daovietminhieu@gmail.com",
+    "message": "Test Email",
+    "status": "read",
+    "createdAt": "2026-03-19T16:56:00.470Z"
+  },
+  {
+    "id": "45932eb1-cd41-4e99-830e-a7b086b1dd81",
+    "name": "Le van A",
+    "email": "immhisme1@gmail.com",
+    "message": "123456 Test Email",
+    "status": "replied",
+    "createdAt": "2026-03-19T16:58:01.921Z"
+  },
+  {
+    "id": "57c8f130-437d-468a-93a1-268c4c1af570",
+    "name": "Le Van A",
+    "email": "immhisme1@gmail.com",
+    "message": "Test Email",
+    "status": "replied",
+    "createdAt": "2026-03-19T16:58:57.647Z"
+  },
+  {
+    "id": "345c2830-4a9b-4ce4-9dec-52b35d2c5834",
+    "name": "Le van A",
+    "email": "immhisme1@gmail.com",
+    "message": "123456 asdasd",
+    "status": "replied",
+    "createdAt": "2026-03-19T17:00:41.277Z"
+  },
+  {
+    "id": "308438a4-56f2-4b63-a21c-b9e79cd44263",
+    "name": "Le Vna A",
+    "email": "immhisme1@gmail.com",
+    "message": "123456",
+    "status": "replied",
+    "createdAt": "2026-03-19T17:09:32.117Z"
+  },
+  {
+    "id": "fcd2e1f6-2365-4adc-bd7a-efd8bdfea69a",
+    "name": "Le Vaan A",
+    "email": "immhisme1@gmail.com",
+    "message": "132135435322 AAA",
+    "status": "read",
+    "createdAt": "2026-03-19T17:15:45.898Z"
+  },
+  {
+    "id": "bd33062c-9506-4161-963a-b50eed4150bf",
+    "name": "Le Vaan A",
+    "email": "immhisme1@gmail.com",
+    "message": "132135435322 AAA",
+    "status": "read",
+    "createdAt": "2026-03-19T17:17:45.301Z"
+  },
+  {
+    "id": "91fa8de4-ad12-48a2-b841-32daa6ae7450",
+    "name": "Le Vaan A",
+    "email": "immhisme1@gmail.com",
+    "message": "132135435322 AAA",
+    "status": "read",
+    "createdAt": "2026-03-19T17:18:49.357Z"
+  },
+  {
+    "id": "24760643-2fc0-4fcc-862d-bcd0cedb0bac",
+    "name": "Le Vaan A",
+    "email": "immhisme1@gmail.com",
+    "message": "132135435322 AAA",
+    "status": "replied",
+    "createdAt": "2026-03-19T17:36:27.020Z"
+  },
+  {
+    "id": "64fb1692-d6f5-403b-bfd2-38a8cd5bab4c",
+    "name": "Le Vaan A",
+    "email": "hieuhp132@gmail.com",
+    "message": "132135435322 AAA",
+    "status": "replied",
+    "createdAt": "2026-03-19T17:36:51.681Z"
+  },
+  {
+    "id": "49f0e714-e906-48a0-9602-6f24c603761f",
+    "name": "Le VAN A ",
+    "email": "hieuhp132@gmail.com",
+    "message": "123135645 TEst",
+    "status": "replied",
+    "createdAt": "2026-03-19T17:37:30.545Z"
+  },
+  {
+    "id": "19ad06fa-7c82-4d0d-a300-ef9ada4ea017",
+    "name": "Le Van A",
+    "email": "hieuhp132@gmail.com",
+    "message": "ASDASAA 132155487",
+    "status": "new",
+    "createdAt": "2026-03-19T17:55:15.432Z"
+  },
+  {
+    "id": "ec1f2263-6187-4506-a2ce-04e6537ef228",
+    "name": "Le Van A",
+    "email": "hieuhp132@gmail.com",
+    "message": "ASDASAA 132155487",
+    "status": "new",
+    "createdAt": "2026-03-19T17:56:06.395Z"
+  },
+  {
+    "id": "604eb29f-efd6-402b-ae9f-4679962686a0",
+    "name": "Le Van A",
+    "email": "hieuhp132@gmail.com",
+    "message": "ASDASAA 132155487",
+    "status": "new",
+    "createdAt": "2026-03-19T17:58:39.191Z"
+  },
+  {
+    "id": "5802bb8d-4cff-4268-b8e4-4f1c9152dc59",
+    "name": "Le Van A",
+    "email": "hieuhp132@gmail.com",
+    "message": "Noi dung mau",
+    "status": "new",
+    "createdAt": "2026-03-20T09:45:53.389Z"
+  },
+  {
+    "id": "8d8e3743-46fa-4a48-9f08-0cfeef3de078",
+    "name": "Le Van A",
+    "email": "immhisme1@gmail.com",
+    "message": "Noi dung Test",
+    "status": "new",
+    "createdAt": "2026-03-20T09:46:42.362Z"
+  },
+  {
+    "id": "9fc439c9-2a97-4fa9-9937-a096497a9451",
+    "name": "Le Van A",
+    "email": "immhisme1@gmail.com",
+    "message": "Noi dung Mau",
+    "status": "new",
+    "createdAt": "2026-03-20T09:48:52.498Z"
+  },
+  {
+    "id": "9ccd4e6d-c12e-4384-88d7-5de9d76e1b1b",
+    "name": "Le Van A",
+    "email": "hieuhp132@gmail.com",
+    "message": "Nội dung mẫu! 234",
+    "status": "new",
+    "createdAt": "2026-03-20T10:02:43.407Z"
+  },
+  {
+    "id": "2c3f0a4b-1486-4b15-8c01-c913a72ff247",
+    "name": "Le Van A",
+    "phone": "0351475512",
+    "email": "hieuhp132@gmail.com",
+    "message": "Đơn hàng bị lỗi",
+    "status": "new",
+    "createdAt": "2026-03-20T16:15:30.274Z"
+  },
+  {
+    "id": "8af37ed6-d0d2-4305-b06d-4bbfb968b046",
+    "name": "LE VAN A",
+    "phone": "0123456789",
+    "email": "hieuhp132@gmail.com",
+    "message": "TÔI ĐANG NGHĨ CÁI GÌ >)",
+    "status": "new",
+    "createdAt": "2026-03-20T18:04:00.757Z"
+  }
+]

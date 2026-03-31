@@ -1,0 +1,142 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "username": "admin",
+            "password": "password",
+            "role": "admin"
+        }
+    ],
+    "products": [
+        {
+            "id": 1,
+            "name": "Titanium Hex Bolt",
+            "price": 15000,
+            "category": "Screws",
+            "image": "https://images.unsplash.com/photo-1598436660144-8cb388a18357?auto=format&fit=crop&q=80&w=600",
+            "description": "High-grade titanium bolt for extreme durability.",
+            "name_vi": "Bu lông Lục giác Titan",
+            "description_vi": "Bu lông titan cao cấp cho độ bền cực cao.",
+            "category_vi": "Ốc vít",
+            "stock": 100
+        },
+        {
+            "id": 2,
+            "name": "Stainless Steel Nut",
+            "price": 5000,
+            "category": "Nuts",
+            "image": "https://images.unsplash.com/photo-1622694165506-c8585675e2f7?auto=format&fit=crop&q=80&w=600",
+            "description": "Rust-resistant stainless steel nut.",
+            "name_vi": "Đai ốc Thép không gỉ",
+            "description_vi": "Đai ốc thép không gỉ chống gỉ sét.",
+            "category_vi": "Đai ốc",
+            "stock": 500
+        },
+        {
+            "id": 3,
+            "name": "PVC Water Pipe (2m)",
+            "price": 45000,
+            "category": "Pipes",
+            "image": "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&q=80&w=600",
+            "description": "Durable PVC pipe for residential water systems.",
+            "name_vi": "Ống nước PVC (2m)",
+            "description_vi": "Ống PVC bền bỉ cho hệ thống nước dân dụng.",
+            "category_vi": "Ống nước",
+            "stock": 50
+        },
+        {
+            "id": 4,
+            "name": "Brass Elbow Fitting",
+            "price": 25000,
+            "category": "Fittings",
+            "image": "https://images.unsplash.com/photo-1605518216965-7bc81f4b9b08?auto=format&fit=crop&q=80&w=600",
+            "description": "Premium brass elbow for smooth water flow.",
+            "name_vi": "Cút nối Đồng",
+            "description_vi": "Cút nối đồng cao cấp cho dòng chảy mượt mà.",
+            "category_vi": "Phụ kiện",
+            "stock": 200
+        },
+        {
+            "id": 5,
+            "name": "Industrial Washer",
+            "price": 2000,
+            "category": "Washers",
+            "image": "https://images.unsplash.com/photo-1602928321679-560bb454f0e5?auto=format&fit=crop&q=80&w=600",
+            "description": "Heavy-duty washer for industrial machinery.",
+            "name_vi": "Vòng đệm Công nghiệp",
+            "description_vi": "Vòng đệm chịu lực cho máy móc công nghiệp.",
+            "category_vi": "Vòng đệm",
+            "stock": 1000
+        },
+        {
+            "id": 6,
+            "name": "Copper Pipe Segment",
+            "price": 85000,
+            "category": "Pipes",
+            "image": "https://images.unsplash.com/photo-1611093557920-53e7f9c26194?auto=format&fit=crop&q=80&w=600",
+            "description": "High-conductivity copper pipe.",
+            "category_vi": "Ống nước",
+            "stock": 30
+        },
+        {
+            "id": 7,
+            "name": "Power Drill 18V",
+            "price": 1250000,
+            "category": "Tools",
+            "image": "https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&q=80&w=600",
+            "description": "Cordless 18V power drill with variable speed.",
+            "name_vi": "Máy khoan pin 18V",
+            "description_vi": "Máy khoan pin 18V không dây với tốc độ biến thiên.",
+            "category_vi": "Dụng cụ",
+            "stock": 15
+        },
+        {
+            "id": 8,
+            "name": "Adjustable Wrench",
+            "price": 120000,
+            "category": "Tools",
+            "image": "https://images.unsplash.com/photo-1542013936693-884638332954?auto=format&fit=crop&q=80&w=600",
+            "description": "Chrome vanadium steel adjustable wrench.",
+            "name_vi": "Mỏ lết điều chỉnh",
+            "description_vi": "Mỏ lết thép chrome vanadium siêu bền.",
+            "category_vi": "Dụng cụ",
+            "stock": 40
+        },
+        {
+            "id": 9,
+            "name": "Tape Measure 5m",
+            "price": 55000,
+            "category": "Tools",
+            "image": "https://plus.unsplash.com/premium_photo-1664303494371-fd237dd12967?auto=format&fit=crop&q=80&w=600",
+            "description": "Heavy duty retractable tape measure.",
+            "name_vi": "Thước cuộn 5m",
+            "description_vi": "Thước cuộn chịu lực cao, vỏ chống va đập.",
+            "category_vi": "Dụng cụ",
+            "stock": 100
+        },
+        {
+            "id": 10,
+            "name": "Safety Helmet",
+            "price": 85000,
+            "category": "Safety",
+            "image": "https://plus.unsplash.com/premium_photo-1661963953460-a292418e2025?auto=format&fit=crop&q=80&w=600",
+            "description": "High impact resistance safety helmet.",
+            "name_vi": "Mũ bảo hộ",
+            "description_vi": "Mũ bảo hộ chịu lực va đập cao.",
+            "category_vi": "Bảo hộ",
+            "stock": 60
+        },
+        {
+            "id": 11,
+            "name": "Claw Hammer",
+            "price": 95000,
+            "category": "Tools",
+            "image": "https://images.unsplash.com/photo-1586864387789-628d085601d9?auto=format&fit=crop&q=80&w=600",
+            "description": "Forged steel claw hammer with rubber grip.",
+            "name_vi": "Búa nhổ đinh",
+            "description_vi": "Búa thép rèn tay cầm cao su chống trượt.",
+            "category_vi": "Dụng cụ",
+            "stock": 45
+        }
+    ]
+}

@@ -1,0 +1,65 @@
+[
+  {
+    "_id": "1773754917559",
+    "name": "admin@example.com",
+    "email": "admin@example.com",
+    "password": "123456",
+    "role": "admin",
+    "status": "Active",
+    "credit": 0,
+    "phone": "",
+    "cv": "",
+    "avatar": "",
+    "bankInfo": {
+      "accountHolderName": "",
+      "bankName": "",
+      "branchName": "",
+      "accountNumber": "",
+      "ibanSwiftCode": "",
+      "currency": "VNĐ"
+    },
+    "createdAt": "2026-03-17T13:41:57.559Z"
+  },
+  {
+    "_id": "1774779791897",
+    "name": "user@123.com",
+    "email": "user@123.com",
+    "password": "123456",
+    "role": "admin",
+    "status": "Active",
+    "credit": 0,
+    "phone": "",
+    "cv": "",
+    "avatar": "",
+    "bankInfo": {
+      "accountHolderName": "",
+      "bankName": "",
+      "branchName": "",
+      "accountNumber": "",
+      "ibanSwiftCode": "",
+      "currency": "VNĐ"
+    },
+    "createdAt": "2026-03-29T10:23:11.897Z"
+  },
+  {
+    "_id": "1774962103706",
+    "name": "t@a.com",
+    "email": "t@a.com",
+    "password": "123456",
+    "role": "customer",
+    "status": "Active",
+    "credit": 0,
+    "phone": "",
+    "cv": "",
+    "avatar": "",
+    "bankInfo": {
+      "accountHolderName": "",
+      "bankName": "",
+      "branchName": "",
+      "accountNumber": "",
+      "ibanSwiftCode": "",
+      "currency": "VNĐ"
+    },
+    "createdAt": "2026-03-31T13:01:43.706Z"
+  }
+]

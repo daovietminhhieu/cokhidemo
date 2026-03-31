@@ -1,0 +1,103 @@
+[
+  {
+    "id": "6ebeb5b3-ed96-4381-aaca-da2e3cce8384",
+    "name": "Bu lông inox",
+    "price": "5000",
+    "quantity": "20",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774023540070_bulong_inox.png",
+    "description": "Còn hàng",
+    "category": "Bu lông",
+    "createdAt": "2026-03-20T16:19:17.924Z"
+  },
+  {
+    "id": "35a007c7-bb1d-44b0-8a62-0d9941a0d857",
+    "name": "Bu lông lục giác",
+    "price": "1000",
+    "quantity": "10",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774023570656_bulong_lucgiacchim.png",
+    "description": "còn hàng",
+    "category": "Bu lông",
+    "createdAt": "2026-03-20T16:19:55.220Z"
+  },
+  {
+    "id": "2ceff25f-80c7-4f2c-a419-dfb96f2cda85",
+    "name": "Máy khoan",
+    "price": "100000",
+    "quantity": "2",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774023634236_dungcucokhi_maykhoan.jpg",
+    "description": "Còn hàng",
+    "category": "Dụng cụ cơ khí",
+    "createdAt": "2026-03-20T16:20:50.858Z"
+  },
+  {
+    "id": "c1cf01f5-64e3-4015-959c-e197aedb06f0",
+    "name": "cút phi 60",
+    "price": "1",
+    "quantity": "1",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774773924472_6d3ffd913e80ec28c52df5bff594ee99.webp",
+    "description": "1",
+    "category": "1",
+    "createdAt": "2026-03-29T08:45:51.293Z"
+  },
+  {
+    "id": "d10390ad-bc8a-41ea-bb02-de8dd7ca0b41",
+    "name": "mã inox",
+    "price": "1",
+    "quantity": "1",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774860430204_613fc188c0293fcdbb80e72a46fe0a2a.jpg.webp",
+    "description": "inox 304 10x10 ",
+    "category": "phụ kiện ",
+    "createdAt": "2026-03-30T08:47:27.569Z"
+  },
+  {
+    "id": "76285811-4612-4858-8449-6dace612bddf",
+    "name": "bị treo",
+    "price": "1",
+    "quantity": "1",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774860625411_bi-treo-cua-xep-3.jpg",
+    "description": "bi treo",
+    "category": "phụ kiện ",
+    "createdAt": "2026-03-30T08:50:33.823Z"
+  },
+  {
+    "id": "440c9409-df59-4e73-b21a-b45ed91fc34c",
+    "name": "bản lề ô tô sắt",
+    "price": "25000",
+    "quantity": "1",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774861184729_IMG_9690.jpeg",
+    "description": "",
+    "category": "phụ kiện cổng",
+    "createdAt": "2026-03-30T08:59:55.629Z"
+  },
+  {
+    "id": "5c1d3eb7-695c-4ff1-a27d-d9b1f4a0c4d4",
+    "name": "bản lề ô tô",
+    "price": "1",
+    "quantity": "1",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774861567904_gia-cong-ban-ma-inox.jpg",
+    "description": "1",
+    "category": "phụ kiện cổng",
+    "createdAt": "2026-03-30T09:06:11.828Z"
+  },
+  {
+    "id": "57abed56-a386-4a40-9436-9202aff7169c",
+    "name": "tai lật inox",
+    "price": "1",
+    "quantity": "1",
+    "image": "https://yzvqhtunwkgibmpdrisi.supabase.co/storage/v1/object/public/alowork-files/jd_1774862723256_gia-cong-ban-ma-inox.jpg",
+    "description": "",
+    "category": "phụ kiện cổng",
+    "createdAt": "2026-03-30T09:20:37.308Z",
+    "updatedAt": "2026-03-30T09:25:27.569Z"
+  },
+  {
+    "id": "c7d133e0-6721-427f-b9ae-fe841ed77f9d",
+    "name": "bản lề ô tô vàng",
+    "price": "1",
+    "quantity": "1",
+    "image": "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?auto=format&fit=crop&q=80&w=600",
+    "description": "",
+    "category": "phụ kiện cổng",
+    "createdAt": "2026-03-30T09:22:00.169Z"
+  }
+]
