@@ -12,8 +12,8 @@ export function AudioProvider({ children }) {
     const [hasInteracted, setHasInteracted] = useState(false);
 
     // Default audio source - can be made dynamic if needed
-    const src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
-
+    // const src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+    const src = "";
     const play = () => {
         if (audioRef.current) {
             audioRef.current.play()
