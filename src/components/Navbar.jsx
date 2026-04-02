@@ -115,9 +115,9 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div style={{ flex: 0, display: "flex", justifyContent: "center" }}>
+        {/* <div style={{ flex: 0, display: "flex", justifyContent: "center" }}>
           <AudioButton size={40} />
-        </div>
+        </div> */}
 
         <div
           className="hamburger"
