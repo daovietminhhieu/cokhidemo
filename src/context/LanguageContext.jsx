@@ -11,7 +11,7 @@ const translations = {
     hero_engineering: "ENGINEERING",
     hero_desc:
       "High-quality hardware for construction and industrial applications. Screws, fittings, and more, built to last.",
-    hero_cta: "SHOP NOW",
+    hero_cta: "VÀO CỬA HÀNG",
     why_choose_us: "Why Choose Us",
     choose_durable: "Durable Materials",
     choose_durable_desc:
@@ -131,7 +131,7 @@ const translations = {
     hero_engineering: "CHÍNH XÁC",
     hero_desc:
       "Phần cứng chất lượng cao cho xây dựng và ứng dụng công nghiệp. Ốc vít, phụ kiện, và nhiều hơn nữa, bền bỉ với thời gian.",
-    hero_cta: "MUA NGAY",
+    hero_cta: "VÀO CỬA HÀNG",
     why_choose_us: "Tại Sao Chọn Chúng Tôi",
     choose_durable: "Vật Liệu Bền Bỉ",
     choose_durable_desc:

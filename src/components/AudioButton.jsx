@@ -23,7 +23,7 @@ export default function AudioButton({ size = 56 }) {
                         width: '100%',
                         height: '100%',
                         borderRadius: '50%',
-                        background: 'rgba(255, 255, 255, 0.4)',
+                        background: 'rgba(255, 165, 0, 0.4)', // Vàng cam cho đồng bộ
                         zIndex: 0
                     }}
                 />
@@ -34,10 +34,10 @@ export default function AudioButton({ size = 56 }) {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 animate={{
-                    backgroundColor: isPlaying ? 'rgba(255, 255, 255, 1)' : 'rgba(255, 255, 255, 0.05)',
-                    borderColor: isPlaying ? 'transparent' : 'rgba(255, 255, 255, 0.3)',
-                    color: isPlaying ? '#000' : '#fff',
-                    boxShadow: isPlaying ? '0 0 25px rgba(255, 255, 255, 0.8)' : '0 4px 15px rgba(0, 0, 0, 0.2)'
+                    backgroundColor: isPlaying ? '#FFA500' : 'rgba(255, 165, 0, 0.05)',
+                    borderColor: isPlaying ? 'transparent' : 'rgba(255, 165, 0, 0.3)',
+                    color: isPlaying ? '#000' : '#FFA500',
+                    boxShadow: isPlaying ? '0 0 25px rgba(255, 165, 0, 0.6)' : '0 4px 15px rgba(0, 0, 0, 0.2)'
                 }}
                 transition={{ duration: 0.3 }}
                 style={{

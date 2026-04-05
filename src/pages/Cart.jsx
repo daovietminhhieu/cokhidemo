@@ -62,8 +62,9 @@ export default function CartPage() {
       />
       <div className="container section" style={{ marginTop: '80px', marginBottom: '80px' }} key={language}>
         <Reveal width="100%">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '3rem' }}>
+          <div className="cart-page-header">
             <h1
+              className="cart-title"
               style={{
                 fontSize: '3rem',
                 textTransform: 'uppercase',
@@ -76,6 +77,7 @@ export default function CartPage() {
             </h1>
             {cart.length > 0 && (
               <button
+                className="cart-clear-btn"
                 onClick={clearCart}
                 style={{
                   padding: '0.8rem 1.8rem',
@@ -316,6 +318,7 @@ export default function CartPage() {
             <div className="cart-grid">
               {/* Checkout Form */}
               <div
+                className="checkout-form-container"
                 style={{
                   borderRadius: '20px',
                   border: '1px solid rgba(255,255,255,0.08)',
@@ -341,7 +344,7 @@ export default function CartPage() {
                 </div>
 
                 <form onSubmit={handleOrder} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                  <div className="checkout-form-row">
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <label style={{ fontSize: '0.8rem', color: '#666', textTransform: 'uppercase' }}>Họ tên *</label>
                       <input
@@ -429,6 +432,7 @@ export default function CartPage() {
 
                   <button
                     type="submit"
+                    className="checkout-submit-btn"
                     disabled={isLoading}
                     style={{
                       marginTop: '1rem',
@@ -461,6 +465,7 @@ export default function CartPage() {
 
               {/* Order Sticky Summary */}
               <div
+                className="order-summary-container"
                 style={{
                   borderRadius: '20px',
                   border: '1px solid rgba(255,255,255,0.08)',

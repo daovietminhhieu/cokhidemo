@@ -96,18 +96,16 @@ export default function Navbar() {
           >
             <span
               style={{
-                fontFamily: "'Fredoka One', cursive",
-                fontSize: "1.8rem",
-                fontWeight: 400,
-                letterSpacing: "0.02em",
-                textTransform: "lowercase",
+                fontFamily: "'Audiowide', sans-serif",
+                fontSize: "1.4rem",
+                fontWeight: 900,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
                 display: "flex",
                 alignItems: "center",
                 lineHeight: 1,
                 color: "#fff",
-                textShadow: isAdmin
-                  ? "3px 3px 0 #1e293b, 6px 6px 0 rgba(0,0,0,0.2)"
-                  : "2px 2px 0 rgba(0,0,0,0.3)"
+                textShadow: "0 0 10px rgba(255,165,0,0.3)"
               }}
             >
               inoxdiepduong
@@ -115,63 +113,78 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* <div style={{ flex: 0, display: "flex", justifyContent: "center" }}>
-          <AudioButton size={40} />
-        </div> */}
+        <div className="nav-audio-desktop" style={{ flex: 0, display: "flex", justifyContent: "center" }}>
+          <AudioButton size={35} />
+        </div>
 
         <div
-          className="hamburger"
+          className={`hamburger ${isMenuOpen ? "active" : ""}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
           role="button"
           aria-expanded={isMenuOpen}
         >
-          <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
-          <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
-          <span style={{ background: isAdmin ? "#fff" : "white" }}></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
 
-        <div className={`nav-links ${isMenuOpen ? "active" : ""}`} style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+        <div className={`nav-links ${isMenuOpen ? "active" : ""}`} style={{ flex: 1, display: "flex", justifyContent: "flex-start" }}>
           <div style={{ display: "flex", gap: "3rem", alignItems: "center" }}>
             <Link
               to="/shop"
+              className={location.pathname === "/shop" ? "active-link" : ""}
               aria-label="Xem cửa hàng sản phẩm"
               style={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.15em",
                 textTransform: "uppercase",
-                color: isAdmin ? "#f8fafc" : "inherit",
-                opacity: isAdmin ? 0.9 : 1
+                color: location.pathname === "/shop" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"),
+                opacity: isAdmin ? 0.9 : 1,
+                transition: "all 0.3s ease",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#FFA500")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = location.pathname === "/shop" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"))}
+              onClick={() => setIsMenuOpen(false)}
             >
               {t("nav_products")}
             </Link>
             <Link
               to="/contact"
+              className={location.pathname === "/contact" ? "active-link" : ""}
               aria-label="Liên hệ với chúng tôi"
               style={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.15em",
                 textTransform: "uppercase",
-                color: isAdmin ? "#f8fafc" : "inherit",
-                opacity: isAdmin ? 0.9 : 1
+                color: location.pathname === "/contact" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"),
+                opacity: isAdmin ? 0.9 : 1,
+                transition: "all 0.3s ease",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#FFA500")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = location.pathname === "/contact" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"))}
+              onClick={() => setIsMenuOpen(false)}
             >
               {t("nav_contact")}
             </Link>
             <Link
               to="/about"
+              className={location.pathname === "/about" ? "active-link" : ""}
               aria-label="Về chúng tôi"
               style={{
                 fontSize: "0.85rem",
                 fontWeight: 700,
-                letterSpacing: "0.05em",
+                letterSpacing: "0.15em",
                 textTransform: "uppercase",
-                color: isAdmin ? "#f8fafc" : "inherit",
-                opacity: isAdmin ? 0.9 : 1
+                color: location.pathname === "/about" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"),
+                opacity: isAdmin ? 0.9 : 1,
+                transition: "all 0.3s ease",
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#FFA500")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = location.pathname === "/about" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"))}
+              onClick={() => setIsMenuOpen(false)}
             >
               Về chúng tôi
             </Link>
@@ -179,12 +192,14 @@ export default function Navbar() {
             {/* Cart display */}
             <div style={{ position: "relative" }}>
               <span
+                className={location.pathname === "/cart" ? "active-link" : ""}
                 style={{
                   fontSize: "0.9rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.05em",
+                  fontWeight: 600,
+                  letterSpacing: "0.15em",
                   textTransform: "uppercase",
                   cursor: "pointer",
+                  color: location.pathname === "/cart" ? "#FFA500" : "#FFA500", // Keep yellow for cart toggle button or change to active
                 }}
                 onClick={() => setIsCartOpen((prev) => !prev)}
                 role="button"
@@ -222,8 +237,9 @@ export default function Navbar() {
                       style={{
                         fontSize: "0.8rem",
                         textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        opacity: 0.7,
+                        letterSpacing: "0.15em",
+                        color: "#FFA500",
+                        fontWeight: "bold",
                       }}
                     >
                       Giỏ hàng
@@ -239,9 +255,12 @@ export default function Navbar() {
                           textTransform: "uppercase",
                           letterSpacing: "0.08em",
                           cursor: "pointer",
+                          transition: "color 0.3s ease",
                         }}
+                        onMouseEnter={(e) => (e.currentTarget.style.color = "#FFA500")}
+                        onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}
                       >
-                        Xóa giỏ hàng
+                        Xóa tất cả
                       </button>
                     )}
                   </div>
@@ -251,6 +270,8 @@ export default function Navbar() {
                       style={{
                         fontSize: "0.8rem",
                         color: "rgba(255,255,255,0.6)",
+                        textAlign: "center",
+                        padding: "1rem 0",
                       }}
                     >
                       Giỏ hàng trống
@@ -265,6 +286,7 @@ export default function Navbar() {
                           maxHeight: "220px",
                           overflowY: "auto",
                           marginBottom: "0.75rem",
+                          paddingRight: "5px",
                         }}
                       >
                         {cart.map((item) => (
@@ -275,6 +297,8 @@ export default function Navbar() {
                               justifyContent: "space-between",
                               alignItems: "center",
                               gap: "0.75rem",
+                              borderBottom: "1px solid rgba(255,165,0,0.1)",
+                              paddingBottom: "0.5rem",
                             }}
                           >
                             <div
@@ -287,11 +311,12 @@ export default function Navbar() {
                             >
                               <span
                                 style={{
-                                  fontSize: "0.8rem",
-                                  fontWeight: 500,
+                                  fontSize: "0.85rem",
+                                  fontWeight: 600,
                                   whiteSpace: "nowrap",
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
+                                  color: "#fff",
                                 }}
                               >
                                 {item.name}
@@ -299,10 +324,11 @@ export default function Navbar() {
                               <span
                                 style={{
                                   fontSize: "0.75rem",
-                                  opacity: 0.7,
+                                  color: "#FFA500",
+                                  opacity: 0.9,
                                 }}
                               >
-                                x{item.quantity}
+                                {item.quantity} x {item.price?.toLocaleString()}đ
                               </span>
                             </div>
                             <button
@@ -310,10 +336,13 @@ export default function Navbar() {
                               style={{
                                 background: "transparent",
                                 border: "none",
-                                color: "rgba(255,255,255,0.6)",
+                                color: "rgba(255,255,255,0.4)",
                                 fontSize: "0.75rem",
                                 cursor: "pointer",
+                                transition: "color 0.3s ease",
                               }}
+                              onMouseEnter={(e) => (e.currentTarget.style.color = "#ff4d4d")}
+                              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
                             >
                               ✕
                             </button>
@@ -324,23 +353,34 @@ export default function Navbar() {
                       <button
                         onClick={() => {
                           setIsCartOpen(false);
+                          setIsMenuOpen(false); // Đóng menu mobile khi chuyển sang thanh toán
                           navigate("/cart");
                         }}
                         style={{
                           width: "100%",
-                          padding: "0.6rem 1rem",
-                          borderRadius: "999px",
-                          border: "none",
-                          background: "#ffffff",
-                          color: "#000000",
+                          padding: "0.8rem 1rem",
+                          borderRadius: "4px",
+                          border: "1px solid #FFA500",
+                          background: "transparent",
+                          color: "#FFA500",
                           fontSize: "0.75rem",
-                          fontWeight: 600,
-                          letterSpacing: "0.08em",
+                          fontWeight: 700,
+                          letterSpacing: "0.2em",
                           textTransform: "uppercase",
                           cursor: "pointer",
+                          transition: "all 0.3s ease",
+                          marginTop: "0.5rem",
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = "#FFA500";
+                          e.currentTarget.style.color = "#000";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = "transparent";
+                          e.currentTarget.style.color = "#FFA500";
                         }}
                       >
-                        Xem giỏ hàng
+                        Thanh toán
                       </button>
                     </>
                   )}
@@ -352,12 +392,18 @@ export default function Navbar() {
               <>
                 <Link
                   to="/admin"
+                  className={location.pathname === "/admin" ? "active-link" : ""}
                   style={{
-                    fontSize: "0.9rem",
-                    fontWeight: 500,
-                    letterSpacing: "0.05em",
+                    fontSize: "0.85rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.15em",
                     textTransform: "uppercase",
+                    color: location.pathname === "/admin" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"),
+                    transition: "all 0.3s ease",
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#FFA500")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = location.pathname === "/admin" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"))}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   {t("nav_admin")}
                 </Link>
@@ -367,24 +413,38 @@ export default function Navbar() {
                     setIsMenuOpen(false);
                   }}
                   style={{
-                    fontSize: "0.9rem",
-                    fontWeight: 500,
-                    letterSpacing: "0.05em",
+                    fontSize: "0.85rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.15em",
                     textTransform: "uppercase",
+                    color: isAdmin ? "#f8fafc" : "inherit",
+                    transition: "all 0.3s ease",
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#FFA500")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = isAdmin ? "#f8fafc" : "inherit")}
                 >
                   {t("nav_logout")}
                 </button>
               </>
             ) : (
-              <Link to="/login" onClick={() => setIsMenuOpen(false)} aria-label="Đăng nhập tài khoản">
+              <Link
+                to="/login"
+                className={location.pathname === "/login" ? "active-link" : ""}
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Đăng nhập tài khoản"
+              >
                 <span
+                  className={location.pathname === "/login" ? "active-link" : ""}
                   style={{
-                    fontSize: "0.9rem",
-                    fontWeight: 500,
-                    letterSpacing: "0.05em",
+                    fontSize: "0.85rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.15em",
                     textTransform: "uppercase",
+                    color: location.pathname === "/login" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"),
+                    transition: "all 0.3s ease",
                   }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = "#FFA500")}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = location.pathname === "/login" ? "#FFA500" : (isAdmin ? "#f8fafc" : "inherit"))}
                 >
                   {t("nav_login")}
                 </span>
