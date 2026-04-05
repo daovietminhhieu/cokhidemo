@@ -324,7 +324,7 @@ export default function AdminDashboard() {
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}
                                         >
-                                            <td>
+                                            <td data-label={t('product_name')}>
                                                 <div className="product-cell">
                                                     <img
                                                         src={product.image}
@@ -337,15 +337,15 @@ export default function AdminDashboard() {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td data-label={t('category')}>
                                                 <span className="category-tag">
                                                     {product.category}
                                                 </span>
                                             </td>
-                                            <td style={{ fontWeight: 600 }}>
+                                            <td data-label={t('price')} style={{ fontWeight: 600 }}>
                                                 {product.price} VND
                                             </td>
-                                            <td>
+                                            <td data-label={t('stock')}>
                                                 <div className="stock-indicator">
                                                     <div className={clsx(
                                                         "dot",
@@ -358,7 +358,7 @@ export default function AdminDashboard() {
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td data-label={t('actions')}>
                                                 <div className="actions-cell">
                                                     <button className="btn-icon edit-btn" onClick={() => handleEdit(product)}>
                                                         <Edit2 size={16} />

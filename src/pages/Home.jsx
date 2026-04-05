@@ -103,7 +103,12 @@ export default function Home() {
       boxShadow: isMobile ? "none" : "0 -20px 50px rgba(0,0,0,0.8)",
     };
     return {
-      sheet1Style: { ...base, background: "linear-gradient(135deg, rgba(10, 10, 10, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)", borderLeft: "4px solid rgba(80, 90, 100, 0.6)" },
+      sheet1Style: { 
+        ...base, 
+        paddingTop: isMobile ? "120px" : "4rem", // Increase padding to avoid overlap with fixed navbar
+        background: "linear-gradient(135deg, rgba(10, 10, 10, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)", 
+        borderLeft: "4px solid rgba(80, 90, 100, 0.6)" 
+      },
       sheet2Style: { ...base, background: "linear-gradient(135deg, rgba(15, 25, 35, 0.5) 0%, rgba(20, 30, 40, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)" },
       sheet3Style: { ...base, background: "linear-gradient(135deg, rgba(20, 30, 40, 0.5) 0%, rgba(10, 10, 10, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)", marginTop: isMobile ? "1.25rem" : 0 },
       sheet4Style: { ...base, background: "linear-gradient(135deg, rgba(10, 15, 25, 0.5) 0%, rgba(25, 15, 35, 0.5) 100%)", borderLeft: "4px solid rgba(80, 100, 100, 0.6)" },

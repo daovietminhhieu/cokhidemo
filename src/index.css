@@ -520,7 +520,90 @@ button,
   .nav-audio-desktop {
     display: none !important;
   }
-}
+
+  /* Intro Sheet Mobile */
+  .sheet-content h1:first-of-type {
+    font-size: 16vw !important; /* Slightly smaller to prevent overflow */
+    margin-bottom: 1rem !important;
+    line-height: 1 !important; /* Increase line height to prevent overlap */
+  }
+
+  .sheet-content h1:last-of-type {
+    font-size: 7vw !important;
+    -webkit-text-stroke-width: 1px !important;
+    line-height: 1.2 !important;
+  }
+
+  .sheet-content .container > div:last-of-type {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin-top: 5vh !important;
+    gap: 1.5rem !important;
+    padding-top: 1.5rem !important;
+  }
+
+  .sheet-content p {
+    font-size: 1rem !important;
+    max-width: 100% !important;
+  }
+
+  .sheet-content .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Section Title Mobile */
+  .sheet-content h2 {
+     font-size: 1.75rem !important;
+     margin-bottom: 1.5rem !important;
+     padding-top: 0.75rem !important;
+   }
+
+   /* Product Card Mobile */
+   .product-card {
+     padding: 1rem !important;
+     border-radius: 12px !important;
+   }
+
+   .product-card h3 {
+     font-size: 1rem !important;
+   }
+
+   .product-card p {
+     margin-bottom: 0.75rem !important;
+   }
+
+   .product-card button {
+      padding: 0.6rem 0.8rem !important;
+      font-size: 0.8rem !important;
+    }
+
+    /* Category Card Mobile */
+    .category-card {
+      padding: 1rem !important;
+    }
+
+    .category-card > div:nth-child(2) {
+      height: 120px !important;
+    }
+
+    /* Feature Card Mobile */
+   .grid-features > div {
+     padding-left: 1.5rem !important;
+     padding-top: 1rem !important;
+     padding-bottom: 1rem !important;
+   }
+
+   .grid-features span {
+     font-size: 2.25rem !important;
+     margin-bottom: 0.5rem !important;
+   }
+
+   .grid-features h3 {
+     font-size: 1.1rem !important;
+     margin-bottom: 0.5rem !important;
+   }
+ }
 
 @keyframes float-subtle {
 

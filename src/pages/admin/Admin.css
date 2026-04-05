@@ -551,3 +551,142 @@
     font-size: 0.875rem;
     margin: 0;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .admin-dashboard .main-content {
+        padding-top: 1.5rem;
+    }
+
+    .admin-dashboard .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .admin-dashboard .header-title {
+        font-size: 1.75rem;
+    }
+
+    .admin-dashboard .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-dashboard .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .admin-dashboard .stat-card {
+        padding: 1.25rem;
+    }
+
+    .admin-dashboard .table-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .admin-dashboard .search-wrapper {
+        max-width: none;
+    }
+
+    .admin-dashboard .filter-wrapper {
+        justify-content: center;
+    }
+
+    /* Table Mobile Stack */
+    .admin-dashboard table,
+    .admin-dashboard thead,
+    .admin-dashboard tbody,
+    .admin-dashboard th,
+    .admin-dashboard td,
+    .admin-dashboard tr {
+        display: block;
+    }
+
+    .admin-dashboard thead {
+        display: none; /* Hide header on mobile */
+    }
+
+    .admin-dashboard td {
+        border: none;
+        padding: 0.75rem 1rem;
+        position: relative;
+        text-align: right;
+        min-height: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .admin-dashboard td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: 40%;
+        text-align: left;
+        font-weight: 700;
+        color: var(--admin-text-muted);
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.05em;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .admin-dashboard .product-cell {
+        justify-content: flex-end;
+    }
+
+    .admin-dashboard .stock-indicator,
+    .admin-dashboard .actions-cell {
+        justify-content: flex-end;
+    }
+
+    .admin-dashboard tr {
+        margin-bottom: 1.5rem;
+        border: 1px solid var(--admin-border);
+        border-radius: 16px;
+        background: white;
+        padding: 0.5rem 0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Modal Mobile */
+    .admin-dashboard .modal-container {
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .admin-dashboard .form-body {
+        overflow-y: auto;
+    }
+
+    .admin-dashboard .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-dashboard .form-group.full-width {
+        grid-column: span 1;
+    }
+
+    .admin-dashboard .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .admin-dashboard .form-actions button {
+        width: 100%;
+    }
+
+    .admin-dashboard .toast {
+        left: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        justify-content: center;
+    }
+}
