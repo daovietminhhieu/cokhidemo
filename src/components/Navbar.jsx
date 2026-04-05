@@ -113,9 +113,9 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="nav-audio-desktop" style={{ flex: 0, display: "flex", justifyContent: "center" }}>
+        {/* <div className="nav-audio-desktop" style={{ flex: 0, display: "flex", justifyContent: "center" }}>
           <AudioButton size={35} />
-        </div>
+        </div> */}
 
         <div
           className={`hamburger ${isMenuOpen ? "active" : ""}`}
