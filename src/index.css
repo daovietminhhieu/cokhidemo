@@ -20,7 +20,7 @@
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: "Inter", sans-serif;
 
-  --spacing-container: 4vw;
+  --spacing-container: 2vw;
 }
 
 /* Optimized Noise Texture */
@@ -181,13 +181,13 @@ button,
 
 /* Utilities */
 .container {
-  max-width: 1600px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 0 var(--spacing-container);
 }
 
 .section {
-  padding: 120px 0;
+  padding: 80px 0; /* Reduced from 120px */
 }
 
 .glass {
@@ -353,8 +353,8 @@ button,
 .grid-features,
 .grid-news {
   display: grid;
-  gap: 2rem;
-  margin-top: 4rem;
+  gap: 1.5rem; /* Reduced from 2rem */
+  margin-top: 3rem; /* Reduced from 4rem */
 }
 
 .grid-products {
@@ -445,17 +445,18 @@ button,
     left: 0;
     width: 100%;
     height: 100vh;
-    background: #080809; /* Sẫm hơn cho đồng bộ LoadingScreen */
-    background-image: linear-gradient(rgba(255, 165, 0, 0.02) 1px, transparent 1px),
+    background: #080809;
+    background-image: radial-gradient(circle at center, rgba(255, 165, 0, 0.05) 0%, transparent 70%),
+      linear-gradient(rgba(255, 165, 0, 0.02) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255, 165, 0, 0.02) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-size: 100% 100%, 40px 40px, 40px 40px;
     flex-direction: column;
-    justify-content: flex-start; /* Move up a bit */
+    justify-content: flex-start;
     align-items: center;
     transform: translateY(-100%);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
     z-index: 1000;
-    padding: 15vh 2rem 5vh; /* Increase top padding to reduce empty space at top but keep it clean */
+    padding: 12vh 1.5rem 5vh; /* Giảm padding ngang của container */
   }
 
   .nav-links.active {
@@ -464,39 +465,55 @@ button,
 
   .nav-links > div {
     flex-direction: column;
-    gap: 1.8rem !important; /* Reduce gap */
+    gap: 0.8rem !important;
     width: 100%;
     align-items: center;
+    padding: 0; /* Bỏ padding ngang của div con */
+  }
+
+  .nav-links > div > div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   .nav-links a, .nav-links span, .nav-links button {
-     font-size: 1.1rem !important; /* Reduce font size */
-     color: #ffffff !important; /* Default white */
+     font-size: 0.9rem !important;
+     color: #FFA500 !important;
      letter-spacing: 0.15em !important;
-     font-weight: 600 !important;
-     transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+     font-weight: 700 !important;
+     transition: all 0.3s ease;
      text-align: center;
      text-transform: uppercase;
-     padding: 0.4rem 0;
+     padding: 1.1rem !important;
+     width: 100% !important; /* Đảm bảo ô chiếm hết 100% chiều ngang khả dụng */
+     max-width: 100% !important; /* Loại bỏ giới hạn max-width để full màn hình */
+     border: 1px solid rgba(255, 165, 0, 0.3);
+     background: rgba(0, 0, 0, 0.6);
+     backdrop-filter: blur(5px);
+     border-radius: 4px;
+     display: flex !important;
+     align-items: center;
+     justify-content: center;
      position: relative;
+     margin: 0;
    }
 
+   /* Hiệu ứng khi nhấn hoặc mục đang active */
    .nav-links a.active-link, 
    .nav-links span.active-link, 
-   .nav-links button.active-link {
-     color: #FFA500 !important; /* Yellow for active state */
+   .nav-links button.active-link,
+   .nav-links a:active,
+   .nav-links button:active {
+     color: #000 !important; /* Chữ đen trên nền vàng */
+     border-color: #FFA500 !important;
+     background: #FFA500 !important; /* Nền vàng rực */
+     box-shadow: 0 0 15px rgba(255, 165, 0, 0.4);
+     transform: scale(0.97);
    }
  
    .nav-links a::after {
-     content: '';
-     position: absolute;
-     bottom: 0;
-     left: 50%;
-     width: 0;
-     height: 1px;
-     background: #FFA500;
-     transition: all 0.3s ease;
-     transform: translateX(-50%);
+     display: none !important; /* Bỏ gạch chân trên mobile vì đã có ô */
    }
  
    .nav-links a:hover::after {
@@ -796,7 +813,17 @@ input[type=number] {
        position: static !important;
        margin-top: 1rem;
      }
-   }
+
+    /* Shop Page Mobile */
+    .shop-header {
+      margin-bottom: 2rem !important;
+    }
+
+    .shop-title {
+      font-size: 2.5rem !important;
+      line-height: 1.1 !important;
+    }
+}
 
 @media (max-width: 600px) {
   .cart-item {

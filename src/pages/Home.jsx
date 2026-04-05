@@ -23,7 +23,6 @@ export default function Home() {
   const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [hoveredCharIndex, setHoveredCharIndex] = useState(-1);
   const [showProductPopup, setShowProductPopup] = useState(false);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
@@ -94,7 +93,7 @@ export default function Home() {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      padding: isMobile ? "1.5rem 1rem" : "4rem",
+      padding: isMobile ? "1rem 0.5rem" : "2rem", /* Reduced padding */
       background: "rgba(10, 10, 10, 0.4)",
       backdropFilter: isMobile ? "none" : "blur(8px)",
       borderTop: "1px solid rgba(255,255,255,0.1)",
@@ -105,7 +104,7 @@ export default function Home() {
     return {
       sheet1Style: { 
         ...base, 
-        paddingTop: isMobile ? "120px" : "4rem", // Increase padding to avoid overlap with fixed navbar
+        paddingTop: isMobile ? "0" : "4rem", /* Remove paddingTop to use normal flow or manual control */
         background: "linear-gradient(135deg, rgba(10, 10, 10, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)", 
         borderLeft: "4px solid rgba(80, 90, 100, 0.6)" 
       },
@@ -133,7 +132,7 @@ export default function Home() {
       <div style={{ position: "relative", zIndex: 10 }}>
         <PullToReveal>
           <Suspense fallback={<div style={{ height: "100vh", background: "rgba(0,0,0,0.2)" }} />}>
-            <IntroSheet style={sheet1Style} t={t} hoveredCharIndex={hoveredCharIndex} setHoveredCharIndex={setHoveredCharIndex} />
+            <IntroSheet style={sheet1Style} t={t} />
           </Suspense>
           <Suspense fallback={<div style={{ height: "100vh", background: "rgba(0,0,0,0.2)" }} />}>
             <CategoriesSheet style={sheet2Style} dynamicCategories={dynamicCategories} onNavigate={handleNavigate} />

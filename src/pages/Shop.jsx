@@ -242,14 +242,14 @@ export default function Shop() {
   };
 
   return (
-      <div className="container section" style={{ marginTop: '40px' }}>
+      <div className="container section" style={{ marginTop: '80px' }}>
       <SeoTags
         title={t('shop_title')}
         description={t('seo_shop_desc') || 'Tìm kiếm và lọc hàng nghìn sản phẩm cơ khí, inox, ốc vít và vật liệu xây dựng.'}
       />
       <Reveal width="100%">
-        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <h1 style={{ fontSize: '4rem', color: '#fff' }}>
+        <div className="shop-header" style={{ textAlign: 'center', marginBottom: '4rem' }}>
+          <h1 className="shop-title" style={{ fontSize: '4rem', color: '#fff' }}>
             {t('shop_title')}
           </h1>
         </div>
