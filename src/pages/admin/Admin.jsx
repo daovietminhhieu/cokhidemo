@@ -396,9 +396,10 @@ export default function AdminDashboard() {
                             className="modal-backdrop"
                         />
                         <motion.div
-                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            initial={{ scale: 0.95, opacity: 0, y: 40 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 40 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
                             className="modal-container"
                         >
                             <div className="modal-header">
@@ -468,12 +469,24 @@ export default function AdminDashboard() {
                                     </div> */}
                                     <div className="form-group full-width">
                                         <label>Media</label>
-                                        <div style={{ display: "flex", gap: 10 }}>
-                                            <input type="file" accept="image/*,video/*" onChange={handleFileChange} ref={fileInputRef} />
-                                            {formData.image && (
-                                                <div style={{ marginTop: 10 }}>
-                                                    {fileType === "image" ? <img src={formData.image} style={{ width: 200 }} /> :
-                                                        <video src={formData.image} controls style={{ width: 220 }} />}
+                                        <div className="media-upload-wrapper">
+                                            <label className="file-upload-btn" htmlFor="add-file-input">
+                                                {uploading ? 'Đang tải lên...' : '📁 Chọn ảnh / video'}
+                                            </label>
+                                            <input
+                                                id="add-file-input"
+                                                type="file"
+                                                accept="image/*,video/*"
+                                                onChange={handleFileChange}
+                                                ref={fileInputRef}
+                                                style={{ display: 'none' }}
+                                            />
+                                            {uploading && <p className="upload-status">Đang xử lý...</p>}
+                                            {formData.image && !uploading && (
+                                                <div className="media-preview">
+                                                    {fileType === "image"
+                                                        ? <img src={formData.image} alt="preview" />
+                                                        : <video src={formData.image} controls />}
                                                 </div>
                                             )}
                                         </div>
@@ -499,10 +512,10 @@ export default function AdminDashboard() {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="btn-secondary"
-                                        style={{ flex: 1 }}
+                                        className="btn-submit"
+                                        disabled={uploading}
                                     >
-                                        Thêm
+                                        {uploading ? 'Đang tải lên...' : 'Thêm sản phẩm'}
                                     </button>
                                 </div>
                             </form>
@@ -523,9 +536,10 @@ export default function AdminDashboard() {
                             className="modal-backdrop"
                         />
                         <motion.div
-                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            initial={{ scale: 0.95, opacity: 0, y: 40 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 40 }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
                             className="modal-container"
                         >
                             <div className="modal-header">
@@ -579,8 +593,12 @@ export default function AdminDashboard() {
                                     </div>
                                     <div className="form-group full-width">
                                         <label>Media</label>
-                                        <div style={{ display: "flex", gap: 10 }}>
+                                        <div className="media-upload-wrapper">
+                                            <label className="file-upload-btn" htmlFor="edit-file-input">
+                                                {uploading ? 'Đang tải lên...' : '📁 Chọn ảnh / video'}
+                                            </label>
                                             <input
+                                                id="edit-file-input"
                                                 type="file"
                                                 accept="image/*,video/*"
                                                 onChange={async (e) => {
@@ -599,11 +617,14 @@ export default function AdminDashboard() {
                                                     }
                                                 }}
                                                 ref={editFileInputRef}
+                                                style={{ display: 'none' }}
                                             />
-                                            {editFormData.image && (
-                                                <div style={{ marginTop: 10 }}>
-                                                    {fileType === "image" ? <img src={editFormData.image} style={{ width: 200 }} /> :
-                                                        <video src={editFormData.image} controls style={{ width: 220 }} />}
+                                            {uploading && <p className="upload-status">Đang xử lý...</p>}
+                                            {editFormData.image && !uploading && (
+                                                <div className="media-preview">
+                                                    {fileType === "image"
+                                                        ? <img src={editFormData.image} alt="preview" />
+                                                        : <video src={editFormData.image} controls />}
                                                 </div>
                                             )}
                                         </div>
@@ -629,8 +650,7 @@ export default function AdminDashboard() {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="btn-secondary"
-                                        style={{ flex: 1 }}
+                                        className="btn-submit"
                                         disabled={uploading}
                                     >
                                         {uploading ? "Đang tải lên..." : "Cập nhật"}

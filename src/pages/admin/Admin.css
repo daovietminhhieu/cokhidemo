@@ -522,6 +522,80 @@
     font-weight: 600;
 }
 
+.admin-dashboard .btn-submit {
+    background: var(--admin-primary);
+    color: white;
+    padding: 0.875rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 700;
+    flex: 1;
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    transition: opacity 0.2s;
+}
+
+.admin-dashboard .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Media Upload */
+.admin-dashboard .media-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.admin-dashboard .file-upload-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: #f1f5f9;
+    border: 2px dashed var(--admin-border);
+    border-radius: 12px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.925rem;
+    font-weight: 600;
+    color: var(--admin-text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.admin-dashboard .file-upload-btn:hover {
+    border-color: var(--admin-primary);
+    background: rgba(99, 102, 241, 0.05);
+    color: var(--admin-primary);
+}
+
+.admin-dashboard .upload-status {
+    font-size: 0.85rem;
+    color: var(--admin-text-muted);
+    margin: 0;
+    text-align: center;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.admin-dashboard .media-preview {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--admin-border);
+    background: #f8fafc;
+}
+
+.admin-dashboard .media-preview img,
+.admin-dashboard .media-preview video {
+    width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    display: block;
+}
+
 /* Toast */
 .admin-dashboard .toast {
     position: fixed;
@@ -655,32 +729,106 @@
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
     }
 
-    /* Modal Mobile */
+    /* ========================================
+       Modal Mobile — Bottom Sheet Style
+    ======================================== */
+    .admin-dashboard .modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
     .admin-dashboard .modal-container {
-        max-height: 90vh;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 24px 24px 0 0;
+        max-height: 92vh;
         display: flex;
         flex-direction: column;
+        /* safe area for notched phones */
+        padding-bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    /* drag handle indicator */
+    .admin-dashboard .modal-header::before {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 4px;
+        background: #e2e8f0;
+        border-radius: 2px;
+        margin: 0 auto 0.75rem;
+    }
+
+    .admin-dashboard .modal-header {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        padding: 0.75rem 1.25rem 1rem;
+        gap: 0;
+    }
+
+    .admin-dashboard .modal-title {
+        font-size: 1.1rem;
+        align-self: flex-start;
+        width: 100%;
+    }
+
+    .admin-dashboard .close-btn {
+        padding: 0.25rem;
+        align-self: flex-end;
+        margin-bottom: -2rem;
     }
 
     .admin-dashboard .form-body {
+        flex: 1;
         overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 1.25rem;
     }
 
     .admin-dashboard .form-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
 
     .admin-dashboard .form-group.full-width {
         grid-column: span 1;
     }
 
+    /* Larger touch targets for inputs on mobile */
+    .admin-dashboard input,
+    .admin-dashboard textarea {
+        padding: 0.875rem 1rem;
+        font-size: 1rem; /* prevents iOS zoom on focus */
+        border-radius: 10px;
+    }
+
+    .admin-dashboard .file-upload-btn {
+        padding: 1rem;
+        font-size: 0.975rem;
+        width: 100%;
+    }
+
+    .admin-dashboard .media-preview img,
+    .admin-dashboard .media-preview video {
+        max-height: 180px;
+    }
+
     .admin-dashboard .form-actions {
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 0.625rem;
+        margin-top: 1.25rem;
+        padding: 0 0 0.5rem;
     }
 
     .admin-dashboard .form-actions button {
         width: 100%;
+        padding: 1rem;
+        font-size: 1rem;
+        border-radius: 14px;
+    }
+
+    .admin-dashboard .btn-submit {
+        order: -1; /* submit first on mobile */
     }
 
     .admin-dashboard .toast {
@@ -688,5 +836,16 @@
         right: 1rem;
         bottom: 1rem;
         justify-content: center;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+    .admin-dashboard .header-title {
+        font-size: 1.4rem;
+    }
+
+    .admin-dashboard .stat-value {
+        font-size: 1.4rem;
     }
 }
