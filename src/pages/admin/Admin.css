@@ -626,7 +626,6 @@
     margin: 0;
 }
 
-/* Mobile Responsive Styles */
 @media (max-width: 768px) {
     .admin-dashboard .main-content {
         padding-top: 1.5rem;
@@ -648,13 +647,26 @@
         justify-content: center;
     }
 
+    /* Stats Grid - Horizontal Scroll on small mobile */
     .admin-dashboard .stats-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 1rem;
         gap: 1rem;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -1rem 1.5rem -1rem;
+        padding: 0 1rem 1rem 1rem;
     }
 
     .admin-dashboard .stat-card {
-        padding: 1.25rem;
+        flex: 0 0 85%;
+        scroll-snap-align: center;
+        padding: 1rem;
+    }
+
+    .admin-dashboard .stat-value {
+        font-size: 1.5rem;
     }
 
     .admin-dashboard .table-controls {
@@ -668,7 +680,7 @@
     }
 
     .admin-dashboard .filter-wrapper {
-        justify-content: center;
+        justify-content: space-between;
     }
 
     /* Table Mobile Stack */
@@ -694,6 +706,14 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        border-bottom: 1px solid #f8fafc;
+    }
+
+    .admin-dashboard td:last-child {
+        border-bottom: none;
+        padding-top: 1rem;
+        background: #f8fafc;
+        border-radius: 0 0 16px 16px;
     }
 
     .admin-dashboard td::before {
@@ -705,19 +725,10 @@
         font-weight: 700;
         color: var(--admin-text-muted);
         text-transform: uppercase;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         letter-spacing: 0.05em;
         top: 50%;
         transform: translateY(-50%);
-    }
-
-    .admin-dashboard .product-cell {
-        justify-content: flex-end;
-    }
-
-    .admin-dashboard .stock-indicator,
-    .admin-dashboard .actions-cell {
-        justify-content: flex-end;
     }
 
     .admin-dashboard tr {
@@ -725,7 +736,7 @@
         border: 1px solid var(--admin-border);
         border-radius: 16px;
         background: white;
-        padding: 0.5rem 0;
+        padding: 0;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
     }
 
@@ -737,16 +748,71 @@
         padding: 0;
     }
 
+    .admin-dashboard .modal-backdrop {
+        background: rgba(15, 23, 42, 0.6);
+    }
+
     .admin-dashboard .modal-container {
         width: 100%;
         max-width: 100%;
-        border-radius: 24px 24px 0 0;
-        max-height: 92vh;
+        border-radius: 20px 20px 0 0;
+        max-height: 90vh;
         display: flex;
         flex-direction: column;
-        /* safe area for notched phones */
-        padding-bottom: env(safe-area-inset-bottom, 0);
+        padding-bottom: env(safe-area-inset-bottom, 20px);
     }
+
+    .admin-dashboard .modal-header {
+        padding: 1rem 1.5rem;
+        background: #ffffff;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* Handle bar for bottom sheet */
+    .admin-dashboard .modal-header::before {
+        content: '';
+        position: absolute;
+        top: 0.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 4px;
+        background: #e2e8f0;
+        border-radius: 2px;
+    }
+
+    .admin-dashboard .form-body {
+        padding: 1.5rem;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .admin-dashboard .form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .admin-dashboard .form-group.full-width {
+        grid-column: span 1;
+    }
+
+    .admin-dashboard .form-actions {
+        flex-direction: column-reverse;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
+
+    .admin-dashboard .btn-secondary {
+        width: 100%;
+    }
+
+    .admin-dashboard .btn-submit {
+        width: 100%;
+    }
+}
 
     .admin-dashboard .modal-header::before {
         content: '';
@@ -841,7 +907,7 @@
         bottom: 1rem;
         justify-content: center;
     }
-}
+
 
 /* Extra small screens */
 @media (max-width: 360px) {

@@ -173,37 +173,59 @@
 
 @media (max-width: 768px) {
     .admin-layout-wrapper {
-        padding-top: 120px;
+        padding-top: 110px; /* Reduced from 120px */
+        padding-bottom: 80px; /* Space for bottom nav if we use it */
     }
 
     .admin-navbar {
         top: 60px; /* Match mobile navbar height */
-        height: 55px;
+        height: auto;
+        min-height: 55px;
+        padding: 0.5rem 0;
     }
 
     .admin-navbar .navbar-content {
         padding: 0 1rem;
+        flex-direction: column;
+        gap: 0.75rem;
     }
 
     .admin-navbar .nav-menu {
-        display: flex; /* Keep visible on mobile but compact */
-        gap: 0.5rem;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        gap: 0.25rem;
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.4rem;
+        border-radius: 12px;
     }
 
     .admin-navbar .nav-link {
-        padding: 0.4rem;
+        padding: 0.5rem;
+        flex: 1;
+        justify-content: center;
         background: transparent !important;
         border: none !important;
+        font-size: 0.75rem;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+
+    .admin-navbar .nav-link span {
+        display: block; /* Show labels on mobile too but smaller */
+        font-size: 0.65rem;
     }
 
     .admin-navbar .nav-link.active {
         color: #818cf8;
+        background: rgba(129, 140, 248, 0.1) !important;
+        border-radius: 8px;
     }
 
     .admin-navbar .user-avatar {
-        width: 2rem;
-        height: 2rem;
-        font-size: 0.8rem;
+        width: 1.75rem;
+        height: 1.75rem;
+        font-size: 0.75rem;
     }
 
     .admin-navbar .divider {
@@ -211,6 +233,37 @@
     }
 
     .admin-navbar .nav-actions {
-        gap: 0.5rem;
+        display: flex;
+        width: auto;
+        justify-content: flex-end;
+        padding: 0;
+        border: none;
+        margin-left: auto;
+    }
+
+    .admin-navbar .user-info, 
+    .admin-navbar .divider,
+    .admin-navbar .user-avatar {
+        display: none;
+    }
+
+    .admin-navbar .logout-btn-icon {
+        padding: 0.5rem;
+        color: #ef4444;
+    }
+
+    .admin-page-container {
+        padding: 1.5rem 0;
+    }
+}
+
+/* iPhone specific optimizations (Safe areas) */
+@supports (padding: env(safe-area-inset-top)) {
+    .admin-navbar {
+        padding-top: env(safe-area-inset-top, 0);
+    }
+    
+    .admin-layout-wrapper {
+        padding-bottom: env(safe-area-inset-bottom, 20px);
     }
 }

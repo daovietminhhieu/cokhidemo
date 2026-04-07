@@ -226,3 +226,41 @@
     border-radius: 20px;
     border: 2px dashed #e2e8f0;
 }
+
+@media (max-width: 768px) {
+    .admin-contacts-page {
+        gap: 1.5rem;
+    }
+
+    .admin-contacts-page .header-title {
+        font-size: 1.75rem;
+    }
+
+    .admin-contacts-page .controls-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .admin-contacts-page .contacts-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .admin-contacts-page .contact-card {
+        padding: 1.25rem;
+    }
+
+    .admin-contacts-page .info-row .name {
+        font-size: 1rem;
+    }
+
+    .admin-contacts-page .card-actions {
+        flex-direction: column;
+    }
+
+    .admin-contacts-page .action-btn {
+        width: 100%;
+    }
+}

@@ -264,9 +264,42 @@
     }
 }
 @media (max-width: 768px) {
+    .admin-profile-page .header-title {
+        font-size: 1.75rem;
+    }
+
     .admin-profile-page .hero-card {
         flex-direction: column;
         text-align: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .admin-profile-page .profile-avatar-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+    }
+
+    .admin-profile-page .profile-info-hero h2 {
+        font-size: 1.5rem;
+    }
+
+    .admin-profile-page .profile-card {
+        padding: 1.25rem;
+    }
+
+    .admin-profile-page .stat-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .admin-profile-page .security-notice {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
         gap: 1rem;
+        margin-top: 2rem;
     }
 }
