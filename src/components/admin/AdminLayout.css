@@ -173,8 +173,8 @@
 
 @media (max-width: 768px) {
     .admin-layout-wrapper {
-        padding-top: 110px; /* Reduced from 120px */
-        padding-bottom: 80px; /* Space for bottom nav if we use it */
+        padding-top: 140px; /* Increased from 110px to avoid navbar overlap */
+        padding-bottom: 40px;
     }
 
     .admin-navbar {

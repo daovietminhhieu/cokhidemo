@@ -41,6 +41,8 @@ export default function AdminDashboard() {
     const [debouncedSearch, setDebouncedSearch] = useState('');
     const [uploading, setUploading] = useState(false);
     const [fileType, setFileType] = useState("");
+    const [activeCategoryInput, setActiveCategoryInput] = useState(null);
+    const categoryBlurTimeout = useRef(null);
     const fileInputRef = useRef(null);
     const editFileInputRef = useRef(null);
     // Form State
@@ -223,10 +225,45 @@ export default function AdminDashboard() {
         return { total, lowStock, totalValue };
     }, [products]);
 
-    const categories = useMemo(() => {
-        const cats = Array.from(new Set(products.map(p => p.category)));
-        return ['All', ...cats];
+    const categorySuggestions = useMemo(() => {
+        return Array.from(new Set(products.map(p => p.category).filter(Boolean)));
     }, [products]);
+
+    const visibleCategorySuggestions = useMemo(() => {
+        const query = activeCategoryInput === 'edit' ? editFormData.category : formData.category;
+        const normalizedQuery = (query || '').toLowerCase();
+        return categorySuggestions.filter(cat =>
+            !normalizedQuery || cat.toLowerCase().includes(normalizedQuery)
+        );
+    }, [categorySuggestions, activeCategoryInput, formData.category, editFormData.category]);
+
+    const categories = useMemo(() => {
+        return ['All', ...categorySuggestions];
+    }, [categorySuggestions]);
+
+    const openCategorySuggestions = (type) => {
+        if (categoryBlurTimeout.current) {
+            clearTimeout(categoryBlurTimeout.current);
+            categoryBlurTimeout.current = null;
+        }
+        setActiveCategoryInput(type);
+    };
+
+    const closeCategorySuggestions = () => {
+        if (categoryBlurTimeout.current) {
+            clearTimeout(categoryBlurTimeout.current);
+        }
+        categoryBlurTimeout.current = setTimeout(() => setActiveCategoryInput(null), 100);
+    };
+
+    const handleCategorySuggestionClick = (type, category) => {
+        if (type === 'edit') {
+            setEditFormData(prev => ({ ...prev, category }));
+        } else {
+            setFormData(prev => ({ ...prev, category }));
+        }
+        setActiveCategoryInput(null);
+    };
 
     if (!user) return null;
 
@@ -451,13 +488,35 @@ export default function AdminDashboard() {
                                             required
                                         />
                                     </div>
-                                    <div className="form-group">
+                                    <div className="form-group category-input-group">
                                         <label>{t('category')}</label>
                                         <input
                                             name="category"
                                             value={formData.category}
                                             onChange={handleInputChange}
+                                            onFocus={() => openCategorySuggestions('add')}
+                                            onBlur={closeCategorySuggestions}
+                                            autoComplete="off"
                                         />
+                                        {activeCategoryInput === 'add' && (
+                                            <div className="category-suggestions-list">
+                                                {visibleCategorySuggestions.length > 0 ? (
+                                                    visibleCategorySuggestions.map(cat => (
+                                                        <button
+                                                            key={cat}
+                                                            type="button"
+                                                            className="category-suggestion-item"
+                                                            onMouseDown={(e) => e.preventDefault()}
+                                                            onClick={() => handleCategorySuggestionClick('add', cat)}
+                                                        >
+                                                            {cat}
+                                                        </button>
+                                                    ))
+                                                ) : (
+                                                    <div className="category-suggestions-empty">Không có danh mục phù hợp</div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                     {/* <div className="form-group">
                                         <label>{t('image_url')}</label>
@@ -583,13 +642,35 @@ export default function AdminDashboard() {
                                             required
                                         />
                                     </div>
-                                    <div className="form-group">
+                                    <div className="form-group category-input-group">
                                         <label>{t('category')}</label>
                                         <input
                                             name="category"
                                             value={editFormData.category}
                                             onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
+                                            onFocus={() => openCategorySuggestions('edit')}
+                                            onBlur={closeCategorySuggestions}
+                                            autoComplete="off"
                                         />
+                                        {activeCategoryInput === 'edit' && (
+                                            <div className="category-suggestions-list">
+                                                {visibleCategorySuggestions.length > 0 ? (
+                                                    visibleCategorySuggestions.map(cat => (
+                                                        <button
+                                                            key={cat}
+                                                            type="button"
+                                                            className="category-suggestion-item"
+                                                            onMouseDown={(e) => e.preventDefault()}
+                                                            onClick={() => handleCategorySuggestionClick('edit', cat)}
+                                                        >
+                                                            {cat}
+                                                        </button>
+                                                    ))
+                                                ) : (
+                                                    <div className="category-suggestions-empty">Không có danh mục phù hợp</div>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="form-group full-width">
                                         <label>Media</label>

@@ -485,12 +485,54 @@
     gap: 0.5rem;
 }
 
-.admin-dashboard .form-group.full-width {
-    grid-column: span 2;
-}
+    .admin-dashboard .category-input-group {
+        position: relative;
+    }
 
-.admin-dashboard label {
-    font-size: 0.875rem;
+    .admin-dashboard .category-suggestions-list {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        left: 0;
+        right: 0;
+        z-index: 30;
+        background: var(--admin-white);
+        border: 1px solid var(--admin-border);
+        border-radius: 16px;
+        box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+        max-height: 240px;
+        overflow-y: auto;
+    }
+
+    .admin-dashboard .category-suggestion-item {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        background: transparent;
+        border: none;
+        text-align: left;
+        cursor: pointer;
+        color: var(--admin-text-main);
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .admin-dashboard .category-suggestion-item:hover,
+    .admin-dashboard .category-suggestion-item:focus {
+        background: #f8fafc;
+        outline: none;
+    }
+
+    .admin-dashboard .category-suggestion-item + .category-suggestion-item {
+        border-top: 1px solid var(--admin-border);
+    }
+
+    .admin-dashboard .category-suggestions-empty {
+        padding: 0.875rem 1rem;
+        color: var(--admin-text-muted);
+        font-size: 0.9rem;
+    }
+
     font-weight: 600;
     color: var(--admin-text-main);
 }
@@ -647,26 +689,35 @@
         justify-content: center;
     }
 
-    /* Stats Grid - Horizontal Scroll on small mobile */
+    /* Stats Grid - Vertical Stack for mobile */
     .admin-dashboard .stats-grid {
-        display: flex;
-        overflow-x: auto;
-        padding-bottom: 1rem;
-        gap: 1rem;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        margin: 0 -1rem 1.5rem -1rem;
-        padding: 0 1rem 1rem 1rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin: 0 0 2rem 0;
+        padding: 0;
     }
 
     .admin-dashboard .stat-card {
-        flex: 0 0 85%;
-        scroll-snap-align: center;
-        padding: 1rem;
+        width: 100%;
+        padding: 1.25rem;
     }
 
     .admin-dashboard .stat-value {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
+    }
+
+    .admin-dashboard .stat-label {
+        font-size: 0.8rem;
+    }
+
+    .admin-dashboard .stat-icon-wrapper {
+        padding: 0.6rem;
+    }
+
+    .admin-dashboard .stat-icon-wrapper svg {
+        width: 20px;
+        height: 20px;
     }
 
     .admin-dashboard .table-controls {
@@ -741,53 +792,51 @@
     }
 
     /* ========================================
-       Modal Mobile — Bottom Sheet Style
+       Modal Mobile — Fixed to screen
     ======================================== */
     .admin-dashboard .modal-overlay {
-        align-items: flex-end;
-        padding: 0;
+        align-items: center; /* Center to avoid shifting issues */
+        padding: 1rem;
     }
 
     .admin-dashboard .modal-backdrop {
-        background: rgba(15, 23, 42, 0.6);
+        background: rgba(15, 23, 42, 0.8);
     }
 
     .admin-dashboard .modal-container {
         width: 100%;
         max-width: 100%;
-        border-radius: 20px 20px 0 0;
-        max-height: 90vh;
+        border-radius: 20px;
+        max-height: 85vh; /* Limit height for title visibility */
         display: flex;
         flex-direction: column;
-        padding-bottom: env(safe-area-inset-bottom, 20px);
+        padding-bottom: 0;
     }
 
     .admin-dashboard .modal-header {
-        padding: 1rem 1.5rem;
+        padding: 1.25rem;
         background: #ffffff;
-        position: sticky;
-        top: 0;
+        position: relative;
         z-index: 10;
         border-bottom: 1px solid #f1f5f9;
+        flex-shrink: 0;
     }
 
-    /* Handle bar for bottom sheet */
+    /* Remove handle bar as it's no longer a bottom sheet */
     .admin-dashboard .modal-header::before {
-        content: '';
-        position: absolute;
-        top: 0.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 40px;
-        height: 4px;
-        background: #e2e8f0;
-        border-radius: 2px;
+        display: none;
+    }
+
+    .admin-dashboard .modal-title {
+        font-size: 1.15rem;
+        padding-right: 2rem;
     }
 
     .admin-dashboard .form-body {
-        padding: 1.5rem;
+        padding: 1.25rem;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
+        flex: 1;
     }
 
     .admin-dashboard .form-grid {
