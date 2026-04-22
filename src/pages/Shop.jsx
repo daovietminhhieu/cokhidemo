@@ -19,119 +19,49 @@ function ProductCard({ product }) {
   const displayCategory = language === 'vi' ? (product.category_vi || product.category) : product.category;
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        background:
-          'radial-gradient(circle at top, rgba(100,200,255,0.18), rgba(5,10,20,0.95))',
-        borderRadius: '18px',
-        padding: '1.5rem',
-        border: '1px solid rgba(100,200,255,0.35)',
-        boxShadow: '0 18px 45px rgba(0,0,0,0.7)',
-        transition:
-          'transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease',
-        overflow: 'hidden',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-10px) scale(1.03)';
-        e.currentTarget.style.boxShadow =
-          '0 26px 60px rgba(0, 200, 255, 0.35)';
-        e.currentTarget.style.borderColor = 'rgba(150,230,255,0.9)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0) scale(1)';
-        e.currentTarget.style.boxShadow = '0 18px 45px rgba(0,0,0,0.7)';
-        e.currentTarget.style.borderColor = 'rgba(100,200,255,0.35)';
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          inset: '-40%',
-          background:
-            'radial-gradient(circle at 0% 0%, rgba(0,220,255,0.16), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,255,255,0.04), transparent 55%)',
-          opacity: 0.6,
-          pointerEvents: 'none',
-        }}
-      />
-      <div
-        style={{
-          aspectRatio: '1/1',
-          borderRadius: '14px',
-          background: 'rgba(0,0,0,0.5)',
-          marginBottom: '1.5rem',
-          overflow: 'hidden',
-          position: 'relative',
-        }}
-      >
-        <Link to={`/shop/${encodeURIComponent(product.id)}`}>
+    <div className="product-card-glass">
+      <div className="image-container">
+        <Link to={`/shop/${encodeURIComponent(product.id)}`} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img
             src={product.image}
             alt={displayName}
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'contain',
-              padding: '1rem',
-              transform: 'translateZ(0) scale(1.02)',
-              transition: 'transform 0.6s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform =
-                'translateZ(0) scale(1.08)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform =
-                'translateZ(0) scale(1.02)';
-            }}
+            loading="lazy"
           />
         </Link>
       </div>
 
+      <div className="category-tag">
+        {displayCategory}
+      </div>
+
       <Link to={`/shop/${encodeURIComponent(product.id)}`} style={{ textDecoration: 'none' }}>
-        <h3 style={{ fontSize: '1.1rem', color: '#fff' }}>
-          {displayName}
-        </h3>
+        <h3>{displayName}</h3>
       </Link>
 
-      <span style={{ fontSize: '0.75rem', color: '#888', textTransform: 'uppercase' }}>
-        {displayCategory}
-      </span>
+      <div className="card-footer">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+           <div className="qty-control">
+            <button className="qty-btn" onClick={() => setQty(Math.max(1, qty - 1))}>−</button>
+            <input
+              type="number"
+              className="qty-input"
+              value={qty}
+              onChange={(e) => {
+                const v = parseInt(e.target.value);
+                setQty(isNaN(v) || v < 1 ? 1 : v);
+              }}
+            />
+            <button className="qty-btn" onClick={() => setQty(qty + 1)}>+</button>
+          </div>
+          {product.price > 0 && (
+            <span style={{ color: '#fff', fontWeight: 'bold' }}>
+              {product.price.toLocaleString()}đ
+            </span>
+          )}
+        </div>
 
-      <div style={{ marginTop: 'auto', display: 'flex', gap: '0.8rem' }}>
-        <input
-          type="number"
-          min="1"
-          value={qty}
-          onChange={(e) => {
-            const v = parseInt(e.target.value);
-            setQty(isNaN(v) || v < 1 ? 1 : v);
-          }}
-          style={{
-            width: '60px',
-            background: 'rgba(255,255,255,0.05)',
-            border: 'none',
-            borderRadius: '50px',
-            color: 'white',
-            textAlign: 'center'
-          }}
-        />
-
-        <button
-          onClick={handleAddToCart}
-          style={{
-            flex: 1,
-            padding: '0.75rem 0',
-            borderRadius: '50px',
-            border: 'none',
-            background: 'white',
-            color: 'black',
-            fontWeight: 'bold',
-            cursor: 'pointer'
-          }}
-        >
+        <button className="add-btn" onClick={handleAddToCart}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
           {t('add_to_cart')}
         </button>
       </div>
@@ -144,6 +74,13 @@ export default function Shop() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 900);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -159,17 +96,13 @@ export default function Shop() {
     loadProducts();
   }, []);
 
-  const selectedCategory =
-    (searchParams.get('category') || 'all').toLowerCase();
-
-  const searchQuery =
-    (searchParams.get('search') || '').toLowerCase();
-
+  const selectedCategory = (searchParams.get('category') || 'all').toLowerCase();
+  const searchQuery = (searchParams.get('search') || '').toLowerCase();
   const currentPageRaw = parseInt(searchParams.get('page') || '1', 10);
   const currentPage = Number.isFinite(currentPageRaw) && currentPageRaw > 0 ? currentPageRaw : 1;
-  const itemsPerPage = 12;
+  
+  const itemsPerPage = isMobile ? 4 : 12;
 
-  // Derive category keys from server data
   const categoryKeys = useMemo(
     () => ['all', ...new Set(products.map((p) => (p.categoryKey || p.category || 'misc').toLowerCase()))],
     [products]
@@ -241,22 +174,55 @@ export default function Shop() {
     setSearchParams(p);
   };
 
+  // Pagination helper logic
+  const getPaginationRange = () => {
+    const delta = isMobile ? 1 : 2;
+    const range = [];
+    const rangeWithDots = [];
+    let l;
+
+    range.push(1);
+    for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+        if (i < totalPages && i > 1) {
+            range.push(i);
+        }
+    }
+    if (totalPages > 1) range.push(totalPages);
+
+    for (let i of range) {
+        if (l) {
+            if (i - l === 2) {
+                rangeWithDots.push(l + 1);
+            } else if (i - l !== 1) {
+                rangeWithDots.push('...');
+            }
+        }
+        rangeWithDots.push(i);
+        l = i;
+    }
+    return rangeWithDots;
+  };
+
   return (
-      <div className="container section" style={{ marginTop: '80px' }}>
+    <div className="container section" style={{ marginTop: '40px' }}>
       <SeoTags
         title={t('shop_title')}
         description={t('seo_shop_desc') || 'Tìm kiếm và lọc hàng nghìn sản phẩm cơ khí, inox, ốc vít và vật liệu xây dựng.'}
       />
       <Reveal width="100%">
-        <div className="shop-header" style={{ textAlign: 'center', marginBottom: '4rem' }}>
-          <h1 className="shop-title" style={{ fontSize: '4rem', color: '#fff' }}>
+        <div className="shop-header" style={{ textAlign: isMobile ? 'left' : 'center', marginBottom: isMobile ? '2rem' : '4rem' }}>
+          <h1 className="shop-title" style={{ fontSize: isMobile ? '2.5rem' : '4rem', color: '#fff' }}>
             {t('shop_title')}
           </h1>
         </div>
       </Reveal>
 
       <div className="shop-grid">
-        <aside>
+        <aside className="shop-sidebar">
+          <div className="shop-sidebar-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            {t('search_placeholder')}
+          </div>
           <input
             type="text"
             placeholder={t('search_placeholder')}
@@ -264,32 +230,26 @@ export default function Shop() {
             onChange={(e) => updateSearch(e.target.value)}
             style={{
               width: '100%',
-              background: 'transparent',
+              background: 'rgba(255,255,255,0.05)',
               border: 'none',
-              borderBottom: '1px solid #333',
-              padding: '1rem 0',
+              borderRadius: '8px',
+              padding: '0.8rem 1rem',
               color: 'white',
               marginBottom: '2rem'
             }}
           />
 
-          <h3 style={{ color: '#666', marginBottom: '1rem' }}>
+          <div className="shop-sidebar-title">
+             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
             {t('categories')}
-          </h3>
+          </div>
 
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+          <ul className="category-list">
             {categoryKeys.map((key) => (
-              <li key={key}>
+              <li key={key} className="category-item">
                 <button
                   onClick={() => updateCategory(key)}
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: selectedCategory === key ? 'white' : '#666',
-                    fontWeight: selectedCategory === key ? 'bold' : 'normal',
-                    cursor: 'pointer',
-                    padding: '6px 0'
-                  }}
+                  className={selectedCategory === key ? 'active' : ''}
                 >
                   {getCategoryLabel(key)}
                 </button>
@@ -299,79 +259,84 @@ export default function Shop() {
         </aside>
 
         <div>
-          {paginated.length === 0 ? (
-            <div style={{ padding: '4rem', color: '#666' }}>
+          {loading ? (
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
+               {[1,2,3,4].map(i => (
+                 <div key={i} style={{ height: '400px', background: 'rgba(255,255,255,0.05)', borderRadius: '16px', animation: 'pulse 1.5s infinite' }} />
+               ))}
+            </div>
+          ) : paginated.length === 0 ? (
+            <div style={{ padding: '4rem', textAlign: 'center', color: '#666' }}>
               <h3>{t('no_results')}</h3>
             </div>
           ) : (
             <StaggerContainer
-              key={`${selectedCategory}-${searchQuery}-${safePage}`}
+              key={`${selectedCategory}-${searchQuery}-${safePage}-${isMobile}`}
+              className={isMobile ? "product-grid-mobile" : ""}
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                gap: '2rem'
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: isMobile ? '1.5rem' : '2rem'
               }}
             >
-              {
-              paginated.map(product => (
+              {paginated.map(product => (
                 <StaggerItem key={product.id}>
                   <ProductCard product={product} />
                 </StaggerItem>
               ))}
             </StaggerContainer>
           )}
-        </div>
 
-        <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '8px', alignItems: 'center' }}>
-          <button
-            onClick={() => updatePage(currentPage - 1)}
-            disabled={currentPage <= 1}
-            style={{
-              padding: '0.5rem 0.8rem',
-              borderRadius: '8px',
-              border: '1px solid #333',
-              background: 'transparent',
-              color: currentPage <= 1 ? '#555' : '#ccc',
-              cursor: currentPage <= 1 ? 'not-allowed' : 'pointer'
-            }}
-          >
-            {t('prev') || 'Prev'}
-          </button>
+          {/* New Modern Pagination */}
+          {totalPages > 1 && (
+            <div className="pagination-container">
+              <button
+                className="pagination-btn"
+                onClick={() => updatePage(1)}
+                disabled={currentPage === 1}
+              >
+                Đầu
+              </button>
+              <button
+                className="pagination-btn"
+                onClick={() => updatePage(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
 
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-            <button
-              key={p}
-              onClick={() => updatePage(p)}
-              style={{
-                minWidth: '36px',
-                padding: '0.5rem 0.8rem',
-                borderRadius: '8px',
-                border: '1px solid #333',
-                background: p === currentPage ? 'white' : 'transparent',
-                color: p === currentPage ? 'black' : '#ccc',
-                cursor: 'pointer'
-              }}
-            >
-              {p}
-            </button>
-          ))}
+              {getPaginationRange().map((p, i) => (
+                p === '...' ? (
+                  <span key={`dots-${i}`} className="pagination-ellipsis">...</span>
+                ) : (
+                  <button
+                    key={p}
+                    onClick={() => updatePage(p)}
+                    className={`pagination-btn ${p === currentPage ? 'active' : ''}`}
+                  >
+                    {p}
+                  </button>
+                )
+              ))}
 
-          <button
-            onClick={() => updatePage(currentPage + 1)}
-            disabled={currentPage >= totalPages}
-            style={{
-              padding: '0.5rem 0.8rem',
-              borderRadius: '8px',
-              border: '1px solid #333',
-              background: 'transparent',
-              color: currentPage >= totalPages ? '#555' : '#ccc',
-              cursor: currentPage >= totalPages ? 'not-allowed' : 'pointer'
-            }}
-          >
-            {t('next') || 'Next'}
-          </button>
+              <button
+                className="pagination-btn"
+                onClick={() => updatePage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+              <button
+                className="pagination-btn"
+                onClick={() => updatePage(totalPages)}
+                disabled={currentPage === totalPages}
+              >
+                Cuối
+              </button>
+            </div>
+          )}
         </div>
       </div>
-      </div>
+    </div>
   );
 }
