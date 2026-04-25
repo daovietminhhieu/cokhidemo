@@ -208,7 +208,7 @@ const translations = {
     newsletter_btn: "Đăng Ký",
     newsletter_placeholder: "Nhập email của bạn",
     shop_name: "ProTools Hardware",
-    shop_tagline: "Tin Cậy & Bền Bỉ",
+    shop_tagline: "TIN CẬY & BỀN BỈ",
 
     // Product detail / generic
     not_found_title: "Không tìm thấy",

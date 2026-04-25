@@ -353,8 +353,15 @@
 
 .admin-dashboard .product-cell {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    /* gap: 1rem; */
+    width: 100%;
+    min-width: 0;
+}
+
+.admin-dashboard .product-info {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
 }
 
 .admin-dashboard .product-img {
@@ -363,12 +370,17 @@
     border-radius: 12px;
     object-fit: cover;
     background: #f1f5f9;
+    flex-shrink: 0;
 }
 
 .admin-dashboard .product-name {
     font-weight: 600;
     font-size: 0.925rem;
     margin: 0;
+    line-height: 1.4;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .admin-dashboard .product-id {
@@ -753,11 +765,49 @@
         padding: 0.75rem 1rem;
         position: relative;
         text-align: right;
-        min-height: 3rem;
+        min-height: 3.5rem;
         display: flex;
         align-items: center;
         justify-content: flex-end;
         border-bottom: 1px solid #f8fafc;
+    }
+
+    /* Product name cell specific mobile style */
+    .admin-dashboard .product-td {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 1.25rem 1rem;
+        min-height: auto;
+    }
+
+    .admin-dashboard .product-td::before {
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: none;
+        width: auto;
+        flex-shrink: 0;
+        margin-right: 1rem;
+        padding-top: 0.25rem; /* Align with text */
+    }
+
+    .admin-dashboard .product-td .product-cell {
+        justify-content: flex-start;
+        width: auto;
+        flex: 1;
+        min-width: 0;
+        align-items: flex-start;
+        gap:15px;
+    }
+
+    .admin-dashboard .product-td .product-info {
+        text-align: left;
+    }
+
+    .admin-dashboard .product-td .product-img {
+        width: 3rem;
+        height: 3rem;
     }
 
     .admin-dashboard td:last-child {

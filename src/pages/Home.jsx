@@ -13,9 +13,7 @@ const CategoriesSheet = lazy(() => import("../components/home/CategoriesSheet"))
 const FeaturedSheet = lazy(() => import("../components/home/FeaturedSheet"));
 const AdvantagesSheet = lazy(() => import("../components/home/AdvantagesSheet"));
 const NewsSheet = lazy(() => import("../components/home/NewsSheet"));
-const Stats = lazy(() => import("../components/Stats"));
-const Testimonials = lazy(() => import("../components/Testimonials"));
-const Newsletter = lazy(() => import("../components/Newsletter"));
+
 const Background3D = lazy(() => import("../components/home/Background3D"));
 
 export default function Home() {
@@ -93,25 +91,26 @@ export default function Home() {
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
-      padding: isMobile ? "1rem 0.5rem" : "2rem", /* Reduced padding */
+      padding: isMobile ? "0" : "2rem", /* Increased vertical padding from 0.5rem to 2rem */
       background: "rgba(10, 10, 10, 0.4)",
       backdropFilter: isMobile ? "none" : "blur(8px)",
-      borderTop: "1px solid rgba(255,255,255,0.1)",
+      borderTop: isMobile ? "none" : "1px solid rgba(255,255,255,0.1)",
       position: "relative",
       boxSizing: "border-box",
       boxShadow: isMobile ? "none" : "0 -20px 50px rgba(0,0,0,0.8)",
+      marginBottom: isMobile ? "40px" : "0" /* Added margin between sections */
     };
     return {
       sheet1Style: { 
         ...base, 
-        paddingTop: isMobile ? "0" : "4rem", /* Remove paddingTop to use normal flow or manual control */
+        paddingTop: isMobile ? "0" : "4rem", 
         background: "linear-gradient(135deg, rgba(10, 10, 10, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)", 
-        borderLeft: "4px solid rgba(80, 90, 100, 0.6)" 
+        borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)" 
       },
-      sheet2Style: { ...base, background: "linear-gradient(135deg, rgba(15, 25, 35, 0.5) 0%, rgba(20, 30, 40, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)" },
-      sheet3Style: { ...base, background: "linear-gradient(135deg, rgba(20, 30, 40, 0.5) 0%, rgba(10, 10, 10, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)", marginTop: isMobile ? "1.25rem" : 0 },
-      sheet4Style: { ...base, background: "linear-gradient(135deg, rgba(10, 15, 25, 0.5) 0%, rgba(25, 15, 35, 0.5) 100%)", borderLeft: "4px solid rgba(80, 100, 100, 0.6)" },
-      sheet5Style: { ...base, background: "linear-gradient(135deg, rgba(25, 15, 35, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)", borderLeft: "4px solid rgba(80, 100, 100, 0.6)" }
+      sheet2Style: { ...base, background: "linear-gradient(135deg, rgba(15, 25, 35, 0.5) 0%, rgba(20, 30, 40, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)", marginTop: isMobile ? "0" : 0 },
+      sheet3Style: { ...base, background: "linear-gradient(135deg, rgba(20, 30, 40, 0.5) 0%, rgba(10, 10, 10, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)", marginTop: isMobile ? "0" : 0 },
+      sheet4Style: { ...base, background: "linear-gradient(135deg, rgba(10, 15, 25, 0.5) 0%, rgba(25, 15, 35, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 100, 100, 0.6)", marginTop: isMobile ? "0" : 0 },
+      sheet5Style: { ...base, background: "linear-gradient(135deg, rgba(25, 15, 35, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 100, 100, 0.6)", marginTop: isMobile ? "0" : 0 }
     };
   }, [isMobile]);
 

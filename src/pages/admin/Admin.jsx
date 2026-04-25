@@ -361,7 +361,7 @@ export default function AdminDashboard() {
                                             animate={{ opacity: 1 }}
                                             exit={{ opacity: 0 }}
                                         >
-                                            <td data-label={t('product_name')}>
+                                            <td data-label={t('product_name')} className="product-td">
                                                 <div className="product-cell">
                                                     <img
                                                         src={product.image}
@@ -369,8 +369,8 @@ export default function AdminDashboard() {
                                                         className="product-img"
                                                         referrerPolicy="no-referrer"
                                                     />
-                                                    <div>
-                                                        <p className="product-id">{product.name}</p>
+                                                    <div className="product-info">
+                                                        <p className="product-name">{product.name}</p>
                                                     </div>
                                                 </div>
                                             </td>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -11,6 +11,13 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
   const { language } = useLanguage();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [hoveredCard, setHoveredCard] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleDontShowAgain = () => {
     localStorage.setItem('hideFeaturedPopup', new Date().toDateString());
@@ -65,8 +72,8 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
             background: 'linear-gradient(135deg, rgba(15,15,35,0.95) 0%, rgba(25,25,60,0.95) 50%, rgba(15,20,40,0.95) 100%)',
             backdropFilter: 'blur(20px)',
             border: '2px solid rgba(144, 238, 144, 0.3)',
-            borderRadius: '24px',
-            padding: '3rem',
+            borderRadius: isMobile ? '16px' : '24px',
+            padding: isMobile ? '1.5rem 1rem' : '3rem',
             boxShadow: '0 25px 60px rgba(144, 238, 144, 0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
             animation: isOpen ? 'popupSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)' : 'none',
             position: 'relative',
@@ -94,9 +101,9 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: '2.5rem',
+              marginBottom: isMobile ? '1.5rem' : '2.5rem',
               borderBottom: '2px solid rgba(144, 238, 144, 0.2)',
-              paddingBottom: '1.5rem',
+              paddingBottom: isMobile ? '1rem' : '1.5rem',
               position: 'relative',
               zIndex: 1,
             }}
@@ -104,7 +111,7 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
             <div>
               <h2
                 style={{
-                  fontSize: '2.5rem',
+                  fontSize: isMobile ? '1.25rem' : '2.5rem',
                   color: 'white',
                   margin: 0,
                   textTransform: 'uppercase',
@@ -120,7 +127,7 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
               </h2>
               <p
                 style={{
-                  fontSize: '0.9rem',
+                  fontSize: isMobile ? '0.75rem' : '0.9rem',
                   color: 'rgba(144, 238, 144, 0.7)',
                   margin: '0.5rem 0 0 0',
                   letterSpacing: '0.05em',
@@ -138,14 +145,14 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                 background: 'rgba(255, 107, 107, 0.15)',
                 border: '2px solid rgba(255, 107, 107, 0.3)',
                 color: 'white',
-                width: '45px',
-                height: '45px',
+                width: isMobile ? '35px' : '45px',
+                height: isMobile ? '35px' : '45px',
                 borderRadius: '50%',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '1.5rem',
+                fontSize: isMobile ? '1.2rem' : '1.5rem',
                 transition: 'all 0.3s ease',
                 flexShrink: 0,
                 fontWeight: 'bold',
@@ -169,9 +176,9 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '1.8rem',
-              marginBottom: '2rem',
+              gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(auto-fit, minmax(240px, 1fr))',
+              gap: isMobile ? '0.75rem' : '1.8rem',
+              marginBottom: isMobile ? '1rem' : '2rem',
               position: 'relative',
               zIndex: 1,
             }}
@@ -186,13 +193,13 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                   border: hoveredCard === product.id 
                     ? '2px solid rgba(144, 238, 144, 0.5)' 
                     : '2px solid rgba(144, 238, 144, 0.2)',
-                  borderRadius: '16px',
-                  padding: '1.5rem',
+                  borderRadius: isMobile ? '12px' : '16px',
+                  padding: isMobile ? '0.75rem' : '1.5rem',
                   cursor: 'pointer',
                   transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
                   position: 'relative',
                   overflow: 'hidden',
-                  transform: hoveredCard === product.id ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+                  transform: (!isMobile && hoveredCard === product.id) ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
                   animation: `cardSlideIn 0.6s ease-out ${index * 0.1}s backwards`,
                 }}
                 onMouseEnter={() => setHoveredCard(product.id)}
@@ -241,12 +248,12 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                   <div
                     style={{
                       position: 'absolute',
-                      top: index === 0 ? '50px' : '12px',
+                      top: index === 0 ? (isMobile ? '35px' : '50px') : '12px',
                       right: '12px',
                       background: 'rgba(76, 175, 80, 0.9)',
                       color: 'white',
-                      padding: '0.4rem 0.8rem',
-                      fontSize: '0.8rem',
+                      padding: isMobile ? '0.2rem 0.5rem' : '0.4rem 0.8rem',
+                      fontSize: isMobile ? '0.65rem' : '0.8rem',
                       borderRadius: '4px',
                       fontWeight: 'bold',
                       zIndex: 2,
@@ -261,10 +268,10 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                   <div
                     style={{
                       width: '100%',
-                      height: '160px',
+                      height: isMobile ? '100px' : '160px',
                       background: 'rgba(100, 100, 150, 0.15)',
                       borderRadius: '12px',
-                      marginBottom: '1.2rem',
+                      marginBottom: isMobile ? '0.75rem' : '1.2rem',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -286,7 +293,7 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                       }}
                       onError={(e) => {
                         e.target.style.display = 'none';
-                        e.target.parentElement.innerHTML = '<div style="font-size: 3.5rem;">📦</div>';
+                        e.target.parentElement.innerHTML = `<div style="font-size: ${isMobile ? '2rem' : '3.5rem'};">📦</div>`;
                       }}
                     />
                   </div>
@@ -295,13 +302,15 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                 {/* Product Name */}
                 <h3
                   style={{
-                    fontSize: '1.1rem',
+                    fontSize: isMobile ? '0.85rem' : '1.1rem',
                     color: 'white',
-                    margin: '0 0 0.75rem 0',
+                    margin: isMobile ? '0 0 0.5rem 0' : '0 0 0.75rem 0',
                     fontWeight: 700,
                     lineHeight: 1.3,
                     position: 'relative',
                     zIndex: 1,
+                    height: isMobile ? '2.2rem' : 'auto',
+                    overflow: 'hidden'
                   }}
                 >
                   {language === 'vi' ? (product.name_vi || product.name) : product.name}
@@ -310,26 +319,26 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                 {/* Price */}
                 <p
                   style={{
-                    fontSize: '1.4rem',
+                    fontSize: isMobile ? '1.1rem' : '1.4rem',
                     background: 'linear-gradient(135deg, #90ee90, #ffeb3b)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text',
                     fontWeight: 'bold',
-                    margin: '0 0 0.75rem 0',
+                    margin: isMobile ? '0 0 0.5rem 0' : '0 0 0.75rem 0',
                     position: 'relative',
                     zIndex: 1,
                   }}
                 >
-                  {product.price.toLocaleString()} <span style={{fontSize: '0.75rem'}}>VND</span>
+                  {product.price.toLocaleString()} <span style={{fontSize: isMobile ? '0.65rem' : '0.75rem'}}>VND</span>
                 </p>
 
                 {/* Category */}
                 <p
                   style={{
-                    fontSize: '0.85rem',
+                    fontSize: isMobile ? '0.75rem' : '0.85rem',
                     color: 'rgba(144, 238, 144, 0.7)',
-                    margin: '0 0 1.2rem 0',
+                    margin: isMobile ? '0 0 0.75rem 0' : '0 0 1.2rem 0',
                     position: 'relative',
                     zIndex: 1,
                   }}
@@ -346,16 +355,16 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                   }}
                   style={{
                     width: '100%',
-                    padding: '0.9rem',
+                    padding: isMobile ? '0.6rem' : '0.9rem',
                     background: selectedProduct === product.id
                       ? 'linear-gradient(135deg, #90ee90 0%, #76d776 100%)'
                       : 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(245,245,245,0.9) 100%)',
                     color: selectedProduct === product.id ? 'white' : '#000',
                     border: 'none',
-                    borderRadius: '10px',
+                    borderRadius: isMobile ? '8px' : '10px',
                     cursor: 'pointer',
                     fontWeight: '700',
-                    fontSize: '0.95rem',
+                    fontSize: isMobile ? '0.8rem' : '0.95rem',
                     transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
                     position: 'relative',
                     zIndex: 1,
@@ -364,19 +373,19 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                     boxShadow: hoveredCard === product.id ? '0 8px 20px rgba(255,255,255,0.2)' : '0 4px 12px rgba(0,0,0,0.2)',
                   }}
                   onMouseEnter={(e) => {
-                    if (selectedProduct !== product.id) {
+                    if (!isMobile && selectedProduct !== product.id) {
                       e.target.style.transform = 'translateY(-2px)';
                       e.target.style.boxShadow = '0 12px 24px rgba(255,255,255,0.3)';
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (selectedProduct !== product.id) {
+                    if (!isMobile && selectedProduct !== product.id) {
                       e.target.style.transform = 'translateY(0)';
                       e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
                     }
                   }}
                 >
-                  {selectedProduct === product.id ? '✓ Đã Thêm' : '🛒 Thêm Vào Giỏ'}
+                  {selectedProduct === product.id ? (isMobile ? '✓' : '✓ Đã Thêm') : (isMobile ? '🛒' : '🛒 Thêm Vào Giỏ')}
                 </button>
               </div>
             ))}
@@ -387,32 +396,32 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
             style={{
               textAlign: 'center',
               color: 'rgba(255, 255, 255, 0.7)',
-              fontSize: '0.95rem',
+              fontSize: isMobile ? '0.85rem' : '0.95rem',
               borderTop: '2px solid rgba(144, 238, 144, 0.2)',
-              paddingTop: '2rem',
+              paddingTop: isMobile ? '1.5rem' : '2rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '1.2rem',
+              gap: isMobile ? '1rem' : '1.2rem',
               position: 'relative',
               zIndex: 1,
             }}
           >
             <p style={{ margin: 0, fontWeight: 500 }}>
-              🎉 <span style={{color: 'rgba(144, 238, 144, 0.9)'}}>Những sản phẩm chất lượng cao</span> với giá tốt nhất <br/>
-              🚚 Miễn phí vận chuyển từ 500.000 VND | ✨ Hỗ trợ 24/7
+              🎉 <span style={{color: 'rgba(144, 238, 144, 0.9)'}}>Sản phẩm chất lượng cao</span> giá tốt nhất <br/>
+              {!isMobile && <span>🚚 Miễn phí vận chuyển từ 500.000 VND | ✨ Hỗ trợ 24/7</span>}
             </p>
             <button
               onClick={handleDontShowAgain}
               aria-label="Không hiển thị lại bảng tin này hôm nay"
               style={{
-                padding: '0.65rem 1.5rem',
+                padding: isMobile ? '0.5rem 1rem' : '0.65rem 1.5rem',
                 background: 'rgba(255, 255, 255, 0.08)',
                 border: '2px solid rgba(255, 255, 255, 0.2)',
                 color: 'rgba(255, 255, 255, 0.7)',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                fontSize: '0.85rem',
+                fontSize: isMobile ? '0.75rem' : '0.85rem',
                 transition: 'all 0.3s ease',
                 fontWeight: '600',
                 textTransform: 'uppercase',
