@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 import AnimatedRoutes from "./components/AnimatedRoutes";
 import ScrollProgress from "./components/ScrollProgress";
+import FacebookButton from "./components/FacebookButton";
 import { CartProvider } from "./context/CartContext";
 import { AudioProvider } from "./context/AudioContext";
 import LoadingScreen from "./components/LoadingScreen";
@@ -40,6 +41,7 @@ function App() {
             <Navbar />
             <ScrollProgress />
             <AnimatedRoutes />
+            <FacebookButton />
           </div>
         </AudioProvider>
       </CartProvider>

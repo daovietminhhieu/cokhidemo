@@ -351,6 +351,14 @@
     border-bottom: none;
 }
 
+.admin-dashboard tr {
+    transition: all 0.2s ease;
+}
+
+.admin-dashboard tbody tr:hover {
+    background-color: var(--admin-secondary);
+}
+
 .admin-dashboard .product-cell {
     display: flex;
     /* gap: 1rem; */
@@ -371,6 +379,7 @@
     object-fit: cover;
     background: #f1f5f9;
     flex-shrink: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .admin-dashboard .product-name {
@@ -396,6 +405,7 @@
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
+    border: 1px solid var(--admin-border);
 }
 
 .admin-dashboard .stock-indicator {
@@ -428,10 +438,83 @@
     border-radius: 8px;
     color: var(--admin-text-muted);
     transition: all 0.2s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 
 .admin-dashboard .edit-btn:hover { background: #eff6ff; color: #3b82f6; }
 .admin-dashboard .delete-btn:hover { background: #fff1f2; color: #f43f5e; }
+
+/* Pagination Styles */
+.admin-dashboard .pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--admin-border);
+    background: var(--admin-white);
+}
+
+.admin-dashboard .pagination-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+    background: var(--admin-white);
+    color: var(--admin-text-main);
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.admin-dashboard .pagination-btn:hover:not(:disabled) {
+    background: var(--admin-secondary);
+    border-color: #cbd5e1;
+}
+
+.admin-dashboard .pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--admin-secondary);
+}
+
+.admin-dashboard .pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.admin-dashboard .pagination-page-btn {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--admin-text-muted);
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.admin-dashboard .pagination-page-btn:hover:not(.active) {
+    background: var(--admin-secondary);
+    color: var(--admin-text-main);
+}
+
+.admin-dashboard .pagination-page-btn.active {
+    background: var(--admin-primary);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+}
 
 /* Modal Styling */
 .admin-dashboard .modal-overlay {

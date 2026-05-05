@@ -101,14 +101,14 @@ export default function Home() {
       marginBottom: isMobile ? "40px" : "0" /* Added margin between sections */
     };
     return {
-      sheet1Style: { 
-        ...base, 
-        paddingTop: isMobile ? "0" : "4rem", 
-        background: "linear-gradient(135deg, rgba(10, 10, 10, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)", 
-        borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)" 
+      sheet1Style: {
+        ...base,
+        paddingTop: isMobile ? "0" : "4rem",
+        background: "linear-gradient(135deg, rgba(10, 10, 10, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)",
+        borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)"
       },
       sheet2Style: { ...base, background: "linear-gradient(135deg, rgba(15, 25, 35, 0.5) 0%, rgba(20, 30, 40, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)", marginTop: isMobile ? "0" : 0 },
-      sheet3Style: { ...base, background: "linear-gradient(135deg, rgba(20, 30, 40, 0.5) 0%, rgba(10, 10, 10, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)", marginTop: isMobile ? "0" : 0 },
+      sheet3Style: { ...base, height: "120vh", background: "linear-gradient(135deg, rgba(20, 30, 40, 0.5) 0%, rgba(10, 10, 10, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 90, 100, 0.6)", marginTop: 0 },
       sheet4Style: { ...base, background: "linear-gradient(135deg, rgba(10, 15, 25, 0.5) 0%, rgba(25, 15, 35, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 100, 100, 0.6)", marginTop: isMobile ? "0" : 0 },
       sheet5Style: { ...base, background: "linear-gradient(135deg, rgba(25, 15, 35, 0.5) 0%, rgba(15, 25, 35, 0.5) 100%)", borderLeft: isMobile ? "none" : "4px solid rgba(80, 100, 100, 0.6)", marginTop: isMobile ? "0" : 0 }
     };
@@ -120,7 +120,7 @@ export default function Home() {
         title={language === "vi" ? "Trang chủ" : "Home"}
         description={t("seo_home_desc") || "Khám phá kho cơ khí, inox, ốc vít và vật liệu xây dựng với trải nghiệm 3D sống động."}
       />
-      
+
       {/* 3D Background - Lazy Loaded */}
       <Suspense fallback={<div style={{ position: "fixed", inset: 0, background: "radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%)", zIndex: -1 }} />}>
         <Background3D />
@@ -149,7 +149,36 @@ export default function Home() {
         </PullToReveal>
       </div>
 
-      <button onClick={() => setShowProductPopup(true)} style={{ position: "fixed", bottom: "30px", right: "30px", width: "60px", height: "60px", borderRadius: "50%", background: "linear-gradient(135deg, rgba(144, 238, 144, 0.8), rgba(100, 200, 100, 0.9))", border: "2px solid rgba(144, 238, 144, 0.6)", color: "white", fontSize: "1.8rem", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 24px rgba(144, 238, 144, 0.4)", transition: "all 0.3s ease", zIndex: 900 }}>✨</button>
+      <div style={{
+        position: "fixed",
+        bottom: isMobile ? "85px" : "30px",
+        right: isMobile ? "20px" : "105px",
+        display: "flex",
+        zIndex: 900,
+        alignItems: "center"
+      }}>
+        <button 
+          onClick={() => setShowProductPopup(true)} 
+          style={{ 
+            width: isMobile ? "50px" : "60px", 
+            height: isMobile ? "50px" : "60px", 
+            borderRadius: "50%", 
+            background: "linear-gradient(135deg, rgba(144, 238, 144, 0.8), rgba(100, 200, 100, 0.9))", 
+            border: "2px solid rgba(144, 238, 144, 0.6)", 
+            color: "white", 
+            fontSize: isMobile ? "1.4rem" : "1.8rem", 
+            cursor: "pointer", 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            boxShadow: "0 8px 24px rgba(144, 238, 144, 0.4)", 
+            transition: "all 0.3s ease" 
+          }}
+          title="Sản phẩm nổi bật"
+        >
+          ✨
+        </button>
+      </div>
 
       {/* Featured Products Popup */}
       {!loading && products.length > 0 && (

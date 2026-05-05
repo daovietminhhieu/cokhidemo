@@ -11,6 +11,7 @@ import {
     DollarSign,
     X,
     ChevronRight,
+    ChevronLeft,
     Globe
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -45,6 +46,8 @@ export default function AdminDashboard() {
     const categoryBlurTimeout = useRef(null);
     const fileInputRef = useRef(null);
     const editFileInputRef = useRef(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(20);
     // Form State
     const [formData, setFormData] = useState({
         name: '',
@@ -218,6 +221,16 @@ export default function AdminDashboard() {
         });
     }, [products, debouncedSearch, selectedCategory]);
 
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [debouncedSearch, selectedCategory]);
+
+    const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    const paginatedProducts = useMemo(() => {
+        const start = (currentPage - 1) * itemsPerPage;
+        return filteredProducts.slice(start, start + itemsPerPage);
+    }, [filteredProducts, currentPage, itemsPerPage]);
+
     const stats = useMemo(() => {
         const total = products.length;
         const lowStock = products.filter(p => p.quantity < 10).length;
@@ -273,185 +286,217 @@ export default function AdminDashboard() {
                 <SeoTags title="Admin Dashboard | Inox Diệp Dương" />
 
                 <div className="container main-content">
-                {/* Header Section */}
-                <div className="header-section">
-                    <div>
-                        <h1 className="header-title">{t('admin_dashboard')}</h1>
-                        <p className="header-subtitle">{t('manage_stock')}</p>
+                    {/* Header Section */}
+                    <div className="header-section">
+                        <div>
+                            <h1 className="header-title">{t('admin_dashboard')}</h1>
+                            <p className="header-subtitle">{t('manage_stock')}</p>
+                        </div>
+                        <button
+                            onClick={() => setShowAddForm(true)}
+                            className="btn-primary"
+                        >
+                            <Plus size={20} />
+                            {t('admin_add')}
+                        </button>
                     </div>
-                    <button
-                        onClick={() => setShowAddForm(true)}
-                        className="btn-primary"
-                    >
-                        <Plus size={20} />
-                        {t('admin_add')}
-                    </button>
-                </div>
 
-                {/* Stats Grid */}
-                <div className="stats-grid">
-                    <StatCard
-                        title={t('total_products')}
-                        value={stats.total}
-                        icon={<Package size={24} />}
-                        color="blue"
-                    />
-                    <StatCard
-                        title={t('low_stock')}
-                        value={stats.lowStock}
-                        icon={<AlertTriangle size={24} />}
-                        color="amber"
-                        alert={stats.lowStock > 0}
-                    />
-                    <StatCard
-                        title={t('total_value')}
-                        value={`${stats.totalValue.toLocaleString()} VND`}
-                        icon={<DollarSign size={24} />}
-                        color="emerald"
-                    />
-                </div>
+                    {/* Stats Grid */}
+                    <div className="stats-grid">
+                        <StatCard
+                            title={t('total_products')}
+                            value={stats.total}
+                            icon={<Package size={24} />}
+                            color="blue"
+                        />
+                        <StatCard
+                            title={t('low_stock')}
+                            value={stats.lowStock}
+                            icon={<AlertTriangle size={24} />}
+                            color="amber"
+                            alert={stats.lowStock > 0}
+                        />
+                        <StatCard
+                            title={t('total_value')}
+                            value={`${stats.totalValue.toLocaleString()} VND`}
+                            icon={<DollarSign size={24} />}
+                            color="emerald"
+                        />
+                    </div>
 
-                {/* Filters & Table Section */}
-                <div className="table-card">
-                    <div className="table-header">
-                        <div className="table-controls">
-                            <div className="search-wrapper">
-                                <Search className="search-icon" />
-                                <input
-                                    type="text"
-                                    placeholder={t('search')}
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="search-input"
-                                />
-                            </div>
-                            <div className="filter-wrapper">
-                                <Filter className="filter-icon" />
-                                <select
-                                    value={selectedCategory}
-                                    onChange={(e) => setSelectedCategory(e.target.value)}
-                                    className="filter-select"
-                                >
-                                    {categories.map(cat => (
-                                        <option key={cat} value={cat}>{cat === 'All' ? t('all_categories') : cat}</option>
-                                    ))}
-                                </select>
+                    {/* Filters & Table Section */}
+                    <div className="table-card">
+                        <div className="table-header">
+                            <div className="table-controls">
+                                <div className="search-wrapper">
+                                    <Search className="search-icon" />
+                                    <input
+                                        type="text"
+                                        placeholder={t('search')}
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="search-input"
+                                    />
+                                </div>
+                                <div className="filter-wrapper">
+                                    <Filter className="filter-icon" />
+                                    <select
+                                        value={selectedCategory}
+                                        onChange={(e) => setSelectedCategory(e.target.value)}
+                                        className="filter-select"
+                                    >
+                                        {categories.map(cat => (
+                                            <option key={cat} value={cat}>{cat === 'All' ? t('all_categories') : cat}</option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="table-responsive">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>{t('product_name')}</th>
-                                    <th>{t('category')}</th>
-                                    <th>{t('price')}</th>
-                                    <th>{t('stock')}</th>
-                                    <th style={{ textAlign: 'right' }}>{t('actions')}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <AnimatePresence mode="popLayout">
-                                    {filteredProducts.map((product) => (
-                                        <motion.tr
-                                            key={product.id}
-                                            layout
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            exit={{ opacity: 0 }}
-                                        >
-                                            <td data-label={t('product_name')} className="product-td">
-                                                <div className="product-cell">
-                                                    <img
-                                                        src={product.image}
-                                                        alt={product.name}
-                                                        className="product-img"
-                                                        referrerPolicy="no-referrer"
-                                                    />
-                                                    <div className="product-info">
-                                                        <p className="product-name">{product.name}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td data-label={t('category')}>
-                                                <span className="category-tag">
-                                                    {product.category}
-                                                </span>
-                                            </td>
-                                            <td data-label={t('price')} style={{ fontWeight: 600 }}>
-                                                {product.price} VND
-                                            </td>
-                                            <td data-label={t('stock')}>
-                                                <div className="stock-indicator">
-                                                    <div className={clsx(
-                                                        "dot",
-                                                        product.quantity < 10 ? "dot-red" : "dot-green"
-                                                    )} />
-                                                    <span className={clsx(
-                                                        product.quantity < 10 ? "text-red" : "text-green"
-                                                    )}>
-                                                        {product.quantity}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td data-label={t('actions')}>
-                                                <div className="actions-cell">
-                                                    <button className="btn-icon edit-btn" onClick={() => handleEdit(product)}>
-                                                        <Edit2 size={16} />
-                                                    </button>
-                                                    <button className="btn-icon delete-btn" onClick={() => handleDelete(product.id)}>
-                                                        <Trash2 size={16} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </motion.tr>
-                                    ))}
-                                </AnimatePresence>
-                                {filteredProducts.length === 0 && (
+                        <div className="table-responsive">
+                            <table>
+                                <thead>
                                     <tr>
-                                        <td colSpan={5} style={{ padding: '3rem', textAlign: 'center', color: '#9ca3af' }}>
-                                            {t('no_products_found')}
-                                        </td>
+                                        <th>{t('product_name')}</th>
+                                        <th>{t('category')}</th>
+                                        <th>{t('price')}</th>
+                                        <th>{t('stock')}</th>
+                                        <th style={{ textAlign: 'right' }}>{t('actions')}</th>
                                     </tr>
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                </div>
+                                </thead>
+                                <tbody>
+                                    <AnimatePresence mode="popLayout">
+                                        {paginatedProducts.map((product) => (
+                                            <motion.tr
+                                                key={product.id}
+                                                layout
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                            >
+                                                <td data-label={t('product_name')} className="product-td">
+                                                    <div className="product-cell">
+                                                        <img
+                                                            src={product.image}
+                                                            alt={product.name}
+                                                            className="product-img"
+                                                            referrerPolicy="no-referrer"
+                                                        />
+                                                        <div className="product-info">
+                                                            <p className="product-name">{product.name}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td data-label={t('category')}>
+                                                    <span className="category-tag">
+                                                        {product.category}
+                                                    </span>
+                                                </td>
+                                                <td data-label={t('price')} style={{ fontWeight: 600 }}>
+                                                    {product.price} VND
+                                                </td>
+                                                <td data-label={t('stock')}>
+                                                    <div className="stock-indicator">
+                                                        <div className={clsx(
+                                                            "dot",
+                                                            product.quantity < 10 ? "dot-red" : "dot-green"
+                                                        )} />
+                                                        <span className={clsx(
+                                                            product.quantity < 10 ? "text-red" : "text-green"
+                                                        )}>
+                                                            {product.quantity}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td data-label={t('actions')}>
+                                                    <div className="actions-cell">
+                                                        <button className="btn-icon edit-btn" onClick={() => handleEdit(product)}>
+                                                            <Edit2 size={16} />
+                                                        </button>
+                                                        <button className="btn-icon delete-btn" onClick={() => handleDelete(product.id)}>
+                                                            <Trash2 size={16} />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </motion.tr>
+                                        ))}
+                                    </AnimatePresence>
+                                    {filteredProducts.length === 0 && (
+                                        <tr>
+                                            <td colSpan={5} style={{ padding: '3rem', textAlign: 'center', color: '#9ca3af' }}>
+                                                {t('no_products_found')}
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
 
-            {/* Add Product Modal */}
-            <AnimatePresence>
-                {showAddForm && (
-                    <div className="modal-overlay">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setShowAddForm(false)}
-                            className="modal-backdrop"
-                        />
-                        <motion.div
-                            initial={{ scale: 0.95, opacity: 0, y: 40 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 40 }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                            className="modal-container"
-                        >
-                            <div className="modal-header">
-                                <h2 className="modal-title">{t('add_new_product')}</h2>
+                        {totalPages > 1 && (
+                            <div className="pagination-container">
                                 <button
-                                    onClick={() => setShowAddForm(false)}
-                                    className="close-btn"
+                                    className="pagination-btn"
+                                    disabled={currentPage === 1}
+                                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                                 >
-                                    <X size={24} />
+                                    <ChevronLeft size={16} />
+                                    Trước
+                                </button>
+                                <div className="pagination-pages">
+                                    {Array.from({ length: totalPages }).map((_, i) => (
+                                        <button
+                                            key={i}
+                                            className={clsx("pagination-page-btn", currentPage === i + 1 && "active")}
+                                            onClick={() => setCurrentPage(i + 1)}
+                                        >
+                                            {i + 1}
+                                        </button>
+                                    ))}
+                                </div>
+                                <button
+                                    className="pagination-btn"
+                                    disabled={currentPage === totalPages}
+                                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                                >
+                                    Sau
+                                    <ChevronRight size={16} />
                                 </button>
                             </div>
+                        )}
+                    </div>
+                </div>
 
-                            <form onSubmit={handleSubmit} className="form-body">
-                                <div className="form-grid">
-                                    {/* <div className="form-group">
+                {/* Add Product Modal */}
+                <AnimatePresence>
+                    {showAddForm && (
+                        <div className="modal-overlay">
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setShowAddForm(false)}
+                                className="modal-backdrop"
+                            />
+                            <motion.div
+                                initial={{ scale: 0.95, opacity: 0, y: 40 }}
+                                animate={{ scale: 1, opacity: 1, y: 0 }}
+                                exit={{ scale: 0.95, opacity: 0, y: 40 }}
+                                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                                className="modal-container"
+                            >
+                                <div className="modal-header">
+                                    <h2 className="modal-title">{t('add_new_product')}</h2>
+                                    <button
+                                        onClick={() => setShowAddForm(false)}
+                                        className="close-btn"
+                                    >
+                                        <X size={24} />
+                                    </button>
+                                </div>
+
+                                <form onSubmit={handleSubmit} className="form-body">
+                                    <div className="form-grid">
+                                        {/* <div className="form-group">
                                         <label>{t('name_en')}</label>
                                         <input
                                             name="name"
@@ -460,65 +505,65 @@ export default function AdminDashboard() {
                                             required
                                         />
                                     </div> */}
-                                    <div className="form-group">
-                                        <label>Tên sản phẩm</label>
-                                        <input
-                                            name="name"
-                                            value={formData.name}
-                                            onChange={handleInputChange}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{t('price_vnd')}</label>
-                                        <input
-                                            name="price"
-                                            type="number"
-                                            value={formData.price}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{t('stock_quantity')}</label>
-                                        <input
-                                            name="quantity"
-                                            type="number"
-                                            value={formData.quantity}
-                                            onChange={handleInputChange}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group category-input-group">
-                                        <label>{t('category')}</label>
-                                        <input
-                                            name="category"
-                                            value={formData.category}
-                                            onChange={handleInputChange}
-                                            onFocus={() => openCategorySuggestions('add')}
-                                            onBlur={closeCategorySuggestions}
-                                            autoComplete="off"
-                                        />
-                                        {activeCategoryInput === 'add' && (
-                                            <div className="category-suggestions-list">
-                                                {visibleCategorySuggestions.length > 0 ? (
-                                                    visibleCategorySuggestions.map(cat => (
-                                                        <button
-                                                            key={cat}
-                                                            type="button"
-                                                            className="category-suggestion-item"
-                                                            onMouseDown={(e) => e.preventDefault()}
-                                                            onClick={() => handleCategorySuggestionClick('add', cat)}
-                                                        >
-                                                            {cat}
-                                                        </button>
-                                                    ))
-                                                ) : (
-                                                    <div className="category-suggestions-empty">Không có danh mục phù hợp</div>
-                                                )}
-                                            </div>
-                                        )}
-                                    </div>
-                                    {/* <div className="form-group">
+                                        <div className="form-group">
+                                            <label>Tên sản phẩm</label>
+                                            <input
+                                                name="name"
+                                                value={formData.name}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>{t('price_vnd')}</label>
+                                            <input
+                                                name="price"
+                                                type="number"
+                                                value={formData.price}
+                                                onChange={handleInputChange}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>{t('stock_quantity')}</label>
+                                            <input
+                                                name="quantity"
+                                                type="number"
+                                                value={formData.quantity}
+                                                onChange={handleInputChange}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="form-group category-input-group">
+                                            <label>{t('category')}</label>
+                                            <input
+                                                name="category"
+                                                value={formData.category}
+                                                onChange={handleInputChange}
+                                                onFocus={() => openCategorySuggestions('add')}
+                                                onBlur={closeCategorySuggestions}
+                                                autoComplete="off"
+                                            />
+                                            {activeCategoryInput === 'add' && (
+                                                <div className="category-suggestions-list">
+                                                    {visibleCategorySuggestions.length > 0 ? (
+                                                        visibleCategorySuggestions.map(cat => (
+                                                            <button
+                                                                key={cat}
+                                                                type="button"
+                                                                className="category-suggestion-item"
+                                                                onMouseDown={(e) => e.preventDefault()}
+                                                                onClick={() => handleCategorySuggestionClick('add', cat)}
+                                                            >
+                                                                {cat}
+                                                            </button>
+                                                        ))
+                                                    ) : (
+                                                        <div className="category-suggestions-empty">Không có danh mục phù hợp</div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                        {/* <div className="form-group">
                                         <label>{t('image_url')}</label>
                                         <input
                                             name="image"
@@ -526,245 +571,245 @@ export default function AdminDashboard() {
                                             onChange={handleInputChange}
                                         />
                                     </div> */}
-                                    <div className="form-group full-width">
-                                        <label>Media</label>
-                                        <div className="media-upload-wrapper">
-                                            <label className="file-upload-btn" htmlFor="add-file-input">
-                                                {uploading ? 'Đang tải lên...' : '📁 Chọn ảnh / video'}
-                                            </label>
-                                            <input
-                                                id="add-file-input"
-                                                type="file"
-                                                accept="image/*,video/*"
-                                                onChange={handleFileChange}
-                                                ref={fileInputRef}
-                                                style={{ display: 'none' }}
-                                            />
-                                            {uploading && <p className="upload-status">Đang xử lý...</p>}
-                                            {formData.image && !uploading && (
-                                                <div className="media-preview">
-                                                    {fileType === "image"
-                                                        ? <img src={formData.image} alt="preview" />
-                                                        : <video src={formData.image} controls />}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="form-group full-width">
-                                        <label>{t('description')}</label>
-                                        <textarea
-                                            name="description"
-                                            value={formData.description}
-                                            onChange={handleInputChange}
-                                            rows={3}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="form-actions">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowAddForm(false)}
-                                        className="btn-secondary"
-                                    >
-                                        {t('admin_cancel')}
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="btn-submit"
-                                        disabled={uploading}
-                                    >
-                                        {uploading ? 'Đang tải lên...' : 'Thêm sản phẩm'}
-                                    </button>
-                                </div>
-                            </form>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
-
-            {/* Edit Product Modal */}
-            <AnimatePresence>
-                {showEditForm && (
-                    <div className="modal-overlay">
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setShowEditForm(false)}
-                            className="modal-backdrop"
-                        />
-                        <motion.div
-                            initial={{ scale: 0.95, opacity: 0, y: 40 }}
-                            animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 40 }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                            className="modal-container"
-                        >
-                            <div className="modal-header">
-                                <h2 className="modal-title">Cập nhật sản phẩm</h2>
-                                <button
-                                    onClick={() => setShowEditForm(false)}
-                                    className="close-btn"
-                                >
-                                    <X size={24} />
-                                </button>
-                            </div>
-
-                            <form onSubmit={handleUpdateSubmit} className="form-body">
-                                <div className="form-grid">
-                                    <div className="form-group">
-                                        <label>Tên sản phẩm</label>
-                                        <input
-                                            name="name"
-                                            value={editFormData.name}
-                                            onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{t('price_vnd')}</label>
-                                        <input
-                                            name="price"
-                                            type="number"
-                                            value={editFormData.price}
-                                            onChange={(e) => setEditFormData({ ...editFormData, price: e.target.value })}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>{t('stock_quantity')}</label>
-                                        <input
-                                            name="quantity"
-                                            type="number"
-                                            value={editFormData.quantity}
-                                            onChange={(e) => setEditFormData({ ...editFormData, quantity: e.target.value })}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group category-input-group">
-                                        <label>{t('category')}</label>
-                                        <input
-                                            name="category"
-                                            value={editFormData.category}
-                                            onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
-                                            onFocus={() => openCategorySuggestions('edit')}
-                                            onBlur={closeCategorySuggestions}
-                                            autoComplete="off"
-                                        />
-                                        {activeCategoryInput === 'edit' && (
-                                            <div className="category-suggestions-list">
-                                                {visibleCategorySuggestions.length > 0 ? (
-                                                    visibleCategorySuggestions.map(cat => (
-                                                        <button
-                                                            key={cat}
-                                                            type="button"
-                                                            className="category-suggestion-item"
-                                                            onMouseDown={(e) => e.preventDefault()}
-                                                            onClick={() => handleCategorySuggestionClick('edit', cat)}
-                                                        >
-                                                            {cat}
-                                                        </button>
-                                                    ))
-                                                ) : (
-                                                    <div className="category-suggestions-empty">Không có danh mục phù hợp</div>
+                                        <div className="form-group full-width">
+                                            <label>Media</label>
+                                            <div className="media-upload-wrapper">
+                                                <label className="file-upload-btn" htmlFor="add-file-input">
+                                                    {uploading ? 'Đang tải lên...' : '📁 Chọn ảnh / video'}
+                                                </label>
+                                                <input
+                                                    id="add-file-input"
+                                                    type="file"
+                                                    accept="image/*,video/*"
+                                                    onChange={handleFileChange}
+                                                    ref={fileInputRef}
+                                                    style={{ display: 'none' }}
+                                                />
+                                                {uploading && <p className="upload-status">Đang xử lý...</p>}
+                                                {formData.image && !uploading && (
+                                                    <div className="media-preview">
+                                                        {fileType === "image"
+                                                            ? <img src={formData.image} alt="preview" />
+                                                            : <video src={formData.image} controls />}
+                                                    </div>
                                                 )}
                                             </div>
-                                        )}
-                                    </div>
-                                    <div className="form-group full-width">
-                                        <label>Media</label>
-                                        <div className="media-upload-wrapper">
-                                            <label className="file-upload-btn" htmlFor="edit-file-input">
-                                                {uploading ? 'Đang tải lên...' : '📁 Chọn ảnh / video'}
-                                            </label>
-                                            <input
-                                                id="edit-file-input"
-                                                type="file"
-                                                accept="image/*,video/*"
-                                                onChange={async (e) => {
-                                                    const file = e.target.files[0];
-                                                    if (!file) return;
-                                                    setUploading(true);
-                                                    try {
-                                                        const url = await upFileToStorage(file);
-                                                        const isVideo = file.type.startsWith("video/");
-                                                        setFileType(isVideo ? "video" : "image");
-                                                        setEditFormData({ ...editFormData, image: url });
-                                                    } catch (err) {
-                                                        alert("Upload failed");
-                                                    } finally {
-                                                        setUploading(false);
-                                                    }
-                                                }}
-                                                ref={editFileInputRef}
-                                                style={{ display: 'none' }}
+                                        </div>
+                                        <div className="form-group full-width">
+                                            <label>{t('description')}</label>
+                                            <textarea
+                                                name="description"
+                                                value={formData.description}
+                                                onChange={handleInputChange}
+                                                rows={3}
                                             />
-                                            {uploading && <p className="upload-status">Đang xử lý...</p>}
-                                            {editFormData.image && !uploading && (
-                                                <div className="media-preview">
-                                                    {fileType === "image"
-                                                        ? <img src={editFormData.image} alt="preview" />
-                                                        : <video src={editFormData.image} controls />}
+                                        </div>
+                                    </div>
+
+                                    <div className="form-actions">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowAddForm(false)}
+                                            className="btn-secondary"
+                                        >
+                                            {t('admin_cancel')}
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="btn-submit"
+                                            disabled={uploading}
+                                        >
+                                            {uploading ? 'Đang tải lên...' : 'Thêm sản phẩm'}
+                                        </button>
+                                    </div>
+                                </form>
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+
+                {/* Edit Product Modal */}
+                <AnimatePresence>
+                    {showEditForm && (
+                        <div className="modal-overlay">
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={() => setShowEditForm(false)}
+                                className="modal-backdrop"
+                            />
+                            <motion.div
+                                initial={{ scale: 0.95, opacity: 0, y: 40 }}
+                                animate={{ scale: 1, opacity: 1, y: 0 }}
+                                exit={{ scale: 0.95, opacity: 0, y: 40 }}
+                                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                                className="modal-container"
+                            >
+                                <div className="modal-header">
+                                    <h2 className="modal-title">Cập nhật sản phẩm</h2>
+                                    <button
+                                        onClick={() => setShowEditForm(false)}
+                                        className="close-btn"
+                                    >
+                                        <X size={24} />
+                                    </button>
+                                </div>
+
+                                <form onSubmit={handleUpdateSubmit} className="form-body">
+                                    <div className="form-grid">
+                                        <div className="form-group">
+                                            <label>Tên sản phẩm</label>
+                                            <input
+                                                name="name"
+                                                value={editFormData.name}
+                                                onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>{t('price_vnd')}</label>
+                                            <input
+                                                name="price"
+                                                type="number"
+                                                value={editFormData.price}
+                                                onChange={(e) => setEditFormData({ ...editFormData, price: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>{t('stock_quantity')}</label>
+                                            <input
+                                                name="quantity"
+                                                type="number"
+                                                value={editFormData.quantity}
+                                                onChange={(e) => setEditFormData({ ...editFormData, quantity: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="form-group category-input-group">
+                                            <label>{t('category')}</label>
+                                            <input
+                                                name="category"
+                                                value={editFormData.category}
+                                                onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
+                                                onFocus={() => openCategorySuggestions('edit')}
+                                                onBlur={closeCategorySuggestions}
+                                                autoComplete="off"
+                                            />
+                                            {activeCategoryInput === 'edit' && (
+                                                <div className="category-suggestions-list">
+                                                    {visibleCategorySuggestions.length > 0 ? (
+                                                        visibleCategorySuggestions.map(cat => (
+                                                            <button
+                                                                key={cat}
+                                                                type="button"
+                                                                className="category-suggestion-item"
+                                                                onMouseDown={(e) => e.preventDefault()}
+                                                                onClick={() => handleCategorySuggestionClick('edit', cat)}
+                                                            >
+                                                                {cat}
+                                                            </button>
+                                                        ))
+                                                    ) : (
+                                                        <div className="category-suggestions-empty">Không có danh mục phù hợp</div>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
+                                        <div className="form-group full-width">
+                                            <label>Media</label>
+                                            <div className="media-upload-wrapper">
+                                                <label className="file-upload-btn" htmlFor="edit-file-input">
+                                                    {uploading ? 'Đang tải lên...' : '📁 Chọn ảnh / video'}
+                                                </label>
+                                                <input
+                                                    id="edit-file-input"
+                                                    type="file"
+                                                    accept="image/*,video/*"
+                                                    onChange={async (e) => {
+                                                        const file = e.target.files[0];
+                                                        if (!file) return;
+                                                        setUploading(true);
+                                                        try {
+                                                            const url = await upFileToStorage(file);
+                                                            const isVideo = file.type.startsWith("video/");
+                                                            setFileType(isVideo ? "video" : "image");
+                                                            setEditFormData({ ...editFormData, image: url });
+                                                        } catch (err) {
+                                                            alert("Upload failed");
+                                                        } finally {
+                                                            setUploading(false);
+                                                        }
+                                                    }}
+                                                    ref={editFileInputRef}
+                                                    style={{ display: 'none' }}
+                                                />
+                                                {uploading && <p className="upload-status">Đang xử lý...</p>}
+                                                {editFormData.image && !uploading && (
+                                                    <div className="media-preview">
+                                                        {fileType === "image"
+                                                            ? <img src={editFormData.image} alt="preview" />
+                                                            : <video src={editFormData.image} controls />}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="form-group full-width">
+                                            <label>{t('description')}</label>
+                                            <textarea
+                                                name="description"
+                                                value={editFormData.description}
+                                                onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
+                                                rows={3}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="form-group full-width">
-                                        <label>{t('description')}</label>
-                                        <textarea
-                                            name="description"
-                                            value={editFormData.description}
-                                            onChange={(e) => setEditFormData({ ...editFormData, description: e.target.value })}
-                                            rows={3}
-                                        />
+
+                                    <div className="form-actions">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowEditForm(false)}
+                                            className="btn-secondary"
+                                        >
+                                            {t('admin_cancel')}
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="btn-submit"
+                                            disabled={uploading}
+                                        >
+                                            {uploading ? "Đang tải lên..." : "Cập nhật"}
+                                        </button>
                                     </div>
-                                </div>
-
-                                <div className="form-actions">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowEditForm(false)}
-                                        className="btn-secondary"
-                                    >
-                                        {t('admin_cancel')}
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="btn-submit"
-                                        disabled={uploading}
-                                    >
-                                        {uploading ? "Đang tải lên..." : "Cập nhật"}
-                                    </button>
-                                </div>
-                            </form>
-                        </motion.div>
-                    </div>
-                )}
-            </AnimatePresence>
-
-            {/* Notifications */}
-            <AnimatePresence>
-                {notification && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 50 }}
-                        className={clsx(
-                            "toast",
-                            notification.type === 'success' ? "toast-success" : "toast-error"
-                        )}
-                    >
-                        <div className={clsx(
-                            "toast-icon",
-                            notification.type === 'success' ? "icon-success" : "icon-error"
-                        )}>
-                            {notification.type === 'success' ? <Package size={16} /> : <AlertTriangle size={16} />}
+                                </form>
+                            </motion.div>
                         </div>
-                        <p className="toast-message">{notification.message}</p>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    )}
+                </AnimatePresence>
+
+                {/* Notifications */}
+                <AnimatePresence>
+                    {notification && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 50 }}
+                            className={clsx(
+                                "toast",
+                                notification.type === 'success' ? "toast-success" : "toast-error"
+                            )}
+                        >
+                            <div className={clsx(
+                                "toast-icon",
+                                notification.type === 'success' ? "icon-success" : "icon-error"
+                            )}>
+                                {notification.type === 'success' ? <Package size={16} /> : <AlertTriangle size={16} />}
+                            </div>
+                            <p className="toast-message">{notification.message}</p>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </AdminLayout>
     );

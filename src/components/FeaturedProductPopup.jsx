@@ -201,6 +201,8 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                   overflow: 'hidden',
                   transform: (!isMobile && hoveredCard === product.id) ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
                   animation: `cardSlideIn 0.6s ease-out ${index * 0.1}s backwards`,
+                  display: 'flex',
+                  flexDirection: 'column'
                 }}
                 onMouseEnter={() => setHoveredCard(product.id)}
                 onMouseLeave={() => setHoveredCard(null)}
@@ -277,6 +279,7 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                       justifyContent: 'center',
                       overflow: 'hidden',
                       position: 'relative',
+                      flexShrink: 0
                     }}
                   >
                     <img
@@ -309,7 +312,10 @@ const FeaturedProductPopup = ({ isOpen, onClose, products = [], onDontShowAgain 
                     lineHeight: 1.3,
                     position: 'relative',
                     zIndex: 1,
-                    height: isMobile ? '2.2rem' : 'auto',
+                    flexGrow: 1,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 3,
+                    WebkitBoxOrient: 'vertical',
                     overflow: 'hidden'
                   }}
                 >
